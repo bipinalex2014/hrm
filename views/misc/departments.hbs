@@ -1,0 +1,64 @@
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Departments</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Departments</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="container">
+    <div class="card">
+        <div class="card-body">
+            <form id="formCreateDepartment" action="" method="post">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="textDepartment">Dep. name</label>
+                            <input type="text" name="department" id="textDepartment" class="form-control mt-2"
+                                placeholder="Department name">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                    </div>
+                </div>
+            </form>
+            <div class="table-responsive mt-3">
+                <table class="table" id="tableDepartments">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Sales</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                        </tr>
+                         <tr>
+                            <td>2</td>
+                            <td>Development</td>
+                            <td><span class="badge bg-warning">Active</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

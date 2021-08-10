@@ -88,6 +88,20 @@ $('#formCreateEmployee').validate({
     },
 })
 
+$('#formCreateDepartment').validate({
+    rules:{
+        department:{
+            required:true,
+        }
+    }
+})
+
+
+
+
+
+
+
 //Custom validator for strong password
 $.validator.addMethod("strongPassword", function (value, element) {
     return this.optional(element) || /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(value)
