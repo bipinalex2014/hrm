@@ -1,0 +1,10 @@
+module.exports={
+    USER_COLLECTION:'user',
+    LEAD_STATUS_COLLECTION:'leadstatus',
+    LEAD_SOURCE_COLLECTION:'leadsource',
+    CLIENT_COLLECTION:'clients',
+    LEAD_COLLECTION:'leads',
+    LEAD_UPDATE_COLLECTION:'leadupdates',
+    DEPARTMENT_COLLECTION:'departments',
+    DESIGNATION_COLLECTION:'designations',
+}

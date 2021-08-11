@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var db = require('./configurations/mongodb-connection');
 
 var usersRouter = require('./routes/users');
 var hrRouter=require('./routes/hr');
@@ -25,7 +26,10 @@ app.use('/hr',hrRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
+db.connect((err) => {
+  if (err) console.log('Failed to connect database ' + err);
+  else console.log('Connected to database with port 27017');
+})
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

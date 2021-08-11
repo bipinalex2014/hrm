@@ -76,6 +76,9 @@
                             <label for="selectDepartment">Department</label>
                             <select class="form-select" name="department" id="selectDepartment">
                                 <option value="">-</option>
+                                {{#each departments}}
+                                <option value="{{this._id}}">{{this.department}}</option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -84,6 +87,9 @@
                             <label for="selectDesignation">Designation</label>
                             <select name="designation" id="selectDesignation" class="form-select">
                                 <option value="">-</option>
+                                {{#each designations}}
+                                <option value="{{this._id}}">{{this.designation}}</option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -93,7 +99,6 @@
                             {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
                             <select class="form-select" name="role" id="selectRole">
                                 <option value="">-</option>
-                                <option value=""></option>
                             </select>
                         </div>
                     </div>
@@ -102,6 +107,9 @@
                             <label for="selectHeadDesignation">Head designation</label>
                             <select class="form-select" name="headdesignation" id="selectHeadDesignation">
                                 <option value="">-</option>
+                                {{#each designations}}
+                                <option value="{{this._id}}">{{this.designation}}</option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
