@@ -2,7 +2,7 @@ const Promise = require('promise');
 const db = require('../configurations/mongodb-connection');
 const collections = require('../configurations/collections');
 const objectId = require('mongodb').ObjectId;
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 module.exports = {
     createDepartment: (deptName) => {
@@ -102,6 +102,81 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((result) => {
                 resolve(result)
+            })
+        })
+    },
+    getEmployeeDetails: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate(
+                [
+                    {
+                        '$match': {
+                            '_id': objectId(id),
+                        }
+                    }, {
+                        '$lookup': {
+                            'from': collections.DEPARTMENT_COLLECTION,
+                            'localField': 'department',
+                            'foreignField': '_id',
+                            'as': 'dept'
+                        }
+                    }, {
+                        '$unwind': '$dept'
+                    }, {
+                        '$lookup': {
+                            'from': collections.DESIGNATION_COLLECTION,
+                            'localField': 'designation',
+                            'foreignField': '_id',
+                            'as': 'desi'
+                        }
+                    }, {
+                        '$unwind': '$desi'
+                    }, {
+                        '$project': {
+                            'firstname': 1,
+                            'lastname': 1,
+                            'employeeid': 1,
+                            'gender': 1,
+                            'department': '$dept.department',
+                            'designation': '$desi.designation',
+                            'email': 1,
+                            'phone': 1,
+                            'bloodgroup': 1
+                        }
+                    }
+                ]
+            ).toArray().then((result) => {
+                resolve(result[0]);
+            })
+        })
+    },
+    getEmployeeQualifications: (empId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empId) }, { qualifications: 1 }).then((result) => {
+               if(result.qualifications){
+                resolve(result.qualifications);
+               }
+               else{
+                   resolve(null);
+               }
+            })
+        })
+    },
+    newQualification: (employee, qualification) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
+                if (result) {
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                        _id: objectId(employee)
+                    },
+                        {
+                            $push: {
+                                qualifications: qualification
+                            }
+                        }).then(() => {
+                            resolve();
+                        })
+                }
             })
         })
     }

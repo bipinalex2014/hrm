@@ -121,6 +121,33 @@ $('#formCreateDesignation').validate({
         error.appendTo(element.parent('div'))
     },
 })
+$('#qualificationsForm').validate({
+    rules: {
+        educationlevel: {
+            required: true,
+        },
+        institution: {
+            required: true,
+        },
+        educationfrom: {
+            required: true,
+        },
+        educationto: {
+            required: true
+        },
+        educationdescription: {
+            required: true,
+        },
+        // educationdocument: {
+        //     required: true,
+        // }
+
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+})
 
 
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const userHelper = require('../helpers/user-helper');
+const dateFormat = require('dateformat');
 
 //GET METHOD FOR LOAD CREATE EMPLOYEE WEB FORM
 router.get('/employee/create-employee-profile', async (req, res) => {
@@ -30,12 +31,33 @@ router.get('/misc/designations', async (req, res) => {
 })
 
 router.get('/employee/employee-details', (req, res) => {
+  //GET DETAILS OF ALL EMPLOYEES
   userHelper.getAllEmployees().then((result) => {
     res.render('employees/employees-list', { employees: result });
   })
 })
-
-
+//TO GET THE DETAILS OF A SINGLE EMLOYEE
+router.get('/employee/employee-details/:id/home', (req, res) => {
+  let id = req.params.id;
+  userHelper.getEmployeeDetails(id).then((result) => {
+    res.render('employees/employee-home', { empData: result });
+  })
+  //res.render('employees/employee-home');
+})
+//EMLOYEE QUALIFICATION ROUTE
+router.get('/employee/employee-details/:id/qualifications/', async (req, res) => {
+  let employeeId = req.params.id;
+  userHelper.getEmployeeQualifications(employeeId).then((result) => {
+    if (result) {
+      result.forEach((element, index) => {
+        element.serial = index + 1;
+        element.educationfrom = dateFormat(element.educationfrom, 'dd-mmm-yyyy');
+        element.educationto = dateFormat(element.educationto, 'dd-mmm-yyyy');
+      });
+    }
+    res.render('employees/employee-qualification', { empId: employeeId, qualifications: result });
+  })
+})
 
 
 
@@ -46,29 +68,46 @@ router.get('/employee/employee-details', (req, res) => {
 
 
 //POST METHODS
+// TO ADD A NEW DESIGNATION
 router.post('/misc/create-designation', (req, res) => {
   let data = req.body;
-  // console.log(data);
   userHelper.createDesignation(data).then((result) => {
     res.redirect('/misc/designations');
   })
 
 })
+//TO ADD A NEW DEPARTMENT
 router.post('/misc/create-department', (req, res) => {
   let deptname = req.body.department
-  // console.log(deptname)
   userHelper.createDepartment(deptname).then(() => {
     res.redirect('/misc/departments');
   }).catch(() => {
-    // res.json({ status: false });
   })
 })
 
+// TO CREATE AN EMPLOYEE PROFILE
 router.post('/employee/create-employee-profile', (req, res) => {
   let values = req.body;
-  // console.log(values);
   userHelper.createEmployee(values).then((result) => {
     res.redirect('/employee/employee-details');
+  })
+})
+//TO ADD A QUALIFICATION TO AN EMPLOYEE
+router.post('/employee/employee-details/:id/create-qualification', (req, res) => {
+  let employee = req.params.id;
+  let qualification = req.body;
+  let document = req.files.educationdocument;
+  let fileName = employee + qualification.educationlevel + document.name + '';
+  qualification.filename = fileName;
+  userHelper.newQualification(employee, qualification).then(() => {
+    document.mv('./public/documents/education/' + fileName, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        res.redirect('/employee/employee-details/' + employee + '/qualifications');
+      }
+    });
   })
 })
 

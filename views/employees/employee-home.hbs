@@ -1,0 +1,212 @@
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Employee Profile</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Employee Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<section class="container">
+    {{#with empData}}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body pb-5">
+                    <div class="text-center">
+                        <div class="d-flex justify-content-center">
+                            {{#if avatar}}
+                            <img src="/images/profile_images/{{avatar}}" alt="Image" width="200" height="200"
+                                class="rounded-circle">
+                            {{else}}
+                            {{!-- <img src="/images/profile_images/dummy.png" alt="Image" width="200" height="200"
+                                class="rounded-circle"> --}}
+                            <div style="width: 200px;height: 200px; background-image: url('/images/profile_images/dummy.png'); background-repeat: no-repeat;background-size: 100% 100%;"
+                                class="rounded-circle">
+
+                            </div>
+                            {{/if}}
+                        </div>
+                        <h3 class="text-primary mt-3">{{firstname}} {{lastname}}</h3>
+                        <h6 class="mt-1">{{designation}}</h6>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>Emoloyee Code</th>
+                                    <td>{{employeeid}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <td>{{firstname}} {{lastname}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{email}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>{{phone}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <td>{{gender}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Department</th>
+                                    <td>{{department}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Designation</th>
+                                    <td>{{designation}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <label class="text-grey200 mb-4">Details</label>
+                    <div class="row mt-2">
+                        <a href="/employee/employee-details/{{_id}}/qualifications/"
+                            class="btn btn-primary">Qualifications</a>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="/employee/employee-details/{{_id}}/work-experience/" class="btn btn-primary">Work
+                            Experience</a>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="/employee/employee-details/{{_id}}/bank-accounts/" class="btn btn-primary">Bank
+                            Accounts</a>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="/employee/employee-details/{{_id}}/contracts/" class="btn btn-primary">Contracts</a>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="/employee/employee-details/{{_id}}/social-media/" class="btn btn-primary">Social
+                            Media</a>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="/employee/employee-details/{{_id}}/emargency-contacts/"
+                            class="btn btn-primary">Emergency Contacts</a>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="/employee/employee-details/{{_id}}/imigration/" class="btn btn-primary">Imigrations</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="fileAvatar" class="form-label">Upload Photo </label>
+                        <input type="file" name="avatar" accept="Image/*" id="fileAvatar" onchange="uploadPhoto()"
+                            class="form-control form-control-sm">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{!--
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Employee ID</label>
+            <label class="form-control mt-1" for="">{{employeeid}}</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Name</label>
+            <label class="form-control mt-1" for="">{{firstname}} {{lastname}}</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Gender</label>
+            <label class="form-control mt-1" for="">{{gender}}</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Department</label>
+            <label class="form-control mt-1" for="">{{department}}</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Designation</label>
+            <label class="form-control mt-1" for="">{{designation}}</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Email</label>
+            <label class="form-control mt-1" for="">{{email}}</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Phone</label>
+            <label class="form-control mt-1" for="">{{phone}}</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Blood Group</label>
+            <label class="form-control mt-1" for="">{{bloodgroup}}</label>
+        </div>
+    </div>
+</div> --}}
