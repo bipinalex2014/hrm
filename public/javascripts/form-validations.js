@@ -27,7 +27,7 @@ $('#formCreateEmployee').validate({
             required: true,
         },
         role: {
-            required: true,
+            // required: true,
         },
         headdesignation: {
             required: true,

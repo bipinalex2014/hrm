@@ -7,4 +7,5 @@ module.exports={
     LEAD_UPDATE_COLLECTION:'leadupdates',
     DEPARTMENT_COLLECTION:'departments',
     DESIGNATION_COLLECTION:'designations',
+    EMPLOYEE_COLLECTION:'employees',
 }

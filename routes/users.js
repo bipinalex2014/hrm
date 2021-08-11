@@ -39,4 +39,28 @@ router.post('/misc/create-designation', (req, res) => {
   })
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+//POST METHODS
+
+router.post('/employee/create-employee-profile', (req, res) => {
+  let values = req.body;
+  // console.log(values);
+  userHelper.createEmployee(values).then((result) => {
+    res.redirect('/employee/employee-details');
+  })
+})
+router.get('/employee/employee-details', (req, res) => {
+  res.render('')
+})
 module.exports = router;
