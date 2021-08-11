@@ -1,1 +1,48 @@
-<h1>Employees List</h1>
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Employees</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Employees</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<section class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row d-flex justify-content-between">
+                <a class="btn btn-primary" href="/employee/create-employee-profile/">New</a>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table" id="tableDepartments">
+                    <thead>
+                        <tr>
+                            <th>EMP ID</th>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each employees}}
+                        <tr>
+                            <td>{{this.employeeid}}</td>
+                            <td>{{this.firstname}} {{this.lastname}}</td>
+                            <td><a href="#">View details</a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

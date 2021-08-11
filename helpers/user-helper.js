@@ -2,6 +2,7 @@ const Promise = require('promise');
 const db = require('../configurations/mongodb-connection');
 const collections = require('../configurations/collections');
 const objectId = require('mongodb').ObjectId;
+const bcrypt = require('bcryptjs');
 
 module.exports = {
     createDepartment: (deptName) => {
@@ -89,9 +90,18 @@ module.exports = {
         empData.otrate = parseFloat(empData.otrate);
         empData.dateofbirth = new Date(empData.dateofbirth);
         empData.dateofjoin = new Date(empData.dateofjoin);
+        empData.password = bcrypt.hash(empData.password, 10);
+        delete empData.confirmpassword;
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(empData).then((result) => {
                 resolve(result);
+            })
+        })
+    },
+    getAllEmployees: () => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((result) => {
+                resolve(result)
             })
         })
     }
