@@ -86,6 +86,7 @@ router.get('/employee/employee-details/:id/bank-accounts/', (req, res) => {
     res.render('employees/employee-bank-accounts', { empId, accounts: result });
   })
 })
+//EMPLOYEE EMERGENCY CONTACT DETAILS
 router.get('/employee/employee-details/:empid/emargency-contacts/', (req, res) => {
   let empId = req.params.empid;
   userHelper.getEmergencyContacts(empId).then((result) => {
@@ -96,11 +97,19 @@ router.get('/employee/employee-details/:empid/emargency-contacts/', (req, res) =
     }
     res.render('employees/employee-emergency-contacts', { empId, contacts: result })
   })
-
+})
+//EMPLOYEE SOCIAL MEDIA LINKS ROUTE
+router.get('/employee/employee-details/:id/social-media/', (req, res) => {
+  let empId = req.params.id;
+  res.render('employees/employee-socialmedia', { empId });
 })
 
-
-
+router.get('/employee/employee-details/:id/contracts/',(req,res)=>{
+  res.render('employees/employee-contracts');
+})
+router.get('/employee/employee-details/:id/imigration',(req,res)=>{
+  res.render('employees/employee-imigrations');
+})
 
 
 
