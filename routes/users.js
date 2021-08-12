@@ -58,7 +58,20 @@ router.get('/employee/employee-details/:id/qualifications/', async (req, res) =>
     res.render('employees/employee-qualification', { empId: employeeId, qualifications: result });
   })
 })
+router.get('/employee/employee-details/:id/work-experience/', (req, res) => {
+  let empId = req.params.id;
+  userHelper.getEmployeeExperiences(empId).then((result) => {
+    if (result) {
+      result.forEach((element, index) => {
+        element.serial = index + 1;
+        element.expfrom = dateFormat(element.expfrom, 'dd-mmm-yyyy');
+        element.expto = dateFormat(element.expto, 'dd-mmm-yyyy');
+      });
+    }
+    res.render('employees/employee-experience', { empId, experiences: result });
 
+  })
+})
 
 
 
@@ -110,5 +123,23 @@ router.post('/employee/employee-details/:id/create-qualification', (req, res) =>
     });
   })
 })
+//TO ADD AN EXPERINCE TO EMPLOYEE
+router.post('/employee/employee-details/:id/create-experience', (req, res) => {
+  let employee = req.params.id;
+  let experience = req.body;
+  let document = req.files.expdocument;
+  let fileName = employee + experience.post + experience.expcompany + document.name + '';
+  experience.filename = fileName;
+  userHelper.newExperience(employee, experience).then((result) => {
+    document.mv('./public/documents/experience/' + fileName, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        res.redirect('/employee/employee-details/' + employee + '/work-experience');
+      }
+    });
+  })
 
+})
 module.exports = router;

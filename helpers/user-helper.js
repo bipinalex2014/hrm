@@ -153,12 +153,12 @@ module.exports = {
     getEmployeeQualifications: (empId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empId) }, { qualifications: 1 }).then((result) => {
-               if(result.qualifications){
-                resolve(result.qualifications);
-               }
-               else{
-                   resolve(null);
-               }
+                if (result.qualifications) {
+                    resolve(result.qualifications);
+                }
+                else {
+                    resolve(null);
+                }
             })
         })
     },
@@ -179,5 +179,35 @@ module.exports = {
                 }
             })
         })
-    }
+    },
+    getEmployeeExperiences: (empId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empId) }, { qualifications: 1 }).then((result) => {
+                if (result.experiences) {
+                    resolve(result.experiences);
+                }
+                else {
+                    resolve(null);
+                }
+            })
+        })
+    },
+    newExperience: (employee, experience) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
+                if (result) {
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                        _id: objectId(employee)
+                    },
+                        {
+                            $push: {
+                                experiences: experience
+                            }
+                        }).then(() => {
+                            resolve();
+                        })
+                }
+            })
+        })
+    },
 }

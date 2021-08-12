@@ -138,10 +138,36 @@ $('#qualificationsForm').validate({
         educationdescription: {
             required: true,
         },
-        // educationdocument: {
-        //     required: true,
-        // }
+        educationdocument: {
+            required: true,
+        }
 
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+})
+$('#experienceForm').validate({
+    rules: {
+        exppost: {
+            required: true
+        },
+        expcompany: {
+            required: true
+        },
+        expfrom: {
+            required: true,
+        },
+        expto: {
+            required: true,
+        },
+        expdescription: {
+            required: true,
+        },
+        expdocument: {
+            required: true,
+        }
     },
     errorPlacement: (error, element) => {
         error.addClass('text-danger')
