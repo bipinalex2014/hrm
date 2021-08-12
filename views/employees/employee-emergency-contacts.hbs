@@ -1,0 +1,139 @@
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Emergency Contacts</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Emergency Contacts</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <form id="emergencyContactForm"
+                        action="/employee/employee-details/{{empId}}/create-emergency-contact" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textRelation">Relation</label>
+                                    <input type="text" name="relation" id="textRelation" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textName">Name</label>
+                                    <input type="text" name="name" id="textName" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textAddress">Address</label>
+                                    <input type="text" name="address" id="textAddress" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textCity">City</label>
+                                    <input type="text" name="city" id="textCity" class="form-control"
+                                        placeholder="City">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textState">State</label>
+                                    <input type="text" name="state" id="textState" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textZipCode">ZIP Code</label>
+                                    <input type="text" name="zipcode" id="textZipCode" class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textPhone">Phone</label>
+                                    <input type="text" name="phone" id="textPhone" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textEmail">Email</label>
+                                    <input type="text" name="email" id="textEmail" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex justify-content-end">
+                            <input type="submit" value="Submit" class="btn btn-primary" id="btnSubmitExperience">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <h5>Contact details</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tableEducation" class="table">
+                        <thead>
+                            <tr>
+                                <th>Sl.No.</th>
+                                <th>Relation</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each contacts}}
+                            <tr>
+                                {{#with this}}
+                                <td>{{serial}}</td>
+                                <td>{{relation}}</td>
+                                <td>{{name}}</td>
+                                <td>{{address}}</td>
+                                <td>{{phone}}</td>
+                                <td>{{email}}</td>
+                                {{/with}}
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

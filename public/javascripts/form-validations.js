@@ -174,10 +174,73 @@ $('#experienceForm').validate({
         error.appendTo(element.parent('div'))
     },
 })
+$('#bankDetailsForm').validate({
+    rules: {
+        acctype: {
+            required: true,
+        },
+        accbank: {
+            required: true,
+        },
+        accnumber: {
+            required: true,
+            indianAccountNumber: true,
+        },
+        accbankcode: {
+            required: true,
+        },
+        accbranch: {
+            required: true,
+        }
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+    messages: {
+        accnumber: {
+            indianAccountNumber: "Please enter a valid account number"
+        }
+    }
+})
 
+$('#emergencyContactForm').validate({
+    rules: {
+        relation: {
+            required: true,
+        },
+        name: {
+            required: true,
+        },
+        address: {
+            required: true,
+        },
+        phone: {
+            required: true,
+            number: true,
+        },
+        city: {
+            required: true,
+        },
+        state: {
+            required: true,
+        },
+        zipcode: {
+            required: true,
+            number: true,
+        },
+        email:{
+            validEmailid:true,
+        }
+    },
+    messages: {
 
-
-
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+})
 
 
 
@@ -189,3 +252,8 @@ $.validator.addMethod("strongPassword", function (value, element) {
 $.validator.addMethod("validEmailid", function (value, element) {
     return this.optional(element) || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)
 }, "Enter email address like yourname@example.com");
+$.validator.addMethod("indianAccountNumber", function (value, element) {
+    return this.optional(element) || /^\d{9,18}$/.test(value)
+}, "Enter a valid account number")
+
+

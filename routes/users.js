@@ -58,6 +58,8 @@ router.get('/employee/employee-details/:id/qualifications/', async (req, res) =>
     res.render('employees/employee-qualification', { empId: employeeId, qualifications: result });
   })
 })
+
+//EMPLOYEE WORK EXPERIENCE ROUTE
 router.get('/employee/employee-details/:id/work-experience/', (req, res) => {
   let empId = req.params.id;
   userHelper.getEmployeeExperiences(empId).then((result) => {
@@ -72,6 +74,38 @@ router.get('/employee/employee-details/:id/work-experience/', (req, res) => {
 
   })
 })
+//EMPLOYEE BANK DETAILS ROUTE
+router.get('/employee/employee-details/:id/bank-accounts/', (req, res) => {
+  let empId = req.params.id;
+  userHelper.getEmployeeBankDetails(empId).then((result) => {
+    if (result) {
+      result.forEach((element, index) => {
+        element.serial = index + 1;
+      });
+    }
+    res.render('employees/employee-bank-accounts', { empId, accounts: result });
+  })
+})
+router.get('/employee/employee-details/:empid/emargency-contacts/', (req, res) => {
+  let empId = req.params.empid;
+  userHelper.getEmergencyContacts(empId).then((result) => {
+    if (result) {
+      result.forEach((element, index) => {
+        element.serial = index + 1;
+      });
+    }
+    res.render('employees/employee-emergency-contacts', { empId, contacts: result })
+  })
+
+})
+
+
+
+
+
+
+
+
 
 
 
@@ -136,10 +170,29 @@ router.post('/employee/employee-details/:id/create-experience', (req, res) => {
         console.log(err);
       }
       else {
-        res.redirect('/employee/employee-details/' + employee + '/work-experience');
+        res.redirect('/employee/employee-details/' + employee + '/bank-accounts');
       }
     });
   })
+
+})
+//TO ADD BANK DETAILS OF AN EMPLOYEE
+router.post('/employee/employee-details/:id/create-bank-details', (req, res) => {
+  let employee = req.params.id;
+  let accountdetails = req.body;
+  userHelper.newAccountDetails(employee, accountdetails).then((result) => {
+    res.redirect('/employee/employee-details/' + employee + '/bank-accounts');
+  })
+
+})
+router.post('/employee/employee-details/:id/create-emergency-contact', (req, res) => {
+
+  let employee = req.params.id;
+  let contact = req.body;
+  userHelper.newEmergancyContact(employee, contact).then(() => {
+    res.redirect('/employee/employee-details/' + employee + '/emargency-contacts/')
+  })
+
 
 })
 module.exports = router;

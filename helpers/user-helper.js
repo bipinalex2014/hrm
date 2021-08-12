@@ -64,7 +64,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.DEPARTMENT_COLLECTION).find({
                 active: {
-                    $ne: 'false'
+                    $ne: false
                 }
             }).toArray().then((result) => {
                 resolve(result)
@@ -75,7 +75,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.DESIGNATION_COLLECTION).find({
                 active: {
-                    $ne: 'false'
+                    $ne: false
                 }
             }).toArray().then((result) => {
                 resolve(result)
@@ -202,6 +202,66 @@ module.exports = {
                         {
                             $push: {
                                 experiences: experience
+                            }
+                        }).then(() => {
+                            resolve();
+                        })
+                }
+            })
+        })
+    },
+    getEmployeeBankDetails: (empId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empId) }).then((result) => {
+                if (result.bankdetails) {
+                    resolve(result.bankdetails);
+                }
+                else {
+                    resolve(null);
+                }
+            })
+        })
+    },
+    newAccountDetails: (employee, accountdetails) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
+                if (result) {
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                        _id: objectId(employee)
+                    },
+                        {
+                            $push: {
+                                bankdetails: accountdetails
+                            }
+                        }).then(() => {
+                            resolve();
+                        })
+                }
+            })
+        })
+    },
+    getEmergencyContacts: (empId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empId) }).then((result) => {
+                if (result.emergencycontacts) {
+                    resolve(result.emergencycontacts);
+                }
+                else {
+                    resolve(null);
+                }
+            })
+        })
+    },
+    newEmergancyContact: (employee, contactdetails) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
+                if (result) {
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                        _id: objectId(employee)
+                    },
+                        {
+                            $push: {
+                                emergencycontacts: contactdetails
                             }
                         }).then(() => {
                             resolve();

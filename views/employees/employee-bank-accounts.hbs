@@ -1,0 +1,109 @@
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Bank details</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Bank details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="bankDetailsForm"
+                            action="/employee/employee-details/{{empId}}/create-bank-details" method="post">
+                            <div class="form-group">
+                                <label for="textPost">Account Type</label>
+                                <input type="text" name="acctype" id="textAccType" class="form-control"
+                                    placeholder="Account type">
+                            </div>
+                            <div class="form-group">
+                                <label for="textInstitution">Bank Name</label>
+                                <input type="text" name="accbank" id="textBankName" class="form-control"
+                                    placeholder="Bank Name">
+                            </div>
+                            <div class="form-group">
+                                {{!-- <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="dateExperienceFrom">From</label>
+                                        <input class="form-control" type="date" name="expfrom" id="dateEducationFrom">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="dateExperienceTo">To</label>
+                                        <input class="form-control" type="date" name="expto" id="dateExperienceTo">
+                                    </div>
+                                </div> --}}
+                                <label for="textAccountNumber">Account number</label>
+                                <input type="text" name="accnumber" id="textAccountNumber" class="form-control"
+                                    placeholder="Account Number">
+                            </div>
+                            <div class="form-group">
+                                <label for="textExpDesc">Bank Code</label>
+                                <input type="text" class="form-control" name="accbankcode" id="textBankCode"
+                                    placeholder="IFSC/Bank Code">
+                            </div>
+                            <div class="form-group">
+                                <label for="textBranchName">Branch</label>
+                                <input type="text" placeholder="Branch" class="form-control" name="accbranch"
+                                    id="textBranchName">
+                            </div>
+                            <div class="form-group d-flex justify-content-end">
+                                <input type="submit" value="Submit" class="btn btn-primary" id="btnSubmitExperience">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Account details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tableEducation" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sl.No.</th>
+                                    <th>Account Type</th>
+                                    <th>Bank Name</th>
+                                    <th>Account Number</th>
+                                    <th>Bank Code</th>
+                                    <th>Branch</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each accounts}}
+                                <tr>
+                                    {{#with this}}
+                                    <td>{{serial}}</td>
+                                    <td>{{acctype}}</td>
+                                    <td>{{accbank}}</td>
+                                    <td>{{accnumber}}</td>
+                                    <td>{{accbankcode}}</td>
+                                    <td>{{accbranch}}</td>
+                                    {{/with}}
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
