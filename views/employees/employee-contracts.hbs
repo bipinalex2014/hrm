@@ -1,2 +1,129 @@
 
-<h1 class="text-danger">404- TEMPERORLY NOT AVAILABLE</h1>
+<a class="nav-link mb-3" href="/employee/employee-details/{{empId}}/home">Home</a>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Contracts</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Contracts</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Create contract</h4>
+                </div>
+                <div class="card-body">
+                    <form id="contractForm" action="/employee/employee-details/{{empId}}/create-contract" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textContractType">Contract Type</label>
+                                    <input type="text" name="contrtype" id="textContractType"
+                                        class="form-control form-control-sm">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textContractName">Contract Name</label>
+                                    <input type="text" name="contrname" id="textContractName"
+                                        class="form-control form-control-sm">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textFromDate">From</label>
+                                    <input type="date" name="contrfrom" id="textFromDate"
+                                        class="form-control form-control-sm">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textDateTo">To</label>
+                                    <input type="date" name="contrto" id="textToDate"
+                                        class="form-control form-control-sm">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="selectDesignation">Designation</label>
+                                    <select name="contrdesi" class="form-select form-select-sm" id="selectDesignation">
+                                        <option value="">-</option>
+                                        {{#each desi}}
+                                        <option value="{{this.designation}}">{{this.designation}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="textDescription">Description</label>
+                                    <textarea name="contrdesc" id="textDescription" placeholder="Description"
+                                        class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex justify-content-end">
+                            <input type="submit" value="Submit" class="btn btn-primary" id="btnSubmitExperience">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <h5>List of contracts</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tableEducation" class="table">
+                        <thead>
+                            <tr>
+                                <th>Sl.No.</th>
+                                <th>Contract Type</th>
+                                <th>Contract Title</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Designation</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each contracts}}
+                            <tr>
+                                {{#with this}}
+                                <td>{{serial}}</td>
+                                <td>{{contrtype}}</td>
+                                <td>{{contrname}}</td>
+                                <td>{{contrfrom}}</td>
+                                <td>{{contrto}}</td>
+                                <td>{{contrdesi}}</td>
+                                <td>{{contrdesc}}</td>
+
+                                {{/with}}
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

@@ -104,10 +104,22 @@ router.get('/employee/employee-details/:id/social-media/', (req, res) => {
   res.render('employees/employee-socialmedia', { empId });
 })
 
-router.get('/employee/employee-details/:id/contracts/',(req,res)=>{
-  res.render('employees/employee-contracts');
+router.get('/employee/employee-details/:id/contracts/', async (req, res) => {
+  let empId = req.params.id;
+  let designations = await userHelper.getActiveDesignations();
+  let contracts = await userHelper.getContracts(empId)
+  if (contracts) {
+    contracts.forEach((element, ind) => {
+      element.serial = ind + 1;
+      element.contrfrom = dateFormat(element.contrfrom,"dd-mmm-yyyy");
+      element.contrto= dateFormat(element.contrto,"dd-mmm-yyyy");
+    });
+   
+  }
+  console.log(contracts);
+  res.render('employees/employee-contracts', { desi: designations, empId, contracts });
 })
-router.get('/employee/employee-details/:id/imigration',(req,res)=>{
+router.get('/employee/employee-details/:id/imigration', (req, res) => {
   res.render('employees/employee-imigrations');
 })
 
@@ -204,4 +216,13 @@ router.post('/employee/employee-details/:id/create-emergency-contact', (req, res
 
 
 })
+router.post('/employee/employee-details/:id/create-contract', (req, res) => {
+  let employee = req.params.id;
+  let contracts = req.body;
+  //console.log(contracts)
+  userHelper.newContract(employee, contracts).then(() => {
+    res.redirect('/employee/employee-details/' + employee + '/contracts/')
+  })
+})
+
 module.exports = router;

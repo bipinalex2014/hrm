@@ -270,4 +270,34 @@ module.exports = {
             })
         })
     },
+    getContracts: (empId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empId) }).then((result) => {
+                if (result.contracts) {
+                    resolve(result.contracts);
+                }
+                else {
+                    resolve(null);
+                }
+            })
+        })
+    },
+    newContract: (employee, contractdetails) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
+                if (result) {
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                        _id: objectId(employee)
+                    },
+                        {
+                            $push: {
+                                contracts:contractdetails
+                            }
+                        }).then(() => {
+                            resolve();
+                        })
+                }
+            })
+        })
+    },
 }

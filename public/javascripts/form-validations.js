@@ -241,7 +241,32 @@ $('#emergencyContactForm').validate({
         error.appendTo(element.parent('div'))
     },
 })
-
+$('#contractForm').validate({
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+    rules:{
+        contrtype:{
+            required:true,
+        },
+        contrname:{
+            required:true,
+        },
+        contrfrom:{
+            required:true,
+        },
+        contrto:{
+            required:true,
+        },
+        contrdesi:{
+            required:true,
+        },
+        contrdesc:{
+            required:true,
+        }
+    }
+})
 
 
 //Custom validator for strong password
