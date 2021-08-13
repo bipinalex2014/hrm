@@ -26,7 +26,8 @@ app.use('/', usersRouter);
 app.use('/hr',hrRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  // next(createError(404));
+  res.render('error-404',{layout:null})
 });
 db.connect((err) => {
   if (err) console.log('Failed to connect database ' + err);
@@ -42,5 +43,4 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 module.exports = app;

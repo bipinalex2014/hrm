@@ -3,6 +3,14 @@ var router = express.Router();
 const userHelper = require('../helpers/user-helper');
 const dateFormat = require('dateformat');
 
+
+
+router.get('/',function(req,res){
+  res.redirect('/employee/employee-details')
+})
+router.get('/crop',(req,res)=>{
+  res.render('index');
+})
 //GET METHOD FOR LOAD CREATE EMPLOYEE WEB FORM
 router.get('/employee/create-employee-profile', async (req, res) => {
   //TO GET THE LIST OF DEPARTMENTS WITH STATUS ACTIVE
