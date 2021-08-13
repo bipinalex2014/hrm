@@ -33,6 +33,12 @@ router.get('/misc/designations', async (req, res) => {
 router.get('/employee/employee-details', (req, res) => {
   //GET DETAILS OF ALL EMPLOYEES
   userHelper.getAllEmployees().then((result) => {
+    // console.log(result)
+    if (result) {
+      result.forEach((element, index) => {
+        element.serial = index + 1;
+      });
+    }
     res.render('employees/employees-list', { employees: result });
   })
 })
@@ -122,9 +128,9 @@ router.get('/employee/employee-details/:id/contracts/', async (req, res) => {
 router.get('/employee/employee-details/:id/imigration', (req, res) => {
   let empId = req.params.id;
   userHelper.getImigrations(empId).then((result) => {
-    if(result){
-      result.forEach((element,index)=>{
-        element.serial = index+1;
+    if (result) {
+      result.forEach((element, index) => {
+        element.serial = index + 1;
 
       })
     }
@@ -243,5 +249,11 @@ router.post('/employee/employee-details/:id/create-imigration', (req, res) => {
   userHelper.newImigration(employee, imigration).then(() => {
     res.redirect('/employee/employee-details/' + employee + '/imigration')
   })
+})
+router.post('/employee/employee-data/:id/upload-avatar', function (req, res) {
+  let empId = req.params.id;
+  let data = req.body;
+  let avatar = req.files.avatar;
+  console.log(avatar);
 })
 module.exports = router;

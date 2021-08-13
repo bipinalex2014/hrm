@@ -100,7 +100,44 @@ module.exports = {
     },
     getAllEmployees: () => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((result) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate(
+
+                [
+                    {
+                        '$match': {
+                            'activestatus': {
+                                '$ne': false
+                            }
+                        }
+                    }, {
+                        '$lookup': {
+                            'from': 'designations',
+                            'localField': 'designation',
+                            'foreignField': '_id',
+                            'as': 'desi'
+                        }
+                    }, {
+                        '$unwind': '$desi'
+                    }, {
+                        '$lookup': {
+                            'from': 'departments',
+                            'localField': 'department',
+                            'foreignField': '_id',
+                            'as': 'dept'
+                        }
+                    }, {
+                        '$unwind': '$dept'
+                    }, {
+                        '$project': {
+                            'employeeid':1,
+                            'firstname': 1,
+                            'lastname': 1,
+                            'department': '$dept.department',
+                            'designation': '$desi.designation'
+                        }
+                    }
+                ]
+            ).toArray().then((result) => {
                 resolve(result)
             })
         })

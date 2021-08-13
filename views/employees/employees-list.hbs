@@ -20,24 +20,29 @@
 <section class="container">
     <div class="card">
         <div class="card-body">
-            <div class="row d-flex justify-content-between">
-                <a class="btn btn-primary" href="/employee/create-employee-profile/">New</a>
+            <div class="row d-flex justify-content-end">
+                <a class="btn btn-primary w-25" href="/employee/create-employee-profile/">New</a>
             </div>
             <div class="table-responsive mt-3">
                 <table class="table" id="tableDepartments">
                     <thead>
                         <tr>
-                            <th>EMP ID</th>
+                            <th>Sl No.</th>
+                            <th>Employee ID</th>
                             <th>Name</th>
-                            <th></th>
+                            <th>Designation</th>
+                            <th>Department</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each employees}}
                         <tr>
+                            <td>{{this.serial}}</td>
                             <td>{{this.employeeid}}</td>
                             <td>{{this.firstname}} {{this.lastname}}</td>
-                            <td><a href="/employee/employee-details/{{this._id}}/home">View details</a></td>
+                            <td>{{this.department}}</td>
+                            <td>{{this.designation}}</td>
+                            <td><a class="badge bg-primary" href="/employee/employee-details/{{this._id}}/home">View details</a></td>
                         </tr>
                         {{/each}}
                     </tbody>
