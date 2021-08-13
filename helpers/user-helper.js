@@ -291,7 +291,37 @@ module.exports = {
                     },
                         {
                             $push: {
-                                contracts:contractdetails
+                                contracts: contractdetails
+                            }
+                        }).then(() => {
+                            resolve();
+                        })
+                }
+            })
+        })
+    },
+    getImigrations: (empId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empId) }).then((result) => {
+                if (result.imigrations) {
+                    resolve(result.imigrations);
+                }
+                else {
+                    resolve(null);
+                }
+            })
+        })
+    },
+    newImigration: (employee, imigrationdetails) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
+                if (result) {
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                        _id: objectId(employee)
+                    },
+                        {
+                            $push: {
+                                imigrations: imigrationdetails
                             }
                         }).then(() => {
                             resolve();

@@ -267,7 +267,34 @@ $('#contractForm').validate({
         }
     }
 })
-
+$('#imigrationForm').validate(
+    {
+        errorPlacement: (error, element) => {
+            error.addClass('text-danger')
+            error.appendTo(element.parent('div'))
+        },
+        rules:{
+            doctype:{
+                required:true,
+            },
+            docnumber:{
+                required:true,
+            },
+            docissued:{
+                required:true,
+            },
+            docexpeiry:{
+                required:true,
+            },
+            document:{
+                required:true,
+            },
+            doccountry:{
+                required:true,
+            },
+        }
+    }
+)
 
 //Custom validator for strong password
 $.validator.addMethod("strongPassword", function (value, element) {

@@ -111,16 +111,26 @@ router.get('/employee/employee-details/:id/contracts/', async (req, res) => {
   if (contracts) {
     contracts.forEach((element, ind) => {
       element.serial = ind + 1;
-      element.contrfrom = dateFormat(element.contrfrom,"dd-mmm-yyyy");
-      element.contrto= dateFormat(element.contrto,"dd-mmm-yyyy");
+      element.contrfrom = dateFormat(element.contrfrom, "dd-mmm-yyyy");
+      element.contrto = dateFormat(element.contrto, "dd-mmm-yyyy");
     });
-   
+
   }
   console.log(contracts);
   res.render('employees/employee-contracts', { desi: designations, empId, contracts });
 })
 router.get('/employee/employee-details/:id/imigration', (req, res) => {
-  res.render('employees/employee-imigrations');
+  let empId = req.params.id;
+  userHelper.getImigrations(empId).then((result) => {
+    if(result){
+      result.forEach((element,index)=>{
+        element.serial = index+1;
+
+      })
+    }
+    res.render('employees/employee-imigrations', { empId, imigrations: result });
+
+  })
 })
 
 
@@ -224,5 +234,14 @@ router.post('/employee/employee-details/:id/create-contract', (req, res) => {
     res.redirect('/employee/employee-details/' + employee + '/contracts/')
   })
 })
-
+router.post('/employee/employee-details/:id/create-imigration', (req, res) => {
+  let employee = req.params.id;
+  let imigration = req.body;
+  let document = req.files.document;
+  let fileName = employee + imigration.doctype + imigration.docname + document.name + '';
+  imigration.filename = fileName;
+  userHelper.newImigration(employee, imigration).then(() => {
+    res.redirect('/employee/employee-details/' + employee + '/imigration')
+  })
+})
 module.exports = router;

@@ -1,3 +1,110 @@
 <a class="nav-link mb-3" href="/employee/employee-details/{{empId}}/home">Home</a>
 
-<h1 class="text-danger">404- TEMPERORLY NOT AVAILABLE</h1>
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Employee Imigrations</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item  active" aria-current="page">Imigrations</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<section>
+    <p>
+        <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Create New
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-body">
+                    <form enctype="multipart/form-data" id="imigrationForm"
+                        action="/employee/employee-details/{{empId}}/create-imigration" method="post">
+                        <div class="form-group">
+                            <label for="textDocumentType">Document Type</label>
+                            <input type="text" name="doctype" id="textDocumentType" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="textDocumentNumber">Document Number</label>
+                            <input type="text" name="docnumber" id="textDocumentNumber" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="dateIssued">Issue Date</label>
+                                    <input class="form-control" type="date" name="docissued" id="dateIssued">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dateValidUpto">Expeiry Date</label>
+                                    <input class="form-control" type="date" name="docexpeiry" id="dateValidUpto">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileDocument">Imigration Document</label>
+                            <input type="file" class="form-control" name="document" id="fileDocument">
+                        </div>
+                        <div class="form-group">
+                            <label for="textCountry">Country</label>
+                            <input type="text" name="doccountry" id="textCountry" class="form-control">
+                        </div>
+                        <div class="form-group d-flex justify-content-end">
+                            <input type="submit" value="Submit" class="btn btn-primary" id="btnSubmitEducation">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Imigration Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tableEducation" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sl.No.</th>
+                                    <th>Document Type</th>
+                                    <th>Document Number</th>
+                                    <th>Issued Date</th>
+                                    <th>Expeiry Date</th>
+                                    <th>Country</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each imigrations}}
+                                <tr>
+                                    {{#with this}}
+                                    <td>{{serial}}</td>
+                                    <td>{{doctype}}</td>
+                                    <td>{{docnumber}}</td>
+                                    <td>{{docissued}}</td>
+                                    <td>{{docexpeiry}}</td>
+                                    <td>{{doccountry}}</td>
+                                    {{/with}}
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
