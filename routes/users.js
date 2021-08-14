@@ -5,10 +5,10 @@ const dateFormat = require('dateformat');
 
 
 
-router.get('/',function(req,res){
+router.get('/', function (req, res) {
   res.redirect('/employee/employee-details')
 })
-router.get('/crop',(req,res)=>{
+router.get('/crop', (req, res) => {
   res.render('index');
 })
 //GET METHOD FOR LOAD CREATE EMPLOYEE WEB FORM
@@ -54,6 +54,7 @@ router.get('/employee/employee-details', (req, res) => {
 router.get('/employee/employee-details/:id/home', (req, res) => {
   let id = req.params.id;
   userHelper.getEmployeeDetails(id).then((result) => {
+    console.log(result)
     res.render('employees/employee-home', { empData: result });
   })
   //res.render('employees/employee-home');
@@ -255,13 +256,34 @@ router.post('/employee/employee-details/:id/create-imigration', (req, res) => {
   let fileName = employee + imigration.doctype + imigration.docname + document.name + '';
   imigration.filename = fileName;
   userHelper.newImigration(employee, imigration).then(() => {
-    res.redirect('/employee/employee-details/' + employee + '/imigration')
+    document.mv('./public/documents/imigration/' + fileName, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        res.redirect('/employee/employee-details/' + employee + '/imigration')
+      }
+    });
   })
 })
-router.post('/employee/employee-data/:id/upload-avatar', function (req, res) {
-  let empId = req.params.id;
+router.post('/employee/employee-details/:id/upload-avatar', function (req, res) {
+
+  let employee = req.params.id;
   let data = req.body;
   let avatar = req.files.avatar;
-  console.log(avatar);
+  let imagepath = employee + 'avatar_image' + avatar.name + '';
+  console.log(imagepath);
+  userHelper.updateAvatar(employee,imagepath).then(() => {
+    avatar.mv('./public/documents/profile-avatar/' + imagepath, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        res.redirect('/employee/employee-details/' + employee + '/home');
+      }
+    });
+
+  })
+  // res.json('')
 })
 module.exports = router;

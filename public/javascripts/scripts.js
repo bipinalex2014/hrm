@@ -5,26 +5,23 @@ $(document).ready(function () {
 
 
 function uploadProfileImage(emplId) {
-  var dpImage = document.getElementById('fileAvatar');
-
-
-
-  const name = dpImage.name;
-  const lastDot = name.lastIndexOf('.');
-  var errObj = document.getElementById('errMsg');
-  const fileName = name.substring(0, lastDot);
-  const ext = name.substring(lastDot + 1);
+  // var dpImage = document.getElementById('fileAvatar');
+  // const name = dpImage.name;
+  // const lastDot = name.lastIndexOf('.');
+  // var errObj = document.getElementById('errMsg');
+  // const fileName = name.substring(0, lastDot);
+  // const ext = name.substring(lastDot + 1);
   // if(ext!='jpg'){
   //     errObj.innerHTML='Invalid file type, only accepts JPG files'
   //     errObj.classList.add('text-danger')
   // }
   // else{
-  errObj.innerHTML = null;
+  // errObj.innerHTML = null;
   $.ajax({
-    url: '/employee/employee-data/' + emplId + "/upload-avatar",
+    url: '/employee/employee-data/' + emplId + '/upload-avatar',
     method: 'post',
     data: {
-
+      values: $('#formAvatarUpload').serialize()
     },
     success: (response) => {
       console.log(response);

@@ -129,7 +129,7 @@ module.exports = {
                         '$unwind': '$dept'
                     }, {
                         '$project': {
-                            'employeeid':1,
+                            'employeeid': 1,
                             'firstname': 1,
                             'lastname': 1,
                             'department': '$dept.department',
@@ -178,7 +178,8 @@ module.exports = {
                             'designation': '$desi.designation',
                             'email': 1,
                             'phone': 1,
-                            'bloodgroup': 1
+                            'bloodgroup': 1,
+                            'photopath': 1
                         }
                     }
                 ]
@@ -367,4 +368,18 @@ module.exports = {
             })
         })
     },
+    updateAvatar: (empId, path) => {
+        console.log(path)
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                _id: objectId(empId)
+            }, {
+                $set: {
+                    photopath: path,
+                }
+            }).then(() => {
+                resolve();
+            })
+        })
+    }
 }
