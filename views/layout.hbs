@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="/assets/css/bootstrap.css">
 
   <link rel="stylesheet" href="/assets/vendors/iconly/bold.css">
-
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
   <link rel="stylesheet" href="/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
   <link rel="stylesheet" href="/assets/vendors/bootstrap-icons/bootstrap-icons.css">
   <link rel="stylesheet" href="/assets/css/app.css">
@@ -23,6 +23,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
     integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/assets/vendors/simple-datatables/style.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+
 </head>
 
 <body>
@@ -32,7 +35,8 @@
         <div class="sidebar-header">
           <div class="d-flex justify-content-between">
             <div class="logo">
-              <a href="#"><img src="/assets/images/logo/logo.png" alt="Redeemer" srcset=""></a>
+              {{!-- <a href="#"><img src="/assets/images/logo/logo.png" alt="Redeemer" srcset=""></a> --}}
+              <h4>Redeemer</h4>
             </div>
             <div class="toggler">
               <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -411,19 +415,22 @@
     crossorigin="anonymous"></script>
   <script src="/javascripts/jquery.validate.min.js"></script>
   <script src="/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-  
-  {{!-- <script src="/assets/js/bootstrap.bundle.min.js"></script> --}}
+
+  {{!--
+  <script src="/assets/js/bootstrap.bundle.min.js"></script> --}}
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
   <script src="/assets/vendors/apexcharts/apexcharts.js"></script>
   <script src="/assets/js/pages/dashboard.js"></script>
   <script src="/assets/js/main.js"></script>
-  <script src="/javascripts/form-validations.js"></script>
   <script src="/assets/vendors/simple-datatables/simple-datatables.js"></script>
+  <script src="/javascripts/form-validations.js"></script>
   <script src="/javascripts/scripts.js"></script>
 </body>
 

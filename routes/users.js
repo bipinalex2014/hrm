@@ -152,6 +152,27 @@ router.get('/employee/employee-details/:id/view-profile', (req, res) => {
   let employee = req.params.id;
   userHelper.getCompleteProfile(employee).then((employeeData) => {
     console.log(employeeData);
+    employeeData.dateofbirth = dateFormat(employeeData.dateofbirth, "dd-mmm-yyyy");
+    employeeData.dateofjoin = dateFormat(employeeData.dateofjoin, "dd-mmm-yyyy");
+    if (employeeData.qualifications) {
+      employeeData.qualifications.forEach((element) => {
+        element.educationfrom = dateFormat(element.educationfrom, "dd-mm-yyyy");
+        element.educationto = dateFormat(element.educationto, "dd-mm-yyyy");
+      });
+    }
+    if (employeeData.experiecnes) {
+      employeeData.experiences.forEach((element) => {
+        element.expfrom = dateFormat(element.expfrom, "dd-mm-yyyy");
+        element.expto = dateFormat(element.expto, "dd-mm-yyyy");
+      });
+    }
+    if (employeeData.contracts) {
+      employeeData.contracts.forEach((element) => {
+        element.contrfrom = dateFormat(element.contrfrom, "dd-mm-yyyy");
+        element.contrto = dateFormat(element.contrto, "dd-mm-yyyy");
+      });
+
+    }
     res.render('employees/complete-profile', { emp: employeeData })
   })
 })

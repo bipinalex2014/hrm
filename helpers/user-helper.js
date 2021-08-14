@@ -3,6 +3,7 @@ const db = require('../configurations/mongodb-connection');
 const collections = require('../configurations/collections');
 const objectId = require('mongodb').ObjectId;
 const bcrypt = require('bcrypt');
+const { ObjectId } = require('mongodb');
 
 module.exports = {
     createDepartment: (deptName) => {
@@ -91,6 +92,7 @@ module.exports = {
         empData.dateofbirth = new Date(empData.dateofbirth);
         empData.dateofjoin = new Date(empData.dateofjoin);
         empData.password = bcrypt.hash(empData.password, 10);
+        empData.activestatus = true;
         delete empData.confirmpassword;
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(empData).then((result) => {
@@ -133,7 +135,8 @@ module.exports = {
                             'firstname': 1,
                             'lastname': 1,
                             'department': '$dept.department',
-                            'designation': '$desi.designation'
+                            'designation': '$desi.designation',
+                            'activestatus':1,
                         }
                     }
                 ]
@@ -179,7 +182,8 @@ module.exports = {
                             'email': 1,
                             'phone': 1,
                             'bloodgroup': 1,
-                            'photopath': 1
+                            'photopath': 1,
+                           
                         }
                     }
                 ]
@@ -201,6 +205,7 @@ module.exports = {
         })
     },
     newQualification: (employee, qualification) => {
+        qualification.id = new ObjectId();
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
                 if (result) {
@@ -231,6 +236,7 @@ module.exports = {
         })
     },
     newExperience: (employee, experience) => {
+        experience.id = new ObjectId();
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
                 if (result) {
@@ -261,6 +267,7 @@ module.exports = {
         })
     },
     newAccountDetails: (employee, accountdetails) => {
+        accountdetails.id = new ObjectId();
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
                 if (result) {
@@ -291,6 +298,7 @@ module.exports = {
         })
     },
     newEmergancyContact: (employee, contactdetails) => {
+        contactdetails.id = new ObjectId();
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
                 if (result) {
@@ -321,6 +329,7 @@ module.exports = {
         })
     },
     newContract: (employee, contractdetails) => {
+        contractdetails.id = new ObjectId();
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
                 if (result) {
@@ -351,6 +360,7 @@ module.exports = {
         })
     },
     newImigration: (employee, imigrationdetails) => {
+        imigrationdetails.id = new ObjectId();
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(employee) }).then((result) => {
                 if (result) {
@@ -390,50 +400,50 @@ module.exports = {
                 $set: {
                     socialmedia: socialmedia
                 }
-            }).then(()=>{
+            }).then(() => {
                 resolve();
             })
         })
     },
-    getCompleteProfile:(empId)=>{
-        return new Promise((resolve,reject)=>{
+    getCompleteProfile: (empId) => {
+        return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate(
                 [
                     {
-                      '$match': {
-                        '_id': objectId(empId),
-                      }
+                        '$match': {
+                            '_id': objectId(empId),
+                        }
                     }, {
-                      '$lookup': {
-                        'from': 'departments', 
-                        'localField': 'department', 
-                        'foreignField': '_id', 
-                        'as': 'dept'
-                      }
+                        '$lookup': {
+                            'from': 'departments',
+                            'localField': 'department',
+                            'foreignField': '_id',
+                            'as': 'dept'
+                        }
                     }, {
-                      '$unwind': '$dept'
+                        '$unwind': '$dept'
                     }, {
-                      '$lookup': {
-                        'from': 'designations', 
-                        'localField': 'designation', 
-                        'foreignField': '_id', 
-                        'as': 'desi'
-                      }
+                        '$lookup': {
+                            'from': 'designations',
+                            'localField': 'designation',
+                            'foreignField': '_id',
+                            'as': 'desi'
+                        }
                     }, {
-                      '$unwind': '$desi'
+                        '$unwind': '$desi'
                     }, {
-                      '$lookup': {
-                        'from': 'designations', 
-                        'localField': 'headdesignation', 
-                        'foreignField': '_id', 
-                        'as': 'head'
-                      }
+                        '$lookup': {
+                            'from': 'designations',
+                            'localField': 'headdesignation',
+                            'foreignField': '_id',
+                            'as': 'head'
+                        }
                     }, {
-                      '$unwind': '$head'
+                        '$unwind': '$head'
                     }
-                  ]
-            ).toArray().then((result)=>{
-              resolve(result[0]);
+                ]
+            ).toArray().then((result) => {
+                resolve(result[0]);
             })
         })
     }

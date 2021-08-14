@@ -23,10 +23,10 @@
     <div class="card">
         <div class="card-body">
             <div class="row d-flex justify-content-end">
-                <a class="btn btn-primary w-25" href="/employee/create-employee-profile/">New</a>
+                <a class="btn btn-primary rounded-pill w-25" href="/employee/create-employee-profile/">New</a>
             </div>
             <div class="table-responsive mt-3">
-                <table class="table" id="tableDepartments">
+                <table class="table" id="tableEmployees">
                     <thead>
                         <tr>
                             <th>Sl No.</th>
@@ -34,6 +34,8 @@
                             <th>Name</th>
                             <th>Designation</th>
                             <th>Department</th>
+                            <th>Status</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +46,14 @@
                             <td>{{this.firstname}} {{this.lastname}}</td>
                             <td>{{this.department}}</td>
                             <td>{{this.designation}}</td>
-                            <td><a class="badge bg-primary" href="/employee/employee-details/{{this._id}}/home">View details</a></td>
+                            {{#if activestatus}}
+                            <td><span class="badge rounded-pill bg-success">Active</span></td>
+                            {{else}}
+                            <td><span class="badge rounded-pill bg-danger">Resigned</span></td>
+                            {{/if}}
+                            <td><a class="btn btn-sm rounded-pill btn-primary"
+                                    href="/employee/employee-details/{{this._id}}/home">View
+                                    details</a></td>
                         </tr>
                         {{/each}}
                     </tbody>
