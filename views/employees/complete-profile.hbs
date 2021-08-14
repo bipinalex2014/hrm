@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <h4 class="text-primary">Employee Profile</h4>
+            </div>
+            <hr>
+            {{#with emp}}
+            <div>
+               <div class="row">
+                    <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th>Employee Code</th>
+                                    <td>{{employeeid}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <td>{{firstname}} {{lastname}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <td>{{gender}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Department</th>
+                                    <td>{{dept.department}}</td>
+                                </tr>
+                                 <tr>
+                                    <th>Designation</th>
+                                    <td>{{desi.designation}}</td>
+                                </tr>
+                            </tbody>
+                            <p> <span></span></p>
+                            <p> <span></span></p>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <img c width="150" height="180" src="/documents/profile-avatar/{{photopath}}" alt="">
+                </div>
+               </div>
+            </div>
+            {{/with}}
+        </div>
+    </div>
+</div>

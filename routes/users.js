@@ -118,7 +118,7 @@ router.get('/employee/employee-details/:id/social-media/', (req, res) => {
   let empId = req.params.id;
   res.render('employees/employee-socialmedia', { empId });
 })
-
+//TO GET EMPLOYEE CONTRACT DETAILS
 router.get('/employee/employee-details/:id/contracts/', async (req, res) => {
   let empId = req.params.id;
   let designations = await userHelper.getActiveDesignations();
@@ -134,6 +134,7 @@ router.get('/employee/employee-details/:id/contracts/', async (req, res) => {
   console.log(contracts);
   res.render('employees/employee-contracts', { desi: designations, empId, contracts });
 })
+// TO GET EMPLOYEE IMIGRATION DETAILS
 router.get('/employee/employee-details/:id/imigration', (req, res) => {
   let empId = req.params.id;
   userHelper.getImigrations(empId).then((result) => {
@@ -147,7 +148,13 @@ router.get('/employee/employee-details/:id/imigration', (req, res) => {
 
   })
 })
-
+router.get('/employee/employee-details/:id/view-profile', (req, res) => {
+  let employee = req.params.id;
+  userHelper.getCompleteProfile(employee).then((employeeData) => {
+    console.log(employeeData);
+    res.render('employees/complete-profile', { emp: employeeData })
+  })
+})
 
 
 
@@ -231,6 +238,7 @@ router.post('/employee/employee-details/:id/create-bank-details', (req, res) => 
   })
 
 })
+// TO ADD EMPLOYEE EMERGENCY CONTACT DETAILS
 router.post('/employee/employee-details/:id/create-emergency-contact', (req, res) => {
 
   let employee = req.params.id;
@@ -238,9 +246,8 @@ router.post('/employee/employee-details/:id/create-emergency-contact', (req, res
   userHelper.newEmergancyContact(employee, contact).then(() => {
     res.redirect('/employee/employee-details/' + employee + '/emargency-contacts/')
   })
-
-
 })
+//TO ADD EMPLOYEE CONTRACT DETAILS
 router.post('/employee/employee-details/:id/create-contract', (req, res) => {
   let employee = req.params.id;
   let contracts = req.body;
@@ -249,6 +256,7 @@ router.post('/employee/employee-details/:id/create-contract', (req, res) => {
     res.redirect('/employee/employee-details/' + employee + '/contracts/')
   })
 })
+//TO ADD IMIGRATION DETAILS OF AN EMPLOYEE
 router.post('/employee/employee-details/:id/create-imigration', (req, res) => {
   let employee = req.params.id;
   let imigration = req.body;
@@ -266,6 +274,7 @@ router.post('/employee/employee-details/:id/create-imigration', (req, res) => {
     });
   })
 })
+//TO UPDATE EMPLOYEE PROFILE PHOTO
 router.post('/employee/employee-details/:id/upload-avatar', function (req, res) {
 
   let employee = req.params.id;
@@ -273,7 +282,7 @@ router.post('/employee/employee-details/:id/upload-avatar', function (req, res) 
   let avatar = req.files.avatar;
   let imagepath = employee + 'avatar_image' + avatar.name + '';
   console.log(imagepath);
-  userHelper.updateAvatar(employee,imagepath).then(() => {
+  userHelper.updateAvatar(employee, imagepath).then(() => {
     avatar.mv('./public/documents/profile-avatar/' + imagepath, (err) => {
       if (err) {
         console.log(err);
@@ -286,4 +295,14 @@ router.post('/employee/employee-details/:id/upload-avatar', function (req, res) 
   })
   // res.json('')
 })
+//TO ADD OR MODIFY SOCIAL MEDIA DATA OF EMPLOYEE
+router.post('/employees/employee-details/:id/add-socialmedia', (req, res) => {
+  let employee = req.params.id;
+  let socialmedia = req.body;
+  userHelper.updateSocialMedia(employee, socialmedia).then(() => {
+    res.redirect('/employee/employee-details/' + employee + '/home');
+  })
+  console.log(socialmedia)
+})
+
 module.exports = router;

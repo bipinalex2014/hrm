@@ -1,4 +1,5 @@
-<a class="nav-link mb-3" href="/employee/employee-details/{{empId}}/home">Home</a>
+<a class="nav-link mb-3" href="/employee/employee-details/{{empId}}/home"><i class="fas fa-long-arrow-alt-left"></i>
+    Back</a>
 
 <div class="page-heading">
     <div class="page-title">
@@ -23,12 +24,71 @@
         <div class="row">
             <div class="card">
                 <div class="card-body">
-                    <form>
-                       <h1 class="text-danger">404- TEMPERORLY NOT AVAILABLE</h1>
+                    <form method="POST" action="/employees/employee-details/{{empId}}/add-socialmedia">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="textFacebook">Github</label>
+                                    <input type="text" name="github" id="textGitHub" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="textFacebook">Linked in</label>
+                                    <input type="text" name="linkedin" id="textLinkedIn" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="textFacebook">Facebook</label>
+                                    <input type="text" name="facebook" id="textFacebook" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="textFacebook">Twitter</label>
+                                    <input type="text" name="twitter" id="textTwitter" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="textFacebook">Instagram</label>
+                                    <input type="text" name="instagram" id="textInstagram" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="textYoutube">Youtube</label>
+                                    <input type="text" name="youtube" id="textYoutube" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="textPinterest">Pinterst</label>
+                                    <input type="text" name="pinterest" id="textPinterest" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                                <input type="submit" value="Submit" class="btn btn-primary">
+                          </div>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    
 </section>

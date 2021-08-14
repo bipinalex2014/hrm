@@ -381,5 +381,60 @@ module.exports = {
                 resolve();
             })
         })
+    },
+    updateSocialMedia: (empId, socialmedia) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({
+                _id: objectId(empId)
+            }, {
+                $set: {
+                    socialmedia: socialmedia
+                }
+            }).then(()=>{
+                resolve();
+            })
+        })
+    },
+    getCompleteProfile:(empId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate(
+                [
+                    {
+                      '$match': {
+                        '_id': objectId(empId),
+                      }
+                    }, {
+                      '$lookup': {
+                        'from': 'departments', 
+                        'localField': 'department', 
+                        'foreignField': '_id', 
+                        'as': 'dept'
+                      }
+                    }, {
+                      '$unwind': '$dept'
+                    }, {
+                      '$lookup': {
+                        'from': 'designations', 
+                        'localField': 'designation', 
+                        'foreignField': '_id', 
+                        'as': 'desi'
+                      }
+                    }, {
+                      '$unwind': '$desi'
+                    }, {
+                      '$lookup': {
+                        'from': 'designations', 
+                        'localField': 'headdesignation', 
+                        'foreignField': '_id', 
+                        'as': 'head'
+                      }
+                    }, {
+                      '$unwind': '$head'
+                    }
+                  ]
+            ).toArray().then((result)=>{
+              resolve(result[0]);
+            })
+        })
     }
 }
