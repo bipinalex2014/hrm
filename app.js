@@ -4,10 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var db = require('./configurations/mongodb-connection');
-var fileUpload= require('express-fileupload');
+var fileUpload = require('express-fileupload');
 
 var usersRouter = require('./routes/users');
-var hrRouter=require('./routes/hr');
+var hrRouter = require('./routes/hr');
+var employeeRouter = require('./routes/employees');
 
 var app = express();
 
@@ -23,18 +24,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 
 app.use('/', usersRouter);
-app.use('/hr',hrRouter);
+app.use('/hr', hrRouter);
+app.use('/employee', employeeRouter);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // next(createError(404));
-  res.render('error-404',{layout:null})
+  res.render('error-404', { layout: null })
 });
 db.connect((err) => {
   if (err) console.log('Failed to connect database ' + err);
   else console.log('Connected to database with port 27017');
 })
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

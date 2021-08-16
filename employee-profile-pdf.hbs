@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" href="/public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/public/assets/vendors/iconly/bold.css">
-    <link rel="stylesheet" href="/public/assets/css/app.css">
-    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="public/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="public/assets/vendors/iconly/bold.css">
+    <link rel="stylesheet" href="public/assets/css/app.css">
+    <link rel="stylesheet" href="public/stylesheets/style.css">
 
 </head>
 
@@ -31,7 +33,7 @@
                         {{#with this}}
                         <div>
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-9">
                                     <div class="table-responsive">
                                         <table class="table table-borderless">
                                             <tbody>
@@ -69,87 +71,88 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-md-3 d-none d-lg-block">
-                                    <img width="150" height="180" src="../public/documents/profile-avatar/{{photopath}}" alt="">
+                                <div class="col-3 d-none d-lg-block">
+                                    <img width="150" height="180" src="public/documents/profile-avatar/{{photopath}}"
+                                        alt="">
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Address</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span> {{address}}</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Place</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span>{{place}}</span>
                                 </div>
-                               
-                                <div class="col-lg-3 my-3">
+
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">City</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{city}}
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">State</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{state}}
                                 </div>
-                               
-                                <div class="col-lg-3 my-3">
+
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Province</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{province}}
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Country</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{country}}
                                 </div>
-                            
-                                <div class="col-lg-3 my-3">
+
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Phone</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{phone}}
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Email</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{email}}
                                 </div>
                                 {{!-- **************************************************** --}}
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Username</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{username}}
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Blood Group</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{bloodgroup}}
                                 </div>
                                 {{!-- **************************************************** --}}
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     <span class="font-weight-bold">Maritial Status</span>
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{maritialstatus}}
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{!-- <span class="font-weight-bold">Country</span> --}}
                                 </div>
-                                <div class="col-lg-3 my-3">
+                                <div class="col-3 my-3">
                                     {{!-- {{country}} --}}
                                 </div>
                             </div>
@@ -361,7 +364,7 @@
                                                 <td>{{pinterest}}</td>
                                             </tr>
                                             <tr>
-                                              
+
                                             </tr>
                                             {{/with}}
                                         </tbody>
