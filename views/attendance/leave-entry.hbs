@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <form action="">
+                <div class="col-md-6 mt-3">
+                    <div class="from-group">
+                        <label for="selectLeaveType">Leave Type</label>
+                        <select name="leavetype" id="selectLeaveType" class="form-select">
+                            <option value="">-</option>
+                            {{#each leaves}}
+                            <option value="{{this._id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dateFrom">From</label>
+                            <input type="date" name="from" id="dateFrom" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dateTo">To</label>
+                            <input type="date" name="to" id="dateTo" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="from-group">
+                        <label for="textReason">Reason</label>
+                        <textarea name="reason" id="textReason" rows="5" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary ">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -12,7 +12,12 @@ router.get('/leave-types', (req, res) => {
         res.render('attendance/leave-types', { leaves: result });
     })
 })
-// router.get('')
+router.get('/leave-entry', (req, res) => {
+    attendanceHelper.getAllActiveLeaveTypes().then((result) => {
+        res.render('attendance/leave-entry', { leaves: result });
+
+    })
+})
 
 
 

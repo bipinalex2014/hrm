@@ -195,14 +195,10 @@ router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => 
 
 
 
-
-
-
-
 //POST METHODS
 
 // TO CREATE AN EMPLOYEE PROFILE
-router.post('/employee/create-employee-profile', (req, res) => {
+router.post('/create-employee-profile', (req, res) => {
   let values = req.body;
   employeeHelper.createEmployee(values).then((result) => {
     res.redirect('/employee/employee-details');
