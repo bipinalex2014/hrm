@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const userHelper = require('../helpers/user-helper');
 const dateFormat = require('dateformat');
+const pdfCreator = require('../helpers/create-pdf');
 
 
 
@@ -177,7 +178,16 @@ router.get('/employee/employee-details/:id/view-profile', (req, res) => {
   })
 })
 
-
+router.get('/employee/employee-details/:id/view-profile/export-pdf', async (req, res) => {
+  let empId = req.params.id;
+  let empData = await userHelper.getCompleteProfile(empId);
+  // console.log(empData);
+  pdfCreator.generateEmployeeProfile(empData).then((path) => {
+    res.download(path);
+  }).catch((err) => {
+    console.log(err);
+  })
+})
 
 
 

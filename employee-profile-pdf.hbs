@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/assets/vendors/iconly/bold.css">
+    <link rel="stylesheet" href="/public/assets/css/app.css">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+            <div class="container">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <h4 class="text-primary">Employee Profile</h4>
+                        </div>
+                        <hr>
+                        {{#each empData}}
+                        {{#with this}}
+                        <div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Employee Code</th>
+                                                    <td>{{employeeid}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <td>{{firstname}} {{lastname}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Gender</th>
+                                                    <td>{{gender}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Department</th>
+                                                    <td>{{dept.department}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Designation</th>
+                                                    <td>{{desi.designation}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Date of Birth</th>
+                                                    <td>{{dateofbirth}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Joined Date</th>
+                                                    <td>{{dateofjoin}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <p> <span></span></p>
+                                            <p> <span></span></p>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 d-none d-lg-block">
+                                    <img width="150" height="180" src="../public/documents/profile-avatar/{{photopath}}" alt="">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Address</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    <span> {{address}}</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Place</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    <span>{{place}}</span>
+                                </div>
+                               
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">City</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{city}}
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">State</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{state}}
+                                </div>
+                               
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Province</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{province}}
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Country</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{country}}
+                                </div>
+                            
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Phone</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{phone}}
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Email</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{email}}
+                                </div>
+                                {{!-- **************************************************** --}}
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Username</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{username}}
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Blood Group</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{bloodgroup}}
+                                </div>
+                                {{!-- **************************************************** --}}
+                                <div class="col-lg-3 my-3">
+                                    <span class="font-weight-bold">Maritial Status</span>
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{maritialstatus}}
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{!-- <span class="font-weight-bold">Country</span> --}}
+                                </div>
+                                <div class="col-lg-3 my-3">
+                                    {{!-- {{country}} --}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <h5 class="my-3">Education Qualifications</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Level</th>
+                                                <th>School/College/University</th>
+                                                <th>Period</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each qualifications}}
+                                            <tr>
+                                                <td>{{this.educationlevel}}</td>
+                                                <td>{{this.institution}}</td>
+                                                <td>{{this.educationfrom}} To {{this.educationto}}</td>
+                                                <td>{{this.educationdescription}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <h5 class="my-3">Previous experiences</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Post</th>
+                                                <th>Company</th>
+                                                <th>Period</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each experiences}}
+                                            <tr>
+                                                <td>{{this.exppost}}</td>
+                                                <td>{{this.expcompany}}</td>
+                                                <td>{{this.expfrom}} To {{this.expto}}</td>
+                                                <td>{{this.expdescription}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <h5 class="my-3">Contracts</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Contract Type</th>
+                                                <th>Name</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>Designation</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each contracts}}
+                                            <tr>
+                                                <td>{{this.contrtype}}</td>
+                                                <td>{{this.contrname}}</td>
+                                                <td>{{this.contrfrom}}</td>
+                                                <td>{{this.contrto}}</td>
+                                                <td>{{this.contrdesi}}</td>
+                                                <td>{{this.contrdesc}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <h5 class="my-3">Emergency Contacts</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Relation</th>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each emergencycontacts}}
+                                            <tr>
+                                                <td>{{this.relation}}</td>
+                                                <td>{{this.name}}</td>
+                                                <td>{{this.address}}</td>
+                                                <td>{{this.email}} To {{this.expto}}</td>
+                                                <td>{{this.phone}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <h5 class="my-3">Imigration documents</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Document Type</th>
+                                                <th>Number</th>
+                                                <th>Issued</th>
+                                                <th>Expeiry</th>
+                                                <th>Country</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each imigrations}}
+                                            <tr>
+                                                <td>{{this.doctype}}</td>
+                                                <td>{{this.docnumber}}</td>
+                                                <td>{{this.docissued}}</td>
+                                                <td>{{this.docexpeiry}}</td>
+                                                <td>{{this.doccountry}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <h5 class="my-3">Bank details</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Account Type</th>
+                                                <th>Bank</th>
+                                                <th>A/c Number</th>
+                                                <th>Bank Code</th>
+                                                <th>Branch</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each bankdetails}}
+                                            <tr>
+                                                <td>{{this.acctype}}</td>
+                                                <td>{{this.accbank}}</td>
+                                                <td>{{this.accnumber}}</td>
+                                                <td>{{this.accbankcode}}</td>
+                                                <td>{{this.accbranch}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <h5 class="my-3">Social Media Links</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Social Media</th>
+                                                <th>Id</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#with socialmedia}}
+                                            <tr>
+                                                <td>Github</td>
+                                                <td>{{github}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Linked in</td>
+                                                <td>{{linkedin}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Facebook</td>
+                                                <td>{{facebook}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Twitter</td>
+                                                <td>{{twitter}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Instagram</td>
+                                                <td>{{instagram}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Youtube</td>
+                                                <td>{{youtube}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pinterest</td>
+                                                <td>{{pinterest}}</td>
+                                            </tr>
+                                            <tr>
+                                              
+                                            </tr>
+                                            {{/with}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {{/with}}
+
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
