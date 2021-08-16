@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h4>Daily Attendance</h4>
+        </div>
+        <div class="card-body">
+            {{!-- <div class="row">
+                <div class="col-md-3 my-3">
+                    <label for="dateAttendanceDay">Date</label>
+                    <input type="date"  name="day" id="dateAttendanceDay" class="form-control">
+                </div>
+            </div> --}}
+            {{!-- <div class="row">
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-primary"> Get</button>
+                </div>
+            </div> --}}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Emp. ID</th>
+                            <th>Name</th>
+                            <th>Dept</th>
+                            <th>Desi</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each employees}}
+                        <tr>
+                            <td>{{this.employeeid}}</td>
+                            <td>{{this.firstname}} {{this.lastname}}</td>
+                            <td>{{this.department}}</td>
+                            <td>{{this.designation}}</td>
+                            <td>
+                                <select class="form-select form-select-sm" name="attendance" id="selectAttendance">
+                                    <option value="">-</option>
+                                    <option value="Present">Present</option>
+                                    <option value="Absent">Absent</option>
+                                    <option value="Leave">Leave</option>
+                                </select>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

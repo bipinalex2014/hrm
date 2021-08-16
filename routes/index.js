@@ -30,6 +30,16 @@ router.get('/misc/designations', async (req, res) => {
   });
   res.render('misc/designations', { desi });
 })
+router.get('/change-password', (req, res) => {
+  res.render('change-password');
+})
+
+
+
+
+
+
+
 
 
 

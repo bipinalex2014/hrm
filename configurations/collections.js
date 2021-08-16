@@ -8,4 +8,6 @@ module.exports={
     DEPARTMENT_COLLECTION:'departments',
     DESIGNATION_COLLECTION:'designations',
     EMPLOYEE_COLLECTION:'employees',
+    LEAVE_TYPE_COLLECTION:'leavetypes',
+    LEAVE_COLLECTIONS:'leaves',
 }

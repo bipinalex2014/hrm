@@ -6,9 +6,10 @@ var logger = require('morgan');
 var db = require('./configurations/mongodb-connection');
 var fileUpload = require('express-fileupload');
 
-var usersRouter = require('./routes/users');
+var indexRouter = require('./routes/index');
 var hrRouter = require('./routes/hr');
 var employeeRouter = require('./routes/employees');
+var attendanceRouter = require('./routes/attendance');
 
 var app = express();
 
@@ -23,9 +24,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 
-app.use('/', usersRouter);
+app.use('/', indexRouter);
 app.use('/hr', hrRouter);
 app.use('/employee', employeeRouter);
+app.use('/attendance', attendanceRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   // next(createError(404));

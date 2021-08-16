@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <form action="/attendance/create-leave-type" method="post">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="textLeaveType">Leave Name</label>
+                            <input type="text" name="name" id="textLeaveName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="textLeaveDescription">Description</label>
+                            <textarea name="description" id="textLeaveDescription" rows="4"
+                                class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Salary</label>
+                            <select name="salary" id="selectSalaryType" class="form-select">
+                                <option value='true'>With</option>
+                                <option value='false'>Without</option>
+                            </select>
+                            <div class="form-group mt-3">
+                                <input type="submit" name="" id="btnSubmit" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr></tr>
+                        </thead>
+                        <tbody>
+                            {{#each leaves}}
+                                <tr>
+                                    <td>
+                                        {{this.name}}
+                                        
+                                        {{!-- {{this.}} --}}
+                                    </td>
+                                    <td>{{this.description}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
