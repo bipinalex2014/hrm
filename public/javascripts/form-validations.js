@@ -323,7 +323,22 @@ $('#formModifyHoliday').validate({
         }
     }
 })
-
+$('#formModifyDepartment').validate({
+    rules: {
+        department: {
+            required: true,
+        }
+    },
+    messages: {
+        department: {
+            required: "Enter a valid name for department"
+        }
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+})
 //Custom validator for strong password
 $.validator.addMethod("strongPassword", function (value, element) {
     return this.optional(element) || /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(value)

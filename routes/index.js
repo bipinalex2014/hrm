@@ -3,7 +3,8 @@ var router = express.Router();
 const userHelper = require('../helpers/user-helper');
 const dateFormat = require('dateformat');
 const pdfCreator = require('../helpers/create-pdf');
-
+const collections = require('../configurations/collections');
+const commonHelper = require('../helpers/common-helper');
 
 
 router.get('/', function (req, res) {
@@ -30,6 +31,14 @@ router.get('/misc/designations', async (req, res) => {
   });
   res.render('misc/designations', { desi });
 })
+router.get('/misc/get-department-data/:id', (req, res) => {
+  let deptId = req.params.id;
+  commonHelper.getDocument(collections.DEPARTMENT_COLLECTION, deptId).then((result) => {
+    res.json(result);
+  })
+})
+
+
 router.get('/change-password', (req, res) => {
   res.render('change-password');
 })
@@ -66,5 +75,12 @@ router.post('/misc/create-department', (req, res) => {
   }).catch(() => {
   })
 })
-
+router.post('/misc/modify-department', (req, res) => {
+  let values = req.body;
+  let id = values._id;
+  delete values._id;
+  commonHelper.updateDocument(collections.DEPARTMENT_COLLECTION, id, values).then(() => {
+    res.json({ status: true });
+  })
+})
 module.exports = router;
