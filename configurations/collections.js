@@ -10,4 +10,5 @@ module.exports={
     EMPLOYEE_COLLECTION:'employees',
     LEAVE_TYPE_COLLECTION:'leavetypes',
     LEAVE_COLLECTIONS:'leaves',
+    HOLIDAY_COLLECTION:'holidays',
 }

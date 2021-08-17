@@ -2,6 +2,7 @@ var express = require('express');
 var router = express();
 var employeesHelper = require('../helpers/employee-helper');
 const attendanceHelper = require('../helpers/attendance-helper');
+const dateFormat = require('dateformat');
 
 router.get('/attendance-entry', async (req, res) => {
     let employees = await employeesHelper.getAllEmployees();
@@ -16,6 +17,18 @@ router.get('/leave-entry', (req, res) => {
     attendanceHelper.getAllActiveLeaveTypes().then((result) => {
         res.render('attendance/leave-entry', { leaves: result });
 
+    })
+})
+router.get('/holidays', (req, res) => {
+    attendanceHelper.getAllHolidays().then((result) => {
+        console.log(result)
+        if (result) {
+            result.forEach((element, index) => {
+                element.serial = index + 1;
+                element.holidaydate = dateFormat(element.holidaydate, "dd-mmm-yyyy");
+            });
+        }
+        res.render('attendance/manage-holidays', { holidays: result });
     })
 })
 
@@ -42,6 +55,15 @@ router.post('/create-leave-type', (req, res) => {
     console.log(values);
     attendanceHelper.createLeaveType(values).then(() => {
         res.redirect('/attendance/leave-types')
+    })
+})
+router.post('/new-holiday', (req, res) => {
+    let values = req.body;
+    console.log(values)
+    attendanceHelper.createLeave(values).then(() => {
+        res.redirect('/attendance/holidays');
+    }).catch((errMsg) => {
+        res.json({ errMsg });
     })
 })
 module.exports = router;

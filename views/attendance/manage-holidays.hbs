@@ -1,0 +1,53 @@
+<selction class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h4>New Holiday</h4>
+                </div>
+                <div class="card-body">
+                    <form id="formHoliday" action="/attendance/new-holiday" method="POST">
+                        <div class="form-group">
+                            <label for="textHolidayName">Holiday Name</label>
+                            <input type="text" name="holidayname" id="textHolidayName" placeholder="Holiday name"
+                                class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="dateHoliday">Date</label>
+                            <input type="date" name="holidaydate" id="dateHoliday" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Sl.No.</td>
+                            <td>Date</td>
+                            <td>Holiday</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each holidays}}
+                        <tr>
+                            <td>{{this.serial}}</td>
+                            <td>{{this.holidaydate}}</td>
+                            <td>{{this.holidayname}}</td>
+                            <td></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</selction>

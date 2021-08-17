@@ -229,8 +229,8 @@ $('#emergencyContactForm').validate({
             required: true,
             number: true,
         },
-        email:{
-            validEmailid:true,
+        email: {
+            validEmailid: true,
         }
     },
     messages: {
@@ -246,24 +246,24 @@ $('#contractForm').validate({
         error.addClass('text-danger')
         error.appendTo(element.parent('div'))
     },
-    rules:{
-        contrtype:{
-            required:true,
+    rules: {
+        contrtype: {
+            required: true,
         },
-        contrname:{
-            required:true,
+        contrname: {
+            required: true,
         },
-        contrfrom:{
-            required:true,
+        contrfrom: {
+            required: true,
         },
-        contrto:{
-            required:true,
+        contrto: {
+            required: true,
         },
-        contrdesi:{
-            required:true,
+        contrdesi: {
+            required: true,
         },
-        contrdesc:{
-            required:true,
+        contrdesc: {
+            required: true,
         }
     }
 })
@@ -273,28 +273,42 @@ $('#imigrationForm').validate(
             error.addClass('text-danger')
             error.appendTo(element.parent('div'))
         },
-        rules:{
-            doctype:{
-                required:true,
+        rules: {
+            doctype: {
+                required: true,
             },
-            docnumber:{
-                required:true,
+            docnumber: {
+                required: true,
             },
-            docissued:{
-                required:true,
+            docissued: {
+                required: true,
             },
-            docexpeiry:{
-                required:true,
+            docexpeiry: {
+                required: true,
             },
-            document:{
-                required:true,
+            document: {
+                required: true,
             },
-            doccountry:{
-                required:true,
+            doccountry: {
+                required: true,
             },
         }
     }
 )
+$('#formHoliday').validate({
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+    rules: {
+        leavename: {
+            required: true,
+        },
+        leavedate: {
+            required: true,
+        }
+    }
+})
 
 //Custom validator for strong password
 $.validator.addMethod("strongPassword", function (value, element) {
