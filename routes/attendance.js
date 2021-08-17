@@ -31,6 +31,12 @@ router.get('/holidays', (req, res) => {
         res.render('attendance/manage-holidays', { holidays: result });
     })
 })
+router.get('/get-holiday-data/:hId', (req, res) => {
+    let hid = req.params.hId;
+    attendanceHelper.getHolidayData(hid).then((result) => {
+        res.json({ data: result });
+    })
+})
 
 
 
@@ -59,11 +65,24 @@ router.post('/create-leave-type', (req, res) => {
 })
 router.post('/new-holiday', (req, res) => {
     let values = req.body;
-    console.log(values)
-    attendanceHelper.createLeave(values).then(() => {
+    attendanceHelper.createHoliday(values).then(() => {
         res.redirect('/attendance/holidays');
     }).catch((errMsg) => {
         res.json({ errMsg });
+    })
+})
+router.post('/modify-holiday', (req, res) => {
+    let values = req.body;
+    let id = values._id;
+    delete (values._id);
+    attendanceHelper.modifyHoliday(id, values).then((response) => {
+        res.json(response);
+    })
+})
+router.post('/remove-holiday/:id', (req, res) => {
+    let id = req.params.id;
+    attendanceHelper.removeHoliday(id).then(() => {
+        res.json({ status: true });
     })
 })
 module.exports = router;

@@ -301,10 +301,24 @@ $('#formHoliday').validate({
         error.appendTo(element.parent('div'))
     },
     rules: {
-        leavename: {
+        holidayname: {
             required: true,
         },
-        leavedate: {
+        holidaydate: {
+            required: true,
+        }
+    }
+})
+$('#formModifyHoliday').validate({
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+    rules: {
+        holidayname: {
+            required: true,
+        },
+        holidaydate: {
             required: true,
         }
     }
