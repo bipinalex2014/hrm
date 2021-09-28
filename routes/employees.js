@@ -317,6 +317,18 @@ router.post('/employee-details/:id/add-socialmedia', (req, res) => {
   console.log(socialmedia)
 })
 
+router.get('/payroll-details',(req,res)=>{
+
+  employeeHelper.getEmployee().then((employees)=>{
+    console.log(employees)
+    res.render('employees/employee-payroll-details',{employees})
+  })
+})
+
+router.get('/payroll',function(req,res){
+  res.render('employees/payroll')
+})
+
 
 
 

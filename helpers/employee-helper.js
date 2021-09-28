@@ -4,6 +4,7 @@ const collections = require('../configurations/collections');
 const objectId = require('mongodb').ObjectId;
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
+const { resolve, reject } = require('promise');
 
 module.exports = {
     getActiveDepartments: () => {
@@ -389,6 +390,14 @@ module.exports = {
                 ]
             ).toArray().then((result) => {
                 resolve(result[0]);
+            })
+        })
+    },
+    getEmployee : ()=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data)=>{
+                console.log(data)
+                resolve(data)
             })
         })
     }
