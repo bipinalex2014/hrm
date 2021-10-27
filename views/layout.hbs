@@ -127,6 +127,29 @@
               </a>
               <ul class="submenu ">
                 <li class="submenu-item ">
+                  <a href="/attendance/duty-shift">duty shift</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/mark-employees-attendance">Mark Attendance</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/view-attendance">View Attendance</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/view-todays-attendance">Todays Attendance</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/employee-salary">Salary</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/add-overtime">Add Overtime</a>
+                </li>
+
+                <li class="submenu-item ">
+                  <a href="/attendance/todays-attendance">Attendance</a>
+                </li>
+                
+                <li class="submenu-item ">
                   <a href="/attendance/attendance-entry/">Attendance Entry</a>
                 </li>
                 <li class="submenu-item ">
@@ -140,6 +163,30 @@
                 </li>
               </ul>
             </li>
+            <li class="sidebar-item  has-sub">
+              <a href="#" class='sidebar-link'>
+                <i class="bi bi-collection-fill"></i>
+                <span>Salary Slip</span>
+              </a>
+              <ul class="submenu ">
+                <li class="submenu-item ">
+                  <a href="/employee/employee-salary-slip">salary allowance</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/misc/designations">Designation</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/misc/role/">Role</a>
+                </li>
+                {{!-- <li class="submenu-item ">
+                  <a href="">Rating</a>
+                </li> --}}
+                {{!-- <li class="submenu-item ">
+                  <a href="extra-component-divider.html">Divider</a>
+                </li> --}}
+              </ul>
+            </li>
+
             <li class="sidebar-item  has-sub">
               <a href="#" class='sidebar-link'>
                 <i class="bi bi-collection-fill"></i>
@@ -446,8 +493,11 @@
       </footer>
     </div>
   </div>
-  <script src="/javascripts/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
+  {{!-- <script src="/javascripts/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script> --}}
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  {{!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script> --}}
+
   <script src="/javascripts/jquery.validate.min.js"></script>
   <script src="/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
@@ -467,6 +517,7 @@
   <script src="/assets/vendors/simple-datatables/simple-datatables.js"></script>
   <script src="/javascripts/form-validations.js"></script>
   <script src="/javascripts/scripts.js"></script>
+  <script src="/javascripts/attendance.js"></script>
 </body>
 
 </html>

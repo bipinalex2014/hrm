@@ -1,0 +1,69 @@
+<a class="nav-link mb-3" href="#"><i class="fas fa-home"></i> Home</a>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h4>Employees salary details of this month</h4>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Salary</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<section class="container">
+    <div class="row mb-3" style="display:flex;flex-direction: row-reverse">
+        <a href="/attendance/pdf-creator" class="btn btn-success mx-2" style="width: 150px;">Download pdf</a>
+        <a href="/attendance/excel-creator" class="btn btn-success" style="width: 150px;">Download Excel</a>
+    </div>
+    
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    {{!-- <th scope="col">#</th> --}}
+                    <th scope="col">Name</th>
+                    <th scope="col">Basic Salary</th>
+                    <th scope="col">Total Working Days</th>
+                    <th scope="col">Total Attendance</th>
+                    
+                    <th scope="col">Salary/day</th>
+                    <th scope="col">Total Salary</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    {{!-- <th scope="row">1</th> --}}
+                    <td>{{this.name}}</td>
+                    <td>{{this.basicSalary}}</td>
+                    <td>{{this.totalDays}}</td>
+                    <td>{{this.total}}</td>
+                    
+                    <td>{{this.perDay}}</td>
+                    <td>{{this.salary}}</td>
+                    {{!-- <td>{{this.startTime}}</td>
+                    <td>{{this.endTime}}</td> --}}
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div class="row justify-content-end mt-5">
+        <div class="col-lg-5"  style="display:flex;flex-direction: row-reverse">
+            
+            <h3>Total Salary Spent : {{data.totalSalary}}</h3>
+        </div>
+        
+    </div>
+
+</section>

@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row my-4">
+                <h3>Employee Name : {{data.employeeFirstName}} {{data.employeeLastName}}</h3>
+                <h4>Email : {{data.email}}</h4>
+                {{#each data.attendance}}
+                <h4>Total duty on this month : {{this.attendance}}</h4>
+                {{/each}}
+            </div>
+
+            
+        </div>
+        
+    </div>
+    <div class="row">
+                <div class="col">
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=1"
+                        style="padding:5px;background-color: black;border-radius: 20px;">January</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=2"
+                        style="padding:5px;background-color: black;border-radius: 20px;">February</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=3"
+                        style="padding:5px;background-color: black;border-radius: 20px;">March</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=4"
+                        style="padding:5px;background-color: black;border-radius: 20px;">April</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=5"
+                        style="padding:5px;background-color: black;border-radius: 20px;">May</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=6"
+                        style="padding:5px;background-color: black;border-radius: 20px;">June</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=7"
+                        style="padding:5px;background-color: black;border-radius: 20px;">July</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=8"
+                        style="padding:5px;background-color: black;border-radius: 20px;">August</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=9"
+                        style="padding:5px;background-color: black;border-radius: 20px;">September</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=10"
+                        style="padding:5px;background-color: black;border-radius: 20px;">October</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=11"
+                        style="padding:5px;background-color: black;border-radius: 20px;">November</a>
+                    <a href="/attendance/getMonthwiseAttendance?id={{data.employeeId}}&month=12"
+                        style="padding:5px;background-color: black;border-radius: 20px;">December</a>
+                </div>
+
+            </div>
+
+            <div class="row my-3">
+                {{#each data.monthAttendance}}
+                <h4>total number of attendance on selected month : {{this.month}}</h4>
+                {{/each }}
+            </div>
+
+    <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        {{!-- <th scope="col">#</th> --}}
+                        <th scope="col">Date</th>
+                        <th scope="col">Attendance Status</th>
+                        <th scope="col">Start Time</th>
+                        <th scope="col">End Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data.attendanceData}}
+                    <tr>
+                        {{!-- <th scope="row">1</th> --}}
+                        <td>{{this.date}}</td>
+                        <td>{{this.attendanceStatus}}</td>
+                        <td>{{this.startTime}}</td>
+                        <td>{{this.endTime}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="container">
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Duty Shift</h3>
+        </div>
+        <div class="card-body">
+            <form action="/employee/duty-shift-time/{{employeeId}}" method="POST">
+                <div class="row">
+                  
+                    
+                        <div class="col-md-4">
+                            <label for=""> Duty status</label>
+                            <select name="shiftName" class="form-select" id="duty"
+                                onchange="changeshift()"
+                                aria-label="Default select example" required>
+                                <option value="">select duty status </option>
+                                {{#each data}}
+                                
+                                <option id="data" value="{{this._id}}"> {{this.dutyName}}</option>
+                                {{/each}}
+                                
+                            </select>
+                        </div>
+                
+
+                    <div class="col-sm-3" hidden>
+                        <input type="text" name="employeeId" class="form-control" value="{{employeeId}}">
+                    </div>
+                
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 my-3">
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+

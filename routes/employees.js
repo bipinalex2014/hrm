@@ -200,6 +200,7 @@ router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => 
 // TO CREATE AN EMPLOYEE PROFILE
 router.post('/create-employee-profile', (req, res) => {
   let values = req.body;
+  console.log("data>>>",values)
   employeeHelper.createEmployee(values).then((result) => {
     res.redirect('/employee/employee-details');
   })
@@ -329,6 +330,43 @@ router.get('/payroll',function(req,res){
   res.render('employees/payroll')
 })
 
+router.get('/get-shift-details/:id',(req,res)=>{
+  // let employeeId = req.params.id
+  // console.log("employee id",employeeId)
+  employeeHelper.getShiftDetails().then((data)=>{
+    let employeeId = req.params.id
+    
+    console.log("new data",employeeId)
+    res.render('employees/employee-shift-data',{data,employeeId})
+  })
+})
+
+router.post('/get-shift-time/:id',(req,res)=>{
+  console.log("success")
+  const id = req.params.id;
+  console.log("id>>>>",id)
+  employeeHelper.getShiftTime(id).then((data)=>{
+    console.log("kkkkkk",data)
+    res.json(data)
+    // data.employeeId = id
+    // console.log("ggggggg",data)
+  })
+})
+router.post('/duty-shift-time/:empid',(req,res)=>{
+  let data = req.body
+  let id = req.params.empid
+  // let id = req.params.id
+  // console.log("id data",id)
+  console.log('data>>>>',req.body)
+  console.log('data>>>>',id)
+  employeeHelper.setShiftTime(data).then((data)=>{
+    console.log("data>>>>",data)
+    res.redirect('/employee/get-shift-details/'+id)
+  })
+})
+router.get('/employee-salary-slip',(req,res)=>{
+  res.render('attendance/employee-salary-slip')
+})
 
 
 

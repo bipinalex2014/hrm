@@ -1,0 +1,69 @@
+{{!--
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+</head>
+
+<body>
+    <h1>User List</h1>
+    <ul>
+        {{#each users}}
+        <li>Name: {{this.name}}</li>
+        <li>Age: {{this.age}}</li>
+        <br />
+        {{/each}}
+    </ul>
+</body>
+
+</html> --}}
+<section class="container">
+    {{!-- <a href="/attendance/pdf-creator" class="btn btn-success">Download</a> --}}
+    
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    {{!-- <th scope="col">#</th> --}}
+                    <th scope="col">Name</th>
+                    <th scope="col">Basic Salary</th>
+                    <th scope="col">Total Working Days</th>
+                    <th scope="col">Total Attendance</th>
+
+                    <th scope="col">Salary/day</th>
+                    <th scope="col">Total Salary</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    {{!-- <th scope="row">1</th> --}}
+                    <td style="width: 10%; text-align:center">{{this.name}}</td>
+                    <td style="width: 10%; text-align:center">{{this.basicSalary}}</td>
+                    <td style="width: 10%; text-align:center">{{this.totalDays}}</td>
+                    <td style="width: 10%; text-align:center">{{this.total}}</td>
+
+                    <td style="width: 10%; text-align:center">{{this.perDay}}</td>
+                    <td style="width: 10%; text-align:center">{{this.salary}}</td>
+                    {{!-- <td>{{this.startTime}}</td>
+                    <td>{{this.endTime}}</td> --}}
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row justify-content-end mt-5">
+        <div class="col-lg-5" style="display:flex;flex-direction: row-reverse">
+
+            <h3>Total Salary : {{data.totalSalary}}</h3>
+        </div>
+
+    </div>
+
+
+
+</section>

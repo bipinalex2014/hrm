@@ -400,5 +400,37 @@ module.exports = {
                 resolve(data)
             })
         })
+    },
+    getShiftDetails : ()=>{
+        return new Promise(async (resolve,reject)=>{
+            // let data = await db.get().collection(collections.ATTENDANCE_COLLECTION).find({id:employeeId}).toArray()
+            // resolve(data)
+            db.get().collection(collections.DUTY_SHIFT_COLLECTION).find().toArray().then((data)=>{
+                console.log("kkkkkkkk",data)
+                
+                resolve(data)
+            })
+        })
+    },
+    getShiftTime : (id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.DUTY_SHIFT_COLLECTION).findOne({_id:objectId(id)}).then((data)=>{
+                console.log("data>>>>>",data)
+                resolve(data)
+            })
+        })
+        
+    },
+    setShiftTime : (data)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({_id:objectId(data.employeeId)},
+            {
+                $set: {
+                    dutyShift: objectId(data.shiftName)
+            }}
+            ).then((data)=>{
+                resolve(data)
+            })
+        })
     }
 }

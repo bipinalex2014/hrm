@@ -11,4 +11,7 @@ module.exports={
     LEAVE_TYPE_COLLECTION:'leavetypes',
     LEAVE_COLLECTIONS:'leaves',
     HOLIDAY_COLLECTION:'holidays',
+    ATTENDANCE_COLLECTION:'attendance',
+    EMPLOYEE_ATTENDANCE_COLLECTION:'todayattendance',
+    DUTY_SHIFT_COLLECTION:'dutyShift'
 }
