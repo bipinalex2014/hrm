@@ -5,6 +5,7 @@ const dateFormat = require('dateformat');
 const pdfCreator = require('../helpers/create-pdf');
 const collections = require('../configurations/collections');
 const commonHelper = require('../helpers/common-helper');
+var converter = require('number-to-words');
 
 router.get('/', function (req, res) {
   res.redirect('/employee/employee-details')
@@ -200,7 +201,7 @@ router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => 
 // TO CREATE AN EMPLOYEE PROFILE
 router.post('/create-employee-profile', (req, res) => {
   let values = req.body;
-  console.log("data>>>",values)
+  console.log("data>>>", values)
   employeeHelper.createEmployee(values).then((result) => {
     res.redirect('/employee/employee-details');
   })
@@ -318,69 +319,128 @@ router.post('/employee-details/:id/add-socialmedia', (req, res) => {
   console.log(socialmedia)
 })
 
-router.get('/payroll-details',(req,res)=>{
+router.get('/payroll-details', (req, res) => {
 
-  employeeHelper.getEmployee().then((employees)=>{
+  employeeHelper.getEmployee().then((employees) => {
     console.log(employees)
-    res.render('employees/employee-payroll-details',{employees})
+    res.render('employees/employee-payroll-details', { employees })
   })
 })
 
-router.get('/payroll',function(req,res){
+router.get('/payroll', function (req, res) {
   res.render('employees/payroll')
 })
 
-router.get('/get-shift-details/:id',(req,res)=>{
+router.get('/get-shift-details/:id', (req, res) => {
   // let employeeId = req.params.id
   // console.log("employee id",employeeId)
-  employeeHelper.getShiftDetails().then((data)=>{
+  employeeHelper.getShiftDetails().then((data) => {
     let employeeId = req.params.id
-    
-    console.log("new data",employeeId)
-    res.render('employees/employee-shift-data',{data,employeeId})
+
+    console.log("new data", employeeId)
+    res.render('employees/employee-shift-data', { data, employeeId })
   })
 })
 
-router.post('/get-shift-time/:id',(req,res)=>{
+router.post('/get-shift-time/:id', (req, res) => {
   console.log("success")
   const id = req.params.id;
-  console.log("id>>>>",id)
-  employeeHelper.getShiftTime(id).then((data)=>{
-    console.log("kkkkkk",data)
+  console.log("id>>>>", id)
+  employeeHelper.getShiftTime(id).then((data) => {
+    console.log("kkkkkk", data)
     res.json(data)
     // data.employeeId = id
     // console.log("ggggggg",data)
   })
 })
-router.post('/duty-shift-time/:empid',(req,res)=>{
+router.post('/duty-shift-time/:empid', (req, res) => {
   let data = req.body
   let id = req.params.empid
   // let id = req.params.id
   // console.log("id data",id)
-  console.log('data>>>>',req.body)
-  console.log('data>>>>',id)
-  employeeHelper.setShiftTime(data).then((data)=>{
-    console.log("data>>>>",data)
-    res.redirect('/employee/get-shift-details/'+id)
+  console.log('data>>>>', req.body)
+  console.log('data>>>>', id)
+  employeeHelper.setShiftTime(data).then((data) => {
+    console.log("data>>>>", data)
+    res.redirect('/employee/get-shift-details/' + id)
   })
 })
-router.get('/employee-salary-slip',(req,res)=>{
-  res.render('attendance/employee-salary-slip')
+router.get('/employee-salary-slip', (req, res) => {
+  employeeHelper.getEmployeeDetailsForSalarySlip().then((data) => {
+    res.render('employees/employee-salary-slip', { data })
+  })
+
 })
+router.get('/create-salary-slip/:id', (req, res) => {
+  let id = req.params.id
+  console.log("id>>>", id)
+  employeeHelper.getEmployeeDetailsForSalarySlipForm(id).then((data) => {
+    res.render('employees/create-slip', { data })
+  })
+
+})
+router.post('/salary-slip-data/:id', (req, res) => {
+  let data = req.body
+  let id = req.params.id
+  console.log("data>>>>", data)
+  employeeHelper.setSalarySlipData(data, id).then((datas) => {
+    console.log("data>>>>",datas)
+    if(datas){
+      // res.render('employees/create-slip/'+id)
+      res.json(datas)
+      // res.redirect('/employee/create-salary-slip/'+id)
+    }
+    else{
+      // res.render('employees/employee-salary-slip',{message:"successfully created"})
+      // res.json(datas)
+      res.redirect('/employee/employee-salary-slip')
+      // res.write("<h2>Applied successfully</h2>");
+    }
+    
+  })
+})
+router.get('/view-salary-slip/:id', (req, res) => {
+  let id = req.params.id
+  employeeHelper.getSalarySlipDetails(id).then((data) => {
+    const holidays = [
+      [7, 4], // 4th of July
+      [10, 31], // Halloween
+  ];
+    var d = new Date();
+    var currentDay = d.getDate();
+    var year = d.getYear() + 1900;
+    var month = d.getMonth();
+    var totalDays = 0;
+    var done = 0;
+    for (var day = 1; day <= 31; day++) {
+        var t = new Date(year, month, day);
+        if (t.getMonth() > month) break; // month has less than 31 days
+        if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
+        if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
+        totalDays++; // increase total
+        if (t.getDate() <= currentDay) done++; // increase past days
+    }
+    console.log("total days>>>",totalDays)
+    day = data.basicSalary/totalDays
+    perDay = Math.round(day)
+    let salary = perDay*data.attendance
+    console.log("perDay>>>",perDay)
+    console.log("salary>>>",salary)
 
 
+    data.dateOfJoining = dateFormat(data.dateOfJoining, "dd-mm-yyyy")
+    data.yearAndMonth = dateFormat(new Date(), "mmmm , yyyy")
+    netAmount = salary + data.convayanceAllowance + data.leaveTravelAllowance + data.houseRentAllowance + data.additionalhra + data.medicalAllowance + data.transportAllowance + data.superAnnuationAllowance + data.lunchAllowance + data.providentFund
+    data.netAmountWord = converter.toWords(netAmount)
+    data.netAmount = netAmount
+    data.totalDays = totalDays
+    data.perDay = perDay
+    data.salary = salary
+    console.log("new data>>>>", data)
+    res.render('employees/view-salary-slip', { data })
+  })
 
-
-
-
-
-
-
-
-
-
-
-
+})
 
 
 module.exports = router;

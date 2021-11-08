@@ -82,7 +82,7 @@ module.exports = {
                             'lastname': 1,
                             'department': '$dept.department',
                             'designation': '$desi.designation',
-                            'activestatus':1,
+                            'activestatus': 1,
                         }
                     }
                 ]
@@ -129,7 +129,7 @@ module.exports = {
                             'phone': 1,
                             'bloodgroup': 1,
                             'photopath': 1,
-                           
+
                         }
                     }
                 ]
@@ -393,44 +393,220 @@ module.exports = {
             })
         })
     },
-    getEmployee : ()=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data)=>{
+    getEmployee: () => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data) => {
                 console.log(data)
                 resolve(data)
             })
         })
     },
-    getShiftDetails : ()=>{
-        return new Promise(async (resolve,reject)=>{
+    getShiftDetails: () => {
+        return new Promise(async (resolve, reject) => {
             // let data = await db.get().collection(collections.ATTENDANCE_COLLECTION).find({id:employeeId}).toArray()
             // resolve(data)
-            db.get().collection(collections.DUTY_SHIFT_COLLECTION).find().toArray().then((data)=>{
-                console.log("kkkkkkkk",data)
-                
+            db.get().collection(collections.DUTY_SHIFT_COLLECTION).find().toArray().then((data) => {
+                console.log("kkkkkkkk", data)
+
                 resolve(data)
             })
         })
     },
-    getShiftTime : (id)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collections.DUTY_SHIFT_COLLECTION).findOne({_id:objectId(id)}).then((data)=>{
-                console.log("data>>>>>",data)
+    getShiftTime: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.DUTY_SHIFT_COLLECTION).findOne({ _id: objectId(id) }).then((data) => {
+                console.log("data>>>>>", data)
                 resolve(data)
             })
         })
-        
+
     },
-    setShiftTime : (data)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({_id:objectId(data.employeeId)},
-            {
-                $set: {
-                    dutyShift: objectId(data.shiftName)
-            }}
-            ).then((data)=>{
+    setShiftTime: (data) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({ _id: objectId(data.employeeId) },
+                {
+                    $set: {
+                        dutyShift: objectId(data.shiftName)
+                    }
+                }
+            ).then((data) => {
                 resolve(data)
             })
+        })
+    },
+    getEmployeeDetailsForSalarySlip: () => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate([
+                {
+                    $match: {
+                        activestatus: {
+                            $ne: false
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        firstname: 1,
+                        lastname: 1,
+                        employeeid: 1,
+                        email: 1,
+                        department: 1,
+                        designation: 1,
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "designations",
+                        localField: "designation",
+                        foreignField: "_id",
+                        as: "desi"
+                    }
+                },
+                {
+                    $unwind: "$desi"
+
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        firstname: 1,
+                        lastname: 1,
+                        employeeid: 1,
+                        designation: "$desi.designation"
+                    }
+                },
+
+            ]).toArray().then((data) => {
+                console.log(data)
+                resolve(data)
+            })
+            // db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data)=>{
+            //     resolve(data)
+            // })
+        })
+    },
+    getEmployeeDetailsForSalarySlipForm: (id) => {
+        return new Promise((resolve, reject) => {
+
+            db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate([
+                {
+                    $match: {
+                        _id: objectId(id)
+
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'designations',
+                        localField: 'designation',
+                        foreignField: '_id',
+                        as: 'desi'
+                    }
+                },
+                {
+                    $unwind: '$desi'
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        firstname: 1,
+                        lastname: 1,
+                        employeeid: 1,
+                        dateofjoin: 1,
+                        department: 1,
+                        designation: 1,
+                        basicsalary: 1,
+                        place: 1,
+                        city: 1,
+                        state: 1,
+                        country: 1,
+                        department: "$desi.designation",
+
+                    }
+                }
+            ]).toArray().then((data) => {
+                console.log(data)
+                resolve(data)
+            })
+        })
+    },
+    setSalarySlipData: (data, id) => {
+        data.empid = id
+        data.salaryslipdate = new Date()
+        data.basicSalary = parseFloat(data.basicSalary)
+        data.convayanceAllowance = parseFloat(data.convayanceAllowance)
+        data.leaveTravelAllowance = parseFloat(data.leaveTravelAllowance)
+        data.houseRentAllowance = parseFloat(data.houseRentAllowance)
+        data.additionalhra = parseFloat(data.additionalhra)
+        data.medicalAllowance = parseFloat(data.medicalAllowance)
+        data.transportAllowance = parseFloat(data.transportAllowance)
+        data.superAnnuationAllowance = parseFloat(data.superAnnuationAllowance)
+        data.lunchAllowance = parseFloat(data.lunchAllowance)
+        data.totalEarnings = parseFloat(data.totalEarnings)
+        data.providentFund = parseFloat(data.providentFund)
+        data.totalDeduction = parseFloat(data.totalDeduction)
+        data.loanDeduction = parseFloat(data.loanDeduction)
+        return new Promise(async (resolve, reject) => {
+            let date = new Date()
+            let month = date.getMonth() + 1
+            let year = date.getFullYear()
+            let datas = await db.get().collection(collections.SALARY_SLIP_COLLECTION).findOne(
+                {
+                    empid: id,
+                    "$expr": {
+                        "$and": [
+                            { "$eq": [{ "$month": "$salaryslipdate" }, month] },
+                            { "$eq": [{ "$year": "$salaryslipdate" }, year] }
+                        ]
+                    }
+                })
+            if (datas) {
+                resolve(datas = true)
+            }
+            else {
+                console.log("employee id", datas)
+                db.get().collection(collections.SALARY_SLIP_COLLECTION).insertOne(data).then((data) => {
+                    resolve(data = false)
+                })
+            }
+
+        })
+    },
+    getSalarySlipDetails: (id) => {
+        console.log("id", id)
+        let date = new Date()
+        let month = date.getMonth() + 1
+        let year = date.getFullYear()
+        console.log("month>>>>", month)
+        return new Promise(async (resolve, reject) => {
+            let attendance = await db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).find(
+                {
+                    employeeId: objectId(id),
+                    "$expr": {
+                        "$and": [
+                            { "$eq": [{ "$month": "$date" }, month] },
+                            { "$eq": [{ "$year": "$date" }, year] }
+                        ]
+                    }
+                }).count()
+
+            console.log("attendance>>>>", attendance)
+            let data = await db.get().collection(collections.SALARY_SLIP_COLLECTION).findOne(
+                {
+                    empid: id,
+                    "$expr": {
+                        "$and": [
+                            { "$eq": [{ "$month": "$salaryslipdate" }, month] },
+                            { "$eq": [{ "$year": "$salaryslipdate" }, year] }
+                        ]
+                    }
+                }
+
+            )
+            data.attendance = attendance
+            console.log("data>>>>>>", data)
+            resolve(data)
         })
     }
 }

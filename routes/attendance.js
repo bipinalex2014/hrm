@@ -11,6 +11,7 @@ var fs = require("fs");
 const path = require('path');
 var mime = require('mime');
 var xl = require('excel4node')
+var qrcode = require('qrcode')
 
 router.get('/attendance-entry', async (req, res) => {
     let employees = await employeesHelper.getAllEmployees();
@@ -346,7 +347,7 @@ router.get('/excel-creator', (req, res) => {
             totalDays++; // increase total
             if (t.getDate() <= currentDay) done++; // increase past days
         }
-        data.forEach((element,index) => {
+        data.forEach((element, index) => {
 
             day = element.basicSalary / totalDays
             perDay = Math.round(day)
@@ -358,7 +359,7 @@ router.get('/excel-creator', (req, res) => {
             element.perDay = perDay.toString()
             element.totalDays = totalDays.toString()
             element.salary = Math.round(day * element.total).toString()
-           
+
         })
         let add = 0
 
@@ -366,7 +367,7 @@ router.get('/excel-creator', (req, res) => {
             add += data[i].salary
         }
         data.totalSalary = add
-        const headerColumns = ["Index","Name", "Basic Salary", "Total Working Days", "Total Attendance", "Salary per Day", "Total Salary"]
+        const headerColumns = ["Index", "Name", "Basic Salary", "Total Working Days", "Total Attendance", "Salary per Day", "Total Salary"]
         const wb = new xl.Workbook()
         var options = {
             margins: {
@@ -378,26 +379,43 @@ router.get('/excel-creator', (req, res) => {
         let colIndex = 1
         headerColumns.forEach((item) => {
             ws.cell(1, colIndex++).string(item)
-           
+
         })
         let rowIndex = 2
         data.forEach((item) => {
             let columnIndex = 1;
             Object.keys(item).forEach((colName) => {
                 ws.cell(rowIndex, columnIndex++).string(item[colName])
-                
+
             })
             rowIndex++
         })
         wb.write("sheetname.xlsx")
-        const file = './'+'sheetname.xlsx'
-        setTimeout(()=>{
+        const file = './' + 'sheetname.xlsx'
+        setTimeout(() => {
             res.download(file)
-        },1000)
-        
+        }, 1000)
+
 
     })
 
+})
+
+router.get('/qrcode', (req, res) => {
+
+    res.render('attendance/qrcode')
+})
+router.post('/scan', (req, res) => {
+    let url = req.body.url
+    console.log('url>>>>', url)
+    qrcode.toDataURL(url)
+        .then(url => {
+            console.log(url)
+            res.render('attendance/qrscan',{url})
+        })
+        .catch(err => {
+            console.error(err)
+        })
 })
 module.exports = router;
 

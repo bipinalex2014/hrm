@@ -100,3 +100,25 @@ function getDepartmentValues(id) {
 
         })
 }
+
+function salarySlipForm(id) {
+        console.log("ggggg", id)
+        if ($('#salarySlipForm').valid()) {
+                $.ajax({
+                        url: '/employee/salary-slip-data/' + id,
+                        method: 'POST',
+                        data: $('#salarySlipForm').serialize(),
+                        success: (response) => {
+                                console.log("response>>>>",response)
+                                if (response==true) {
+                                        alert('This salary slip is already entered')
+                                }
+                                else {
+                                        alert('successfully created')
+                                }
+
+                        }
+                })
+        }
+
+}

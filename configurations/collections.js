@@ -13,5 +13,6 @@ module.exports={
     HOLIDAY_COLLECTION:'holidays',
     ATTENDANCE_COLLECTION:'attendance',
     EMPLOYEE_ATTENDANCE_COLLECTION:'todayattendance',
-    DUTY_SHIFT_COLLECTION:'dutyShift'
+    DUTY_SHIFT_COLLECTION:'dutyShift',
+    SALARY_SLIP_COLLECTION:'salaryslip'
 }

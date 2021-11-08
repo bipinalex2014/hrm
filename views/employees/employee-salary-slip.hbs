@@ -18,3 +18,40 @@
     </div>
 
 </div>
+<section class="container">
+    <div class="row">   
+        {{#if message}}
+        <p>{{message}}</p>
+        {{/if}}
+        <table class="table">
+            <thead>
+                <tr>
+                    {{!-- <th scope="col">#</th> --}}
+                    <th scope="col">Name</th>
+                    <th scope="col">Employee Id</th>
+                    <th scope="col">Designation</th>
+                    {{!-- <th scope="col">Attendance Status</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">End Time</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    {{!-- <th scope="row">1</th> --}}
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td>{{this.employeeid}}</td>
+                    <td>{{this.designation}}</td>
+                    {{!-- <td>{{this.attendanceStatus}}</td>
+                    <td>{{this.startTime}}</td>
+                    <td>{{this.endTime}}</td> --}}
+                    <td><a href="/employee/create-salary-slip/{{this._id}}" class="btn btn-success">Create</a></td>
+                    <td><a href="/employee/view-salary-slip/{{this._id}}" class="btn btn-success">View</a></td>
+                    <td><a href="/employee/generate-salary-slip/{{this._id}}" class="btn btn-success">Generate</a></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</section>
