@@ -7,6 +7,33 @@ const { ObjectId } = require('mongodb');
 const { resolve, reject } = require('promise');
 
 module.exports = {
+    setLoginData : (logindata) =>{
+        
+        return new Promise(async(resolve,reject)=>{
+            let response ={}
+            let email = await db.get().collection(collections.ADMIN_COLLECTIONS).findOne({email:logindata.email})
+            console.log("datas>>>",email)
+            if(email){
+                bcrypt.compare(logindata.password,email.password).then((status_value)=>{
+                    if(status_value){
+                        // response.admin=db_data
+                        response.status=true
+                        resolve(response)
+                        console.log("response>>>>",response)
+                    }
+                    else{
+                        resolve(response.status=false)
+                    }
+                    
+                })
+            }
+            else{
+                console.log("login failed")
+                resolve(response.status=false)
+            
+            }
+        })
+    },
     getActiveDepartments: () => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.DEPARTMENT_COLLECTION).find({

@@ -6,134 +6,238 @@ const pdfCreator = require('../helpers/create-pdf');
 const collections = require('../configurations/collections');
 const commonHelper = require('../helpers/common-helper');
 var converter = require('number-to-words');
+const { response } = require('express');
+
+router.get('/signup', (req, res) => {
+  res.render('admin/signup')
+})
+
+router.get('/login', (req, res) => {
+  res.render('admin/login')
+})
+
+router.post('/login', (req, res) => {
+  let data = req.body
+  console.log("data>>>>", data)
+  employeeHelper.setLoginData(data).then((data) => {
+    if (data.status) {
+      req.session.loggedIn = true
+      res.redirect('/employee/employee-details')
+    }
+    else {
+      res.render('admin/login',{data:"incorrect username or password"})
+    }
+  })
+})
+
+router.get('/logout', function (req, res, next) {
+  if (req.session.loggedIn) {
+    req.session.destroy()
+    // console.log('session>>>>',req.session)
+    res.redirect('/employee/login')
+    // res.clearCookie('name', { path: '/doctor' });
+    // res.redirect(req.get('referer'));
+    // window.location.reload()
+    // res.redirect('back')
+    // res.redirect('/doctor')
+  }
+});
 
 router.get('/', function (req, res) {
-  res.redirect('/employee/employee-details')
+  if (req.session.loggedIn) {
+    res.redirect('/employee/employee-details')
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 router.get('/crop', (req, res) => {
   res.render('index');
 })
 //GET METHOD FOR LOAD CREATE EMPLOYEE WEB FORM
 router.get('/create-employee-profile', async (req, res) => {
+  if (req.session.loggedIn) {
+    let departments = await employeeHelper.getActiveDepartments();
+    //TO GET THE LIST OF DESIGNATIONS WITH STATUS ACTIVE
+    let designations = await employeeHelper.getActiveDesignations();
+    res.render('employees/create-employee', { departments, designations })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
   //TO GET THE LIST OF DEPARTMENTS WITH STATUS ACTIVE
-  let departments = await employeeHelper.getActiveDepartments();
-  //TO GET THE LIST OF DESIGNATIONS WITH STATUS ACTIVE
-  let designations = await employeeHelper.getActiveDesignations();
-  res.render('employees/create-employee', { departments, designations })
+
 })
 
 router.get('/employee-details', (req, res) => {
   //GET DETAILS OF ALL EMPLOYEES
-  employeeHelper.getAllEmployees().then((result) => {
-    // console.log(result)
-    if (result) {
-      result.forEach((element, index) => {
-        element.serial = index + 1;
-      });
-    }
-    res.render('employees/employees-list', { employees: result });
-  })
+  if (req.session.loggedIn) {
+    console.log("session", req.session)
+    employeeHelper.getAllEmployees().then((result) => {
+      // console.log(result)
+      if (result) {
+        result.forEach((element, index) => {
+          element.serial = index + 1;
+        });
+      }
+      res.render('employees/employees-list', { employees: result });
+    })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 //TO GET THE DETAILS OF A SINGLE EMLOYEE
 router.get('/employee-details/:id/home', (req, res) => {
-  let id = req.params.id;
-  employeeHelper.getEmployeeDetails(id).then((result) => {
-    console.log(result)
-    res.render('employees/employee-home', { empData: result });
-  })
+  if (req.session.loggedIn) {
+    let id = req.params.id;
+    employeeHelper.getEmployeeDetails(id).then((result) => {
+      console.log(result)
+      res.render('employees/employee-home', { empData: result });
+    })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
   //res.render('employees/employee-home');
 })
 //EMLOYEE QUALIFICATION ROUTE
 router.get('/employee-details/:id/qualifications/', async (req, res) => {
-  let employeeId = req.params.id;
-  employeeHelper.getEmployeeQualifications(employeeId).then((result) => {
-    if (result) {
-      result.forEach((element, index) => {
-        element.serial = index + 1;
-        element.educationfrom = dateFormat(element.educationfrom, 'dd-mmm-yyyy');
-        element.educationto = dateFormat(element.educationto, 'dd-mmm-yyyy');
-      });
-    }
-    res.render('employees/employee-qualification', { empId: employeeId, qualifications: result });
-  })
+  if (req.session.loggedIn) {
+    let employeeId = req.params.id;
+    employeeHelper.getEmployeeQualifications(employeeId).then((result) => {
+      if (result) {
+        result.forEach((element, index) => {
+          element.serial = index + 1;
+          element.educationfrom = dateFormat(element.educationfrom, 'dd-mmm-yyyy');
+          element.educationto = dateFormat(element.educationto, 'dd-mmm-yyyy');
+        });
+      }
+      res.render('employees/employee-qualification', { empId: employeeId, qualifications: result });
+    })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 
 //EMPLOYEE WORK EXPERIENCE ROUTE
 router.get('/employee-details/:id/work-experience/', (req, res) => {
-  let empId = req.params.id;
-  employeeHelper.getEmployeeExperiences(empId).then((result) => {
-    if (result) {
-      result.forEach((element, index) => {
-        element.serial = index + 1;
-        element.expfrom = dateFormat(element.expfrom, 'dd-mmm-yyyy');
-        element.expto = dateFormat(element.expto, 'dd-mmm-yyyy');
-      });
-    }
-    res.render('employees/employee-experience', { empId, experiences: result });
+  if (req.session.loggedIn) {
+    let empId = req.params.id;
+    employeeHelper.getEmployeeExperiences(empId).then((result) => {
+      if (result) {
+        result.forEach((element, index) => {
+          element.serial = index + 1;
+          element.expfrom = dateFormat(element.expfrom, 'dd-mmm-yyyy');
+          element.expto = dateFormat(element.expto, 'dd-mmm-yyyy');
+        });
+      }
+      res.render('employees/employee-experience', { empId, experiences: result });
 
-  })
+    })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 //EMPLOYEE BANK DETAILS ROUTE
 router.get('/employee-details/:id/bank-accounts/', (req, res) => {
-  let empId = req.params.id;
-  employeeHelper.getEmployeeBankDetails(empId).then((result) => {
-    if (result) {
-      result.forEach((element, index) => {
-        element.serial = index + 1;
-      });
-    }
-    res.render('employees/employee-bank-accounts', { empId, accounts: result });
-  })
+  if (req.session.loggedIn) {
+    let empId = req.params.id;
+    employeeHelper.getEmployeeBankDetails(empId).then((result) => {
+      if (result) {
+        result.forEach((element, index) => {
+          element.serial = index + 1;
+        });
+      }
+      res.render('employees/employee-bank-accounts', { empId, accounts: result });
+    })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 //EMPLOYEE EMERGENCY CONTACT DETAILS
 router.get('/employee-details/:empid/emargency-contacts/', (req, res) => {
-  let empId = req.params.empid;
-  employeeHelper.getEmergencyContacts(empId).then((result) => {
-    if (result) {
-      result.forEach((element, index) => {
-        element.serial = index + 1;
-      });
-    }
-    res.render('employees/employee-emergency-contacts', { empId, contacts: result })
-  })
+  if (req.session.loggedIn) {
+    let empId = req.params.empid;
+    employeeHelper.getEmergencyContacts(empId).then((result) => {
+      if (result) {
+        result.forEach((element, index) => {
+          element.serial = index + 1;
+        });
+      }
+      res.render('employees/employee-emergency-contacts', { empId, contacts: result })
+    })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 //EMPLOYEE SOCIAL MEDIA LINKS ROUTE
 router.get('/employee-details/:id/social-media/', (req, res) => {
-  let empId = req.params.id;
-  res.render('employees/employee-socialmedia', { empId });
+  if (req.session.loggedIn) {
+    let empId = req.params.id;
+    res.render('employees/employee-socialmedia', { empId });
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 //TO GET EMPLOYEE CONTRACT DETAILS
 router.get('/employee-details/:id/contracts/', async (req, res) => {
-  let empId = req.params.id;
-  let designations = await employeeHelper.getActiveDesignations();
-  let contracts = await employeeHelper.getContracts(empId)
-  if (contracts) {
-    contracts.forEach((element, ind) => {
-      element.serial = ind + 1;
-      element.contrfrom = dateFormat(element.contrfrom, "dd-mmm-yyyy");
-      element.contrto = dateFormat(element.contrto, "dd-mmm-yyyy");
-    });
+  if (req.session.loggedIn) {
+    let empId = req.params.id;
+    let designations = await employeeHelper.getActiveDesignations();
+    let contracts = await employeeHelper.getContracts(empId)
+    if (contracts) {
+      contracts.forEach((element, ind) => {
+        element.serial = ind + 1;
+        element.contrfrom = dateFormat(element.contrfrom, "dd-mmm-yyyy");
+        element.contrto = dateFormat(element.contrto, "dd-mmm-yyyy");
+      });
 
+    }
+    console.log(contracts);
+    res.render('employees/employee-contracts', { desi: designations, empId, contracts });
   }
-  console.log(contracts);
-  res.render('employees/employee-contracts', { desi: designations, empId, contracts });
+  else {
+    res.redirect('/employee/login')
+  }
+
 })
 // TO GET EMPLOYEE IMIGRATION DETAILS
 router.get('/employee-details/:id/imigration', (req, res) => {
-  let empId = req.params.id;
-  employeeHelper.getImigrations(empId).then((result) => {
-    if (result) {
-      result.forEach((element, index) => {
-        element.serial = index + 1;
+  if (req.session.loggedIn) {
+    let empId = req.params.id;
+    employeeHelper.getImigrations(empId).then((result) => {
+      if (result) {
+        result.forEach((element, index) => {
+          element.serial = index + 1;
 
-      })
-    }
-    res.render('employees/employee-imigrations', { empId, imigrations: result });
+        })
+      }
+      res.render('employees/employee-imigrations', { empId, imigrations: result });
 
-  })
+    })
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+
 })
 router.get('/employee-details/:id/view-profile', (req, res) => {
-  let employee = req.params.id;
+  if(req.session.loggedIn){
+    let employee = req.params.id;
   employeeHelper.getCompleteProfile(employee).then((employeeData) => {
     employeeData.dateofbirth = dateFormat(employeeData.dateofbirth, "dd-mmm-yyyy");
     employeeData.dateofjoin = dateFormat(employeeData.dateofjoin, "dd-mmm-yyyy");
@@ -158,10 +262,16 @@ router.get('/employee-details/:id/view-profile', (req, res) => {
     }
     res.render('employees/complete-profile', { emp: employeeData })
   })
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 })
 
 router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => {
-  let empId = req.params.id;
+  if(req.session.loggedIn){
+    let empId = req.params.id;
   let employeeData = await employeeHelper.getCompleteProfile(empId);
   employeeData.dateofbirth = dateFormat(employeeData.dateofbirth, "dd-mmm-yyyy");
   employeeData.dateofjoin = dateFormat(employeeData.dateofjoin, "dd-mmm-yyyy");
@@ -190,6 +300,12 @@ router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => 
   }).catch((err) => {
     console.log(err);
   })
+
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 })
 
 
@@ -320,26 +436,43 @@ router.post('/employee-details/:id/add-socialmedia', (req, res) => {
 })
 
 router.get('/payroll-details', (req, res) => {
-
-  employeeHelper.getEmployee().then((employees) => {
-    console.log(employees)
-    res.render('employees/employee-payroll-details', { employees })
-  })
+  if(req.session.loggedIn){
+    employeeHelper.getEmployee().then((employees) => {
+      console.log(employees)
+      res.render('employees/employee-payroll-details', { employees })
+    })
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 })
 
 router.get('/payroll', function (req, res) {
-  res.render('employees/payroll')
+  if(req.session.loggedIn){
+    res.render('employees/payroll')
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 })
 
 router.get('/get-shift-details/:id', (req, res) => {
   // let employeeId = req.params.id
   // console.log("employee id",employeeId)
-  employeeHelper.getShiftDetails().then((data) => {
-    let employeeId = req.params.id
-
-    console.log("new data", employeeId)
-    res.render('employees/employee-shift-data', { data, employeeId })
-  })
+  if(req.session.loggedIn){
+    employeeHelper.getShiftDetails().then((data) => {
+      let employeeId = req.params.id
+  
+      console.log("new data", employeeId)
+      res.render('employees/employee-shift-data', { data, employeeId })
+    })
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 })
 
 router.post('/get-shift-time/:id', (req, res) => {
@@ -366,46 +499,59 @@ router.post('/duty-shift-time/:empid', (req, res) => {
   })
 })
 router.get('/employee-salary-slip', (req, res) => {
-  employeeHelper.getEmployeeDetailsForSalarySlip().then((data) => {
-    res.render('employees/employee-salary-slip', { data })
-  })
+  if(req.session.loggedIn){
+    employeeHelper.getEmployeeDetailsForSalarySlip().then((data) => {
+      res.render('employees/employee-salary-slip', { data })
+    })
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 
 })
 router.get('/create-salary-slip/:id', (req, res) => {
-  let id = req.params.id
+  if(req.session.loggedIn){
+    let id = req.params.id
   console.log("id>>>", id)
   employeeHelper.getEmployeeDetailsForSalarySlipForm(id).then((data) => {
     res.render('employees/create-slip', { data })
   })
 
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 })
 router.post('/salary-slip-data/:id', (req, res) => {
   let data = req.body
   let id = req.params.id
   console.log("data>>>>", data)
   employeeHelper.setSalarySlipData(data, id).then((datas) => {
-    console.log("data>>>>",datas)
-    if(datas){
+    console.log("data>>>>", datas)
+    if (datas) {
       // res.render('employees/create-slip/'+id)
       res.json(datas)
       // res.redirect('/employee/create-salary-slip/'+id)
     }
-    else{
+    else {
       // res.render('employees/employee-salary-slip',{message:"successfully created"})
       // res.json(datas)
       res.redirect('/employee/employee-salary-slip')
       // res.write("<h2>Applied successfully</h2>");
     }
-    
+
   })
 })
 router.get('/view-salary-slip/:id', (req, res) => {
-  let id = req.params.id
+  if(req.session.loggedIn){
+    let id = req.params.id
   employeeHelper.getSalarySlipDetails(id).then((data) => {
     const holidays = [
       [7, 4], // 4th of July
       [10, 31], // Halloween
-  ];
+    ];
     var d = new Date();
     var currentDay = d.getDate();
     var year = d.getYear() + 1900;
@@ -413,19 +559,19 @@ router.get('/view-salary-slip/:id', (req, res) => {
     var totalDays = 0;
     var done = 0;
     for (var day = 1; day <= 31; day++) {
-        var t = new Date(year, month, day);
-        if (t.getMonth() > month) break; // month has less than 31 days
-        if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
-        if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
-        totalDays++; // increase total
-        if (t.getDate() <= currentDay) done++; // increase past days
+      var t = new Date(year, month, day);
+      if (t.getMonth() > month) break; // month has less than 31 days
+      if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
+      if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
+      totalDays++; // increase total
+      if (t.getDate() <= currentDay) done++; // increase past days
     }
-    console.log("total days>>>",totalDays)
-    day = data.basicSalary/totalDays
+    console.log("total days>>>", totalDays)
+    day = data.basicSalary / totalDays
     perDay = Math.round(day)
-    let salary = perDay*data.attendance
-    console.log("perDay>>>",perDay)
-    console.log("salary>>>",salary)
+    let salary = perDay * data.attendance
+    console.log("perDay>>>", perDay)
+    console.log("salary>>>", salary)
 
 
     data.dateOfJoining = dateFormat(data.dateOfJoining, "dd-mm-yyyy")
@@ -440,6 +586,11 @@ router.get('/view-salary-slip/:id', (req, res) => {
     res.render('employees/view-salary-slip', { data })
   })
 
+  }
+  else{
+    res.redirect('/employee/login')
+  }
+  
 })
 
 

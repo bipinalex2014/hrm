@@ -10,7 +10,7 @@ var indexRouter = require('./routes/index');
 var hrRouter = require('./routes/hr');
 var employeeRouter = require('./routes/employees');
 var attendanceRouter = require('./routes/attendance');
-
+var session = require('express-session')
 var app = express();
 
 // view engine setup
@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret:'key',cookie:{maxAge:6000000}}))
 // app.use('/docs', express.static(path.join(__dirname, 'docs')))
 app.use(fileUpload());
 

@@ -1,5 +1,6 @@
 module.exports={
     USER_COLLECTION:'user',
+    ADMIN_COLLECTIONS:'admin',
     LEAD_STATUS_COLLECTION:'leadstatus',
     LEAD_SOURCE_COLLECTION:'leadsource',
     CLIENT_COLLECTION:'clients',
