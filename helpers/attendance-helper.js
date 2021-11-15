@@ -4,6 +4,7 @@ const collections = require('../configurations/collections');
 const { ObjectId } = require('mongodb');
 const { resolve, reject } = require('promise');
 const dateFormat = require('dateformat')
+const nodemailer = require("nodemailer");
 
 
 
@@ -800,6 +801,71 @@ module.exports = {
                 console.log("data>>>>", data)
                 resolve(data)
             })
+        })
+    },
+
+    getLeaveReport : ()=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find().toArray().then((data)=>{
+                console.log("leave reports>>>>",data)
+                resolve(data)
+            })
+        })
+    },
+
+    doLeaveApproval : ()=>{
+        return new Promise((resolve,reject)=>{
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'bipinalex2014@gmail.com',
+                    pass: 'totalvirus123'
+                }
+            });
+            const mailOptions = {
+                from: 'bipinalex2014@gmail.com', // sender address
+                to: 'susanthmalanada@gmail.com', // list of receivers
+                subject: 'Leave Approval Mail', // Subject line
+                html: '<h1>your leave request is approved</h1>'// plain text body
+            };
+        
+            transporter.sendMail(mailOptions, function (err, info) {
+                if (err)
+                    console.log(err)
+                else
+                    console.log(info); 
+                resolve(info)
+            })
+        }).then((data)=>{
+            resolve(data)
+        })
+    },
+
+    doLeaveRejected : ()=>{
+        return new Promise((resolve,reject)=>{
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'bipinalex2014@gmail.com',
+                    pass: 'totalvirus123'
+                }
+            });
+            const mailOptions = {
+                from: 'bipinalex2014@gmail.com', // sender address
+                to: 'susanthmalanada@gmail.com', // list of receivers
+                subject: 'Leave Rejection Mail', // Subject line
+                html: '<h1>your leave request is rejected</h1>'// plain text body
+            };
+        
+            transporter.sendMail(mailOptions, function (err, info) {
+                if (err)
+                    console.log(err)
+                else
+                    console.log(info); 
+                resolve(info)
+            })
+        }).then((data)=>{
+            resolve(data)
         })
     }
 }

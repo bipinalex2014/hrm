@@ -13,47 +13,47 @@ var mime = require('mime');
 var xl = require('excel4node')
 var qrcode = require('qrcode')
 
-function verifyLogin(){
-    if(!req.session.loggedIn){
-        res.redirect('/employee/login')
-    }
-}
+// function verifyLogin(){
+//     if(!req.session.loggedIn){
+//         res.redirect('/employee/login')
+//     }
+// }
 
 router.get('/attendance-entry', async (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         let employees = await employeesHelper.getAllEmployees();
-    res.render('attendance/daily-attendance-entry', { employees });
+        res.render('attendance/daily-attendance-entry', { admin: true, employees });
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/leave-types', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getLeaveTypes().then((result) => {
-            res.render('attendance/leave-types', { leaves: result });
+            res.render('attendance/leave-types', { admin: true, leaves: result });
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/leave-entry', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getAllActiveLeaveTypes().then((result) => {
-            res.render('attendance/leave-entry', { leaves: result });
-    
+            res.render('attendance/leave-entry', { admin: true, leaves: result });
+
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/holidays', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getAllHolidays().then((result) => {
             console.log(result)
             if (result) {
@@ -62,25 +62,25 @@ router.get('/holidays', (req, res) => {
                     element.holidaydate = dateFormat(element.holidaydate, "dd-mmm-yyyy");
                 });
             }
-            res.render('attendance/manage-holidays', { holidays: result });
+            res.render('attendance/manage-holidays', { admin: true, holidays: result });
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/get-holiday-data/:hId', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         let hid = req.params.hId;
         attendanceHelper.getHolidayData(hid).then((result) => {
-        res.json({ data: result });
-    })
+            res.json({ data: result });
+        })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 
 
@@ -115,27 +115,27 @@ router.post('/remove-holiday/:id', (req, res) => {
 })
 
 router.get('/todays-attendance', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.doAttendance().then((employees) => {
-            res.render('attendance/todays-attendance', { employees })
+            res.render('attendance/todays-attendance', { admin: true, employees })
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/get-employee-details/:id', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         let id = req.params.id
-    attendanceHelper.getEmployeeDetails(id).then((data) => {
-        res.render('attendance/make-attendance', { data })
-    })
+        attendanceHelper.getEmployeeDetails(id).then((data) => {
+            res.render('attendance/make-attendance', { admin: true, data })
+        })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.post('/attendance-data', (req, res) => {
     let data = req.body
@@ -144,32 +144,32 @@ router.post('/attendance-data', (req, res) => {
     })
 })
 router.get('/add-overtime', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.setOvertime().then((data) => {
-            res.render('attendance/add-overtime', { data })
+            res.render('attendance/add-overtime', { admin: true, data })
         })
-    
+
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
-router.post('', (req, res) => {
-    attendanceHelper
-})
+// router.post('', (req, res) => {
+//     attendanceHelper
+// })
 
 router.get('/duty-shift', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getDutyShiftData().then((data) => {
-            res.render('attendance/duty-shift', { data })
-    
+            res.render('attendance/duty-shift', { admin: true, data })
+
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 
 })
 
@@ -180,31 +180,31 @@ router.post('/duty-shift-data', (req, res) => {
     })
 })
 router.get('/delete-shift/:id', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         let dataId = req.params.id
-    attendanceHelper.deleteSift(dataId).then((data) => {
-        res.redirect('/attendance/duty-shift')
-    })
+        attendanceHelper.deleteSift(dataId).then((data) => {
+            res.redirect('/attendance/duty-shift')
+        })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 
 })
 router.get('/mark-employees-attendance', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getAllEmployeesData().then((data) => {
             data.forEach((element) => {
                 element.todayDate = new Date()
             })
-            res.render('attendance/mark-attendance', { data })
+            res.render('attendance/mark-attendance', { admin: true, data })
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.post('/mark-employees-attendance/:id/:date', (req, res) => {
     let data = req.body
@@ -213,73 +213,73 @@ router.post('/mark-employees-attendance/:id/:date', (req, res) => {
     attendanceHelper.setTodayAttendance(data, id, date).then((data) => {
         console.log("success data", data)
         if (data.acknowledged) {
-            res.render('attendance/mark-attendance', { data })
+            res.render('attendance/mark-attendance', { admin: true, data })
         }
         else {
             data.forEach((element) => {
                 element.todayDate = new Date()
             })
-            res.render('attendance/mark-attendance', { data })
+            res.render('attendance/mark-attendance', { admin: true, data })
         }
 
     })
 })
 router.get('/view-attendance', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.viewEmployeeAttendance().then((data) => {
-            res.render('attendance/view-attendance', { data })
+            res.render('attendance/view-attendance', { admin: true, data })
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/view-employee-attendance-details/:id', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         let id = req.params.id
-    attendanceHelper.viewEmployeeAttendanceDetails(id).then((data) => {
-        res.render('attendance/view-attendance-details', { data })
-    })
+        attendanceHelper.viewEmployeeAttendanceDetails(id).then((data) => {
+            res.render('attendance/view-attendance-details', { admin: true, data })
+        })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/getMonthwiseAttendance/', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         let id = req.query.id
-    let month = req.query.month
+        let month = req.query.month
 
-    attendanceHelper.getMonthwiseAttendanceDetails(id, month).then((data) => {
-        data.attendanceData.forEach((element) => {
-            element.date = dateFormat(element.date, "dddd, mmmm dS, yyyy")
+        attendanceHelper.getMonthwiseAttendanceDetails(id, month).then((data) => {
+            data.attendanceData.forEach((element) => {
+                element.date = dateFormat(element.date, "dddd, mmmm dS, yyyy")
+            })
+            res.render('attendance/view-attendance-details', { admin: true, data })
         })
-        res.render('attendance/view-attendance-details', { data })
-    })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/view-todays-attendance', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getTodayAttendance().then((data) => {
             data.forEach((element) => {
                 element.date = dateFormat(element.date, "dddd, mmmm dS, yyyy")
             })
-            res.render('attendance/view-todays-attendance', { data })
+            res.render('attendance/view-todays-attendance', { admin: true, data })
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/employee-salary', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getEmployeeSalary().then((data) => {
 
             // var dt = new Date();
@@ -291,7 +291,7 @@ router.get('/employee-salary', (req, res) => {
                 [7, 4], // 4th of July
                 [10, 31] // Halloween
             ];
-    
+
             var d = new Date();
             var currentDay = d.getDate();
             var year = d.getYear() + 1900;
@@ -313,31 +313,31 @@ router.get('/employee-salary', (req, res) => {
                 element.salary = Math.round(element.day * element.total)
             })
             let add = 0
-    
+
             for (var i = 0; i < data.length; i++) {
                 add += data[i].salary
             }
             data.totalSalary = add
-    
-            res.render('attendance/employee-salary', { data })
+
+            res.render('attendance/employee-salary', { admin: true, data })
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.get('/edit-today-attendance/:id', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         let id = req.params.id
-    attendanceHelper.getEditingAttendance(id).then((data) => {
-        res.render('attendance/edit-today-attendance', { data })
-    })
+        attendanceHelper.getEditingAttendance(id).then((data) => {
+            res.render('attendance/edit-today-attendance', { admin: true, data })
+        })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 router.post('/update-attendance/:id', (req, res) => {
     let data = req.body
@@ -348,7 +348,7 @@ router.post('/update-attendance/:id', (req, res) => {
 })
 router.get('/pdf-creator', (req, res) => {
 
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.pdfGenerator().then((data) => {
 
             // var dt = new Date();
@@ -360,7 +360,7 @@ router.get('/pdf-creator', (req, res) => {
                 [7, 4], // 4th of July
                 [10, 31] // Halloween
             ];
-    
+
             var d = new Date();
             var currentDay = d.getDate();
             var year = d.getYear() + 1900;
@@ -375,23 +375,23 @@ router.get('/pdf-creator', (req, res) => {
                 totalDays++; // increase total
                 if (t.getDate() <= currentDay) done++; // increase past days
             }
-    
+
             data.forEach((element) => {
-    
+
                 element.day = element.basicSalary / totalDays
                 element.perDay = Math.round(element.day)
                 element.totalDays = totalDays
                 element.salary = Math.round(element.day * element.total)
             })
-    
+
             let add = 0
-    
+
             for (var i = 0; i < data.length; i++) {
                 add += data[i].salary
             }
             data.totalSalary = add
-    
-    
+
+
             var html = fs.readFileSync(path.join(__dirname, '../views/attendance/template.hbs'), 'utf-8');
             var filename = 'output.pdf'//Math.random() + '_doc' + '.pdf';
             var options = {
@@ -412,7 +412,7 @@ router.get('/pdf-creator', (req, res) => {
                     }
                 }
             };
-    
+
             var document = {
                 html: html,
                 data: {
@@ -427,23 +427,23 @@ router.get('/pdf-creator', (req, res) => {
                 console.error(error);
             });
         })
-    
+
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 })
 
 router.get('/excel-creator', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.excelGenerator().then((data) => {
 
             const holidays = [
                 [7, 4], // 4th of July
                 [10, 31], // Halloween
             ];
-    
+
             var d = new Date();
             var currentDay = d.getDate();
             var year = d.getYear() + 1900;
@@ -459,7 +459,7 @@ router.get('/excel-creator', (req, res) => {
                 if (t.getDate() <= currentDay) done++; // increase past days
             }
             data.forEach((element, index) => {
-    
+
                 day = element.basicSalary / totalDays
                 perDay = Math.round(day)
                 basicSalary = element.basicSalary
@@ -470,10 +470,10 @@ router.get('/excel-creator', (req, res) => {
                 element.perDay = perDay.toString()
                 element.totalDays = totalDays.toString()
                 element.salary = Math.round(day * element.total).toString()
-    
+
             })
             let add = 0
-    
+
             for (var i = 0; i < data.length; i++) {
                 add += data[i].salary
             }
@@ -490,14 +490,14 @@ router.get('/excel-creator', (req, res) => {
             let colIndex = 1
             headerColumns.forEach((item) => {
                 ws.cell(1, colIndex++).string(item)
-    
+
             })
             let rowIndex = 2
             data.forEach((item) => {
                 let columnIndex = 1;
                 Object.keys(item).forEach((colName) => {
                     ws.cell(rowIndex, columnIndex++).string(item[colName])
-    
+
                 })
                 rowIndex++
             })
@@ -506,20 +506,20 @@ router.get('/excel-creator', (req, res) => {
             setTimeout(() => {
                 res.download(file)
             }, 1000)
-    
-    
+
+
         })
     }
-    else{
+    else {
         res.redirect('/employee/login')
     }
-    
+
 
 })
 
 router.get('/qrcode', (req, res) => {
 
-    res.render('attendance/qrcode')
+    res.render('attendance/qrcode', { admin: true })
 })
 router.post('/scan', (req, res) => {
     let url = req.body.url
@@ -527,12 +527,47 @@ router.post('/scan', (req, res) => {
     qrcode.toDataURL(url)
         .then(url => {
             console.log(url)
-            res.render('attendance/qrscan',{url})
+            res.render('attendance/qrscan', { url })
         })
         .catch(err => {
             console.error(err)
         })
 })
+
+router.get('/leave-report', (req, res) => {
+    if(req.session.loggedIn){
+        attendanceHelper.getLeaveReport().then((data) => {
+            data.forEach((element,index)=>{
+                element.from = dateFormat(element.from, "dd, mm, yyyy")
+                element.to = dateFormat(element.to, "dd, mm, yyyy")
+            })
+            res.render('attendance/leave-report',{admin:true,data})
+        })
+    }
+    else{
+        res.redirect('/employee/login')
+    }
+    
+})
+
+router.get('/leave-date-approved/:id/:empid',(req,res)=>{
+    console.log("id>>>>>",req.params.id)
+    console.log("empid>>>",req.params.empid)
+    attendanceHelper.doLeaveApproval().then((data)=>{
+        console.log("success")
+        res.redirect('/attendance/leave-report')
+    })
+})
+
+router.get('/leave-date-rejected/:id/:empid',(req,res)=>{
+    console.log("id>>>>>",req.params.id)
+    console.log("empid>>>",req.params.empid)
+    attendanceHelper.doLeaveRejected().then((data)=>{
+        console.log("success")
+        res.redirect('/attendance/leave-report')
+    })
+})
+
 module.exports = router;
 
 

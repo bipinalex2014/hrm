@@ -1,0 +1,173 @@
+<div id="app">
+
+    <div id="sidebar" class="active">
+      <div class="sidebar-wrapper active">
+        <div class="sidebar-header">
+          <div class="d-flex justify-content-between">
+            <div class="logo">
+              {{!-- <a href="#"><img src="/assets/images/logo/logo.png" alt="Redeemer" srcset=""></a> --}}
+              <h4>Redeemer</h4>
+            </div>
+            <div class="toggler">
+              <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <ul class="menu">
+            <li class="sidebar-title">Menu</li>
+
+            <li class="sidebar-item active ">
+              <a href="index.html" class='sidebar-link'>
+                <i class="bi bi-grid-fill"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item  has-sub">
+              <a href="#" class='sidebar-link'>
+                <i class="bi bi-stack"></i>
+                <span>Employees</span>
+              </a>
+              <ul class="submenu ">
+                <li class="submenu-item ">
+                  <a href="/employee/create-employee-profile/">Create Employee</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/employee/employee-details">Employees</a>
+                </li>
+                
+               
+              </ul>
+            </li>
+            {{!-- <li class="sidebar-item has-sub">
+              <a href="#" class='sidebar-link'>
+                <i class="bi bi-stack"></i>
+                <span>PayRoll</span>
+              </a>
+              <ul class="submenu ">
+                <li class="submenu-item">
+                  <a href="/employee/payroll-details">Payroll data</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="/employee/payroll">Payroll</a>
+                </li>
+                
+              </ul>
+            </li> --}}
+            <li class="sidebar-item  has-sub">
+              <a href="#" class='sidebar-link'>
+                <i class="bi bi-stack"></i>
+                <span>Attendance</span>
+              </a>
+              <ul class="submenu ">
+                {{!-- <li class="submenu-item ">
+                  <a href="/attendance/qrcode">qr code</a>
+                </li> --}}
+                <li class="submenu-item ">
+                  <a href="/attendance/duty-shift">duty shift</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/mark-employees-attendance">Mark Attendance</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/view-attendance">View Attendance</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/view-todays-attendance">Todays Attendance</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/employee-salary">Salary Report</a>
+                </li>
+                {{!-- <li class="submenu-item ">
+                  <a href="/attendance/add-overtime">Add Overtime</a>
+                </li>
+
+                <li class="submenu-item ">
+                  <a href="/attendance/todays-attendance">Attendance</a>
+                </li>
+                
+                <li class="submenu-item ">
+                  <a href="/attendance/attendance-entry/">Attendance Entry</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/leave-types">Leave types</a>
+                </li>
+                 <li class="submenu-item ">
+                  <a href="/attendance/leave-entry">Leave entry</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/attendance/holidays/">Holidays</a>
+                </li> --}}
+              </ul>
+            </li>
+            <li class="sidebar-item has-sub">
+              <a href="#" class='sidebar-link'>
+                <i class="bi bi-stack"></i>
+                <span>Leave Reports</span>
+              </a>
+              <ul class="submenu ">
+                <li class="submenu-item">
+                  <a href="/attendance/leave-report">Leave Report</a>
+                </li>
+                {{!-- <li class="submenu-item">
+                  <a href="/employee/payroll">Payroll</a>
+                </li> --}}
+                
+              </ul>
+            </li>
+            <li class="sidebar-item  has-sub">
+              <a href="#" class='sidebar-link'>
+                <i class="bi bi-collection-fill"></i>
+                <span>Salary Slip</span>
+              </a>
+              <ul class="submenu ">
+                <li class="submenu-item ">
+                  <a href="/employee/employee-salary-slip">salary allowance</a>
+                </li>
+                {{!-- <li class="submenu-item ">
+                  <a href="/misc/designations">Designation</a>
+                </li>
+                <li class="submenu-item ">
+                  <a href="/misc/role/">Role</a>
+                </li> --}}
+                {{!-- <li class="submenu-item ">
+                  <a href="">Rating</a>
+                </li> --}}
+                {{!-- <li class="submenu-item ">
+                  <a href="extra-component-divider.html">Divider</a>
+                </li> --}}
+              </ul>
+            </li>
+
+
+              {{!-- <li class="sidebar-item  has-sub">
+                <a href="#" class='sidebar-link'>
+                  <i class="bi bi-person-badge-fill"></i>
+                  <span>Authentication</span>
+                </a>
+                <ul class="submenu ">
+                  <li class="submenu-item ">
+                    <a href="auth-login.html">Login</a>
+                  </li>
+                  <li class="submenu-item ">
+                    <a href="auth-register.html">Register</a>
+                  </li>
+                  <li class="submenu-item ">
+                    <a href="auth-forgot-password.html">Forgot Password</a>
+                  </li>
+                </ul>
+              </li> --}}
+
+            <li class="sidebar-item  ">
+              <a href="/employee/logout" class='sidebar-link'>
+                <i class="bi bi-cash"></i>
+                <span>logout</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+      </div>
+  </div>

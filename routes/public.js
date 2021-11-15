@@ -1,0 +1,86 @@
+const { response } = require('express');
+var express = require('express');
+
+var router = express.Router();
+var publicHelper = require('../helpers/public-helper')
+
+
+router.get('/login', (req, res) => {
+    res.render('public/login')
+})
+router.post('/login', (req, res) => {
+    let logindata = req.body
+    publicHelper.doLogin(logindata).then((data) => {
+        console.log("response status>>>>", data)
+        if (data.status) {
+            req.session.loggedIn = true
+            req.session.empid = data.id
+            console.log("gggggg", req.session)
+            res.redirect('/public/home')
+        }
+        else {
+            res.render('public/login', { data, message: "incorrect username or password" })
+        }
+    })
+})
+
+router.get('/logout', function (req, res, next) {
+    if (req.session.loggedIn) {
+        req.session.destroy()
+        // console.log('session>>>>',req.session)
+        res.redirect('/public/login')
+        // res.clearCookie('name', { path: '/doctor' });
+        // res.redirect(req.get('referer'));
+        // window.location.reload()
+        // res.redirect('back')
+        // res.redirect('/doctor')
+    }
+});
+
+router.get('/home', (req, res) => {
+    if (req.session.loggedIn) {
+        res.render('public/home', { public: true })
+    }
+    else {
+        res.redirect('/public/login')
+    }
+
+})
+router.get('/employee-leave', (req, res) => {
+    if (req.session.loggedIn) {
+        let empid = req.session.empid
+        publicHelper.getEmploye(empid).then((data) => {
+            res.render('public/employee-leave', { public: true, data })
+        })
+    }
+    else {
+        res.redirect('/public/login')
+    }
+
+
+})
+router.post('/employee-leave-form', (req, res) => {
+    if (req.session.loggedIn) {
+        let leavedata = req.body
+        leavedata.empid = req.session.empid
+        let empid = req.session.empid
+        console.log("leave data>>>>>", leavedata)
+        publicHelper.setEmployeeLeaveData(leavedata, empid).then((data) => {
+            // if(data.status){
+            //     res.render('public/employee-leave', { public:true,data })
+            // }
+            // else{
+            console.log("message>>>", data)
+            res.render('public/employee-leave', { public: true, data })
+            // }
+
+        })
+    }
+    else {
+        res.redirect('/public/login')
+    }
+
+})
+
+
+module.exports = router;

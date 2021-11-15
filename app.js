@@ -3,11 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var hbs = require('express-handlebars')
 var db = require('./configurations/mongodb-connection');
 var fileUpload = require('express-fileupload');
 
 var indexRouter = require('./routes/index');
-var hrRouter = require('./routes/hr');
+var publicRouter = require('./routes/public');
 var employeeRouter = require('./routes/employees');
 var attendanceRouter = require('./routes/attendance');
 var session = require('express-session')
@@ -22,12 +23,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.engine('hbs',hbs({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials'}))
 app.use(session({secret:'key',cookie:{maxAge:6000000}}))
 // app.use('/docs', express.static(path.join(__dirname, 'docs')))
 app.use(fileUpload());
 
 app.use('/', indexRouter);
-app.use('/hr', hrRouter);
+app.use('/public', publicRouter);
 app.use('/employee', employeeRouter);
 app.use('/attendance', attendanceRouter);
 

@@ -7,30 +7,30 @@ const { ObjectId } = require('mongodb');
 const { resolve, reject } = require('promise');
 
 module.exports = {
-    setLoginData : (logindata) =>{
-        
-        return new Promise(async(resolve,reject)=>{
-            let response ={}
-            let email = await db.get().collection(collections.ADMIN_COLLECTIONS).findOne({email:logindata.email})
-            console.log("datas>>>",email)
-            if(email){
-                bcrypt.compare(logindata.password,email.password).then((status_value)=>{
-                    if(status_value){
+    setLoginData: (logindata) => {
+
+        return new Promise(async (resolve, reject) => {
+            let response = {}
+            let email = await db.get().collection(collections.ADMIN_COLLECTIONS).findOne({ email: logindata.email })
+            console.log("datas>>>", email)
+            if (email) {
+                bcrypt.compare(logindata.password, email.password).then((status_value) => {
+                    if (status_value) {
                         // response.admin=db_data
-                        response.status=true
+                        response.status = true
                         resolve(response)
-                        console.log("response>>>>",response)
+                        console.log("response>>>>", response)
                     }
-                    else{
-                        resolve(response.status=false)
+                    else {
+                        resolve(response.status = false)
                     }
-                    
+
                 })
             }
-            else{
+            else {
                 console.log("login failed")
-                resolve(response.status=false)
-            
+                resolve(response.status = false)
+
             }
         })
     },
@@ -57,17 +57,19 @@ module.exports = {
         })
     },
     createEmployee: (empData) => {
-        empData.department = objectId(empData.department);
-        empData.designation = objectId(empData.designation);
-        empData.headdesignation = objectId(empData.headdesignation);
-        empData.basicsalary = parseFloat(empData.basicsalary);
-        empData.otrate = parseFloat(empData.otrate);
-        empData.dateofbirth = new Date(empData.dateofbirth);
-        empData.dateofjoin = new Date(empData.dateofjoin);
-        empData.password = bcrypt.hash(empData.password, 10);
-        empData.activestatus = true;
-        delete empData.confirmpassword;
-        return new Promise((resolve, reject) => {
+
+        return new Promise(async (resolve, reject) => {
+            empData.department = objectId(empData.department);
+            empData.designation = objectId(empData.designation);
+            empData.headdesignation = objectId(empData.headdesignation);
+            empData.basicsalary = parseFloat(empData.basicsalary);
+            empData.otrate = parseFloat(empData.otrate);
+            empData.dateofbirth = new Date(empData.dateofbirth);
+            empData.dateofjoin = new Date(empData.dateofjoin);
+            empData.password = await bcrypt.hash(empData.password, 10);
+            empData.activestatus = true;
+            delete empData.confirmpassword;
+            console.log("emp data>>>>",empData)
             db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(empData).then((result) => {
                 resolve(result);
             })

@@ -1,0 +1,62 @@
+<a class="nav-link mb-3" href="#"><i class="fas fa-home"></i> Home</a>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h4>Employees salary details of this month</h4>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Salary</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<section class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3>Today's Attendance</h3>
+        </div>
+        <div class="card-body" id="cardBox">
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Designation</th>
+                            <th scope="col">Leave Type</th>
+                            <th scope="col">Leave From</th>
+                            <th scope="col">Leave To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data}}
+                        <tr>
+                                {{!-- <th scope="row">1</th> --}}
+                            <td>{{this.name}}</td>
+                            <td>{{this.designation}}</td>
+                            <td>{{this.leavetype}}</td>
+                            <td>{{this.from}}</td>
+                            <td>{{this.to}}</td>
+                            <td><a href="/attendance/leave-date-approved/{{this._id}}/{{this.empid}}">Approved</td>
+                            <td><a href="/attendance/leave-date-rejected/{{this._id}}/{{this.empid}}">Rejected</td>
+                            
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+        {{!-- </div> --}}
+    </div>
+</section>

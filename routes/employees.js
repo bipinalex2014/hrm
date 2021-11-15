@@ -25,7 +25,7 @@ router.post('/login', (req, res) => {
       res.redirect('/employee/employee-details')
     }
     else {
-      res.render('admin/login',{data:"incorrect username or password"})
+      res.render('admin/login', { data: "incorrect username or password" })
     }
   })
 })
@@ -61,7 +61,7 @@ router.get('/create-employee-profile', async (req, res) => {
     let departments = await employeeHelper.getActiveDepartments();
     //TO GET THE LIST OF DESIGNATIONS WITH STATUS ACTIVE
     let designations = await employeeHelper.getActiveDesignations();
-    res.render('employees/create-employee', { departments, designations })
+    res.render('employees/create-employee', { admin:true,departments, designations })
   }
   else {
     res.redirect('/employee/login')
@@ -81,7 +81,7 @@ router.get('/employee-details', (req, res) => {
           element.serial = index + 1;
         });
       }
-      res.render('employees/employees-list', { employees: result });
+      res.render('employees/employees-list', { admin:true,employees: result });
     })
   }
   else {
@@ -95,7 +95,7 @@ router.get('/employee-details/:id/home', (req, res) => {
     let id = req.params.id;
     employeeHelper.getEmployeeDetails(id).then((result) => {
       console.log(result)
-      res.render('employees/employee-home', { empData: result });
+      res.render('employees/employee-home', { admin:true,empData: result });
     })
   }
   else {
@@ -116,7 +116,7 @@ router.get('/employee-details/:id/qualifications/', async (req, res) => {
           element.educationto = dateFormat(element.educationto, 'dd-mmm-yyyy');
         });
       }
-      res.render('employees/employee-qualification', { empId: employeeId, qualifications: result });
+      res.render('employees/employee-qualification', { admin:true,empId: employeeId, qualifications: result });
     })
   }
   else {
@@ -137,7 +137,7 @@ router.get('/employee-details/:id/work-experience/', (req, res) => {
           element.expto = dateFormat(element.expto, 'dd-mmm-yyyy');
         });
       }
-      res.render('employees/employee-experience', { empId, experiences: result });
+      res.render('employees/employee-experience', { admin:true,empId, experiences: result });
 
     })
   }
@@ -156,7 +156,7 @@ router.get('/employee-details/:id/bank-accounts/', (req, res) => {
           element.serial = index + 1;
         });
       }
-      res.render('employees/employee-bank-accounts', { empId, accounts: result });
+      res.render('employees/employee-bank-accounts', { admin:true,empId, accounts: result });
     })
   }
   else {
@@ -174,7 +174,7 @@ router.get('/employee-details/:empid/emargency-contacts/', (req, res) => {
           element.serial = index + 1;
         });
       }
-      res.render('employees/employee-emergency-contacts', { empId, contacts: result })
+      res.render('employees/employee-emergency-contacts', { admin:true,empId, contacts: result })
     })
   }
   else {
@@ -186,7 +186,7 @@ router.get('/employee-details/:empid/emargency-contacts/', (req, res) => {
 router.get('/employee-details/:id/social-media/', (req, res) => {
   if (req.session.loggedIn) {
     let empId = req.params.id;
-    res.render('employees/employee-socialmedia', { empId });
+    res.render('employees/employee-socialmedia', { admin:true,empId });
   }
   else {
     res.redirect('/employee/login')
@@ -208,7 +208,7 @@ router.get('/employee-details/:id/contracts/', async (req, res) => {
 
     }
     console.log(contracts);
-    res.render('employees/employee-contracts', { desi: designations, empId, contracts });
+    res.render('employees/employee-contracts', { admin:true,desi: designations, empId, contracts });
   }
   else {
     res.redirect('/employee/login')
@@ -226,19 +226,53 @@ router.get('/employee-details/:id/imigration', (req, res) => {
 
         })
       }
-      res.render('employees/employee-imigrations', { empId, imigrations: result });
+      res.render('employees/employee-imigrations', { admin:true,empId, imigrations: result });
 
     })
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
 
 })
 router.get('/employee-details/:id/view-profile', (req, res) => {
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     let employee = req.params.id;
-  employeeHelper.getCompleteProfile(employee).then((employeeData) => {
+    employeeHelper.getCompleteProfile(employee).then((employeeData) => {
+      employeeData.dateofbirth = dateFormat(employeeData.dateofbirth, "dd-mmm-yyyy");
+      employeeData.dateofjoin = dateFormat(employeeData.dateofjoin, "dd-mmm-yyyy");
+      if (employeeData.qualifications) {
+        employeeData.qualifications.forEach((element) => {
+          element.educationfrom = dateFormat(element.educationfrom, "dd-mm-yyyy");
+          element.educationto = dateFormat(element.educationto, "dd-mm-yyyy");
+        });
+      }
+      if (employeeData.experiecnes) {
+        employeeData.experiences.forEach((element) => {
+          element.expfrom = dateFormat(element.expfrom, "dd-mm-yyyy");
+          element.expto = dateFormat(element.expto, "dd-mm-yyyy");
+        });
+      }
+      if (employeeData.contracts) {
+        employeeData.contracts.forEach((element) => {
+          element.contrfrom = dateFormat(element.contrfrom, "dd-mm-yyyy");
+          element.contrto = dateFormat(element.contrto, "dd-mm-yyyy");
+        });
+
+      }
+      res.render('employees/complete-profile', { admin:true,emp: employeeData })
+    })
+  }
+  else {
+    res.redirect('/employee/login')
+  }
+
+})
+
+router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => {
+  if (req.session.loggedIn) {
+    let empId = req.params.id;
+    let employeeData = await employeeHelper.getCompleteProfile(empId);
     employeeData.dateofbirth = dateFormat(employeeData.dateofbirth, "dd-mmm-yyyy");
     employeeData.dateofjoin = dateFormat(employeeData.dateofjoin, "dd-mmm-yyyy");
     if (employeeData.qualifications) {
@@ -260,52 +294,18 @@ router.get('/employee-details/:id/view-profile', (req, res) => {
       });
 
     }
-    res.render('employees/complete-profile', { emp: employeeData })
-  })
+    // console.log(empData);
+    pdfCreator.generateEmployeeProfile(employeeData).then((path) => {
+      res.download(path);
+    }).catch((err) => {
+      console.log(err);
+    })
+
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
-  
-})
 
-router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => {
-  if(req.session.loggedIn){
-    let empId = req.params.id;
-  let employeeData = await employeeHelper.getCompleteProfile(empId);
-  employeeData.dateofbirth = dateFormat(employeeData.dateofbirth, "dd-mmm-yyyy");
-  employeeData.dateofjoin = dateFormat(employeeData.dateofjoin, "dd-mmm-yyyy");
-  if (employeeData.qualifications) {
-    employeeData.qualifications.forEach((element) => {
-      element.educationfrom = dateFormat(element.educationfrom, "dd-mm-yyyy");
-      element.educationto = dateFormat(element.educationto, "dd-mm-yyyy");
-    });
-  }
-  if (employeeData.experiecnes) {
-    employeeData.experiences.forEach((element) => {
-      element.expfrom = dateFormat(element.expfrom, "dd-mm-yyyy");
-      element.expto = dateFormat(element.expto, "dd-mm-yyyy");
-    });
-  }
-  if (employeeData.contracts) {
-    employeeData.contracts.forEach((element) => {
-      element.contrfrom = dateFormat(element.contrfrom, "dd-mm-yyyy");
-      element.contrto = dateFormat(element.contrto, "dd-mm-yyyy");
-    });
-
-  }
-  // console.log(empData);
-  pdfCreator.generateEmployeeProfile(employeeData).then((path) => {
-    res.download(path);
-  }).catch((err) => {
-    console.log(err);
-  })
-
-  }
-  else{
-    res.redirect('/employee/login')
-  }
-  
 })
 
 
@@ -436,43 +436,43 @@ router.post('/employee-details/:id/add-socialmedia', (req, res) => {
 })
 
 router.get('/payroll-details', (req, res) => {
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     employeeHelper.getEmployee().then((employees) => {
       console.log(employees)
-      res.render('employees/employee-payroll-details', { employees })
+      res.render('employees/employee-payroll-details', { admin:true,employees })
     })
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
-  
+
 })
 
 router.get('/payroll', function (req, res) {
-  if(req.session.loggedIn){
-    res.render('employees/payroll')
+  if (req.session.loggedIn) {
+    res.render('employees/payroll',{admin:true,})
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
-  
+
 })
 
 router.get('/get-shift-details/:id', (req, res) => {
   // let employeeId = req.params.id
   // console.log("employee id",employeeId)
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     employeeHelper.getShiftDetails().then((data) => {
       let employeeId = req.params.id
-  
+
       console.log("new data", employeeId)
-      res.render('employees/employee-shift-data', { data, employeeId })
+      res.render('employees/employee-shift-data', { admin:true,data, employeeId })
     })
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
-  
+
 })
 
 router.post('/get-shift-time/:id', (req, res) => {
@@ -499,30 +499,30 @@ router.post('/duty-shift-time/:empid', (req, res) => {
   })
 })
 router.get('/employee-salary-slip', (req, res) => {
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     employeeHelper.getEmployeeDetailsForSalarySlip().then((data) => {
-      res.render('employees/employee-salary-slip', { data })
+      res.render('employees/employee-salary-slip', { admin:true,data })
     })
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
-  
+
 
 })
 router.get('/create-salary-slip/:id', (req, res) => {
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     let id = req.params.id
-  console.log("id>>>", id)
-  employeeHelper.getEmployeeDetailsForSalarySlipForm(id).then((data) => {
-    res.render('employees/create-slip', { data })
-  })
+    console.log("id>>>", id)
+    employeeHelper.getEmployeeDetailsForSalarySlipForm(id).then((data) => {
+      res.render('employees/create-slip', { admin:true,data })
+    })
 
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
-  
+
 })
 router.post('/salary-slip-data/:id', (req, res) => {
   let data = req.body
@@ -545,52 +545,52 @@ router.post('/salary-slip-data/:id', (req, res) => {
   })
 })
 router.get('/view-salary-slip/:id', (req, res) => {
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     let id = req.params.id
-  employeeHelper.getSalarySlipDetails(id).then((data) => {
-    const holidays = [
-      [7, 4], // 4th of July
-      [10, 31], // Halloween
-    ];
-    var d = new Date();
-    var currentDay = d.getDate();
-    var year = d.getYear() + 1900;
-    var month = d.getMonth();
-    var totalDays = 0;
-    var done = 0;
-    for (var day = 1; day <= 31; day++) {
-      var t = new Date(year, month, day);
-      if (t.getMonth() > month) break; // month has less than 31 days
-      if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
-      if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
-      totalDays++; // increase total
-      if (t.getDate() <= currentDay) done++; // increase past days
-    }
-    console.log("total days>>>", totalDays)
-    day = data.basicSalary / totalDays
-    perDay = Math.round(day)
-    let salary = perDay * data.attendance
-    console.log("perDay>>>", perDay)
-    console.log("salary>>>", salary)
+    employeeHelper.getSalarySlipDetails(id).then((data) => {
+      const holidays = [
+        [7, 4], // 4th of July
+        [10, 31], // Halloween
+      ];
+      var d = new Date();
+      var currentDay = d.getDate();
+      var year = d.getYear() + 1900;
+      var month = d.getMonth();
+      var totalDays = 0;
+      var done = 0;
+      for (var day = 1; day <= 31; day++) {
+        var t = new Date(year, month, day);
+        if (t.getMonth() > month) break; // month has less than 31 days
+        if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
+        if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
+        totalDays++; // increase total
+        if (t.getDate() <= currentDay) done++; // increase past days
+      }
+      console.log("total days>>>", totalDays)
+      day = data.basicSalary / totalDays
+      perDay = Math.round(day)
+      let salary = perDay * data.attendance
+      console.log("perDay>>>", perDay)
+      console.log("salary>>>", salary)
 
 
-    data.dateOfJoining = dateFormat(data.dateOfJoining, "dd-mm-yyyy")
-    data.yearAndMonth = dateFormat(new Date(), "mmmm , yyyy")
-    netAmount = salary + data.convayanceAllowance + data.leaveTravelAllowance + data.houseRentAllowance + data.additionalhra + data.medicalAllowance + data.transportAllowance + data.superAnnuationAllowance + data.lunchAllowance + data.providentFund
-    data.netAmountWord = converter.toWords(netAmount)
-    data.netAmount = netAmount
-    data.totalDays = totalDays
-    data.perDay = perDay
-    data.salary = salary
-    console.log("new data>>>>", data)
-    res.render('employees/view-salary-slip', { data })
-  })
+      data.dateOfJoining = dateFormat(data.dateOfJoining, "dd-mm-yyyy")
+      data.yearAndMonth = dateFormat(new Date(), "mmmm , yyyy")
+      netAmount = salary + data.convayanceAllowance + data.leaveTravelAllowance + data.houseRentAllowance + data.additionalhra + data.medicalAllowance + data.transportAllowance + data.superAnnuationAllowance + data.lunchAllowance + data.providentFund
+      data.netAmountWord = converter.toWords(netAmount)
+      data.netAmount = netAmount
+      data.totalDays = totalDays
+      data.perDay = perDay
+      data.salary = salary
+      console.log("new data>>>>", data)
+      res.render('employees/view-salary-slip', { admin:true,data })
+    })
 
   }
-  else{
+  else {
     res.redirect('/employee/login')
   }
-  
+
 })
 
 
