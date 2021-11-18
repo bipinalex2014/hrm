@@ -5,20 +5,16 @@ const attendanceHelper = require('../helpers/attendance-helper');
 const dateFormat = require('dateformat');
 const collections = require('../configurations/collections');
 const commonHelper = require('../helpers/common-helper');
-const { Db } = require('mongodb');
+
 var pdf = require("pdf-creator-node");
 var fs = require("fs");
 const path = require('path');
-var mime = require('mime');
+// var mime = require('mime');
 var xl = require('excel4node')
-var qrcode = require('qrcode');
-const e = require('express');
+// var qrcode = require('qrcode');
 
-// function verifyLogin(){
-//     if(!req.session.loggedIn){
-//         res.redirect('/employee/login')
-//     }
-// }
+
+
 
 router.get('/attendance-entry', async (req, res) => {
     if (req.session.loggedIn) {

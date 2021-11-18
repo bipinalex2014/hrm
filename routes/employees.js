@@ -6,7 +6,7 @@ const pdfCreator = require('../helpers/create-pdf');
 const collections = require('../configurations/collections');
 const commonHelper = require('../helpers/common-helper');
 var converter = require('number-to-words');
-const { response } = require('express');
+
 
 router.get('/signup', (req, res) => {
   res.render('admin/signup')
