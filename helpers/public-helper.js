@@ -10,6 +10,7 @@ const { response } = require('express');
 
 
 
+
 module.exports = {
 
     doLogin: (logindata) => {
@@ -53,7 +54,9 @@ module.exports = {
                 let designation = await db.get().collection(collections.DESIGNATION_COLLECTION).findOne({ _id: data.designation })
 
                 console.log("designation>>>>", designation)
-
+                data.name = data.firstname +" "+ data.lastname
+                delete data.firstname
+                delete data.lastname
                 data.designation = designation.designation
                 admin.forEach((element) => {
                     console.log("data element>>>", element)
@@ -102,6 +105,8 @@ module.exports = {
                 resolve(response)
             }
             else {
+                leavedata.status = parseFloat(1)
+                // leavedata.approvalStatus = true
                 db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).insertOne(leavedata).then((data) => {
                     response.name = leavedata.name
                     response.employeeid = leavedata.employeeid

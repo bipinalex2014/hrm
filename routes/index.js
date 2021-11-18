@@ -8,7 +8,41 @@ const commonHelper = require('../helpers/common-helper');
 
 
 router.get('/', function (req, res) {
-  res.redirect('/employee/employee-details')
+  res.render('login/login')
+  // res.redirect('/employee/employee-details')
+})
+router.post('/',(req,res)=>{
+  let logindata = req.body
+  userHelper.doLogin(logindata).then((response)=>{
+    // console.log("response",response)
+    if(response.status){
+      req.session.userData=response.signupUserData
+      req.session.status=true
+     
+      if(response.signupUserData.user=='employee'){
+        req.session.employee="employee"
+        req.session.loggedIn = true
+        req.session.empid = response.id
+        console.log("session",req.session) 
+        res.redirect('/public/home')
+        console.log("success")
+      }
+      else if(response.signupUserData.user=='admin'){
+        req.session.admin="admin"
+        req.session.loggedIn = true
+        req.session.empid = response.id
+        console.log("response",req.session)
+        res.redirect('/employee/employee-details')
+        // console.log("successrrrr")
+      }
+    }
+    else{
+      req.session.logginError="invalid username or password"
+      // res.redirect('/')
+      res.render('login/login',{message: "incorrect username or password"})
+    }
+    console.log("success")
+  })
 })
 router.get('/crop', (req, res) => {
   res.render('index');

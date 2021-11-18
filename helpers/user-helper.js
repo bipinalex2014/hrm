@@ -6,6 +6,37 @@ const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 
 module.exports = {
+    doLogin : (logindata)=>{
+        return new Promise(async (resolve,reject)=>{
+            response={}
+            
+            let databaseEmail= await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({email:logindata.email})
+            console.log("database email>>>", databaseEmail)
+            // console.log("login password",logindata.password)
+            // console.log("login data",databaseEmail.fname)
+            if(databaseEmail){
+                bcrypt.compare(logindata.password,databaseEmail.password).then((status)=>{
+                    if(status){
+                        response.signupUserData=databaseEmail
+                        response.status=true
+                        response.id = databaseEmail._id
+
+                        console.log("latest response>>>>",response)
+                        resolve(response)
+                    }
+                    else{
+                        resolve({status:false})
+                    }
+                })
+            }
+            else {
+                console.log("login failed")
+                resolve(response.status = false)
+
+            }
+            
+        })
+    },
     createDepartment: (deptName) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.DEPARTMENT_COLLECTION).findOne({

@@ -201,7 +201,7 @@ module.exports = {
     getAllEmployeesData: () => {
         console.log("next success")
         return new Promise((resolve, reject) => {
-            db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:"employee"}).toArray().then((data) => {
                 console.log('data', data)
                 resolve(data)
             })
@@ -284,7 +284,7 @@ module.exports = {
     viewEmployeeAttendance: () => {
         return new Promise(async (resolve, reject) => {
             // let data = []
-            db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:'employee'}).toArray().then((data) => {
                 resolve(data)
             })
             // db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
@@ -390,7 +390,7 @@ module.exports = {
                         employeeId: ObjectId(id),
                         attendanceStatus: "duty",
                         year: nowYear,
-                        month: 10
+                        month: newmonth
                     }
                 },
                 {
@@ -806,15 +806,19 @@ module.exports = {
 
     getLeaveReport : ()=>{
         return new Promise((resolve,reject)=>{
-            db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find().toArray().then((data)=>{
+            db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({status:1}).toArray().then((data)=>{
                 console.log("leave reports>>>>",data)
                 resolve(data)
             })
         })
     },
 
-    doLeaveApproval : ()=>{
-        return new Promise((resolve,reject)=>{
+    doLeaveApproval : (id,empid)=>{
+        return new Promise(async (resolve,reject)=>{
+            let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({_id:ObjectId(empid)})
+            
+            let data = await db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).updateOne({_id:ObjectId(id)},{$set:{status:0,approvalStatus:true}})
+            console.log("updated data>>>>",data)
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -824,7 +828,7 @@ module.exports = {
             });
             const mailOptions = {
                 from: 'bipinalex2014@gmail.com', // sender address
-                to: 'susanthmalanada@gmail.com', // list of receivers
+                to: email.email, // list of receivers
                 subject: 'Leave Approval Mail', // Subject line
                 html: '<h1>your leave request is approved</h1>'// plain text body
             };
@@ -841,8 +845,10 @@ module.exports = {
         })
     },
 
-    doLeaveRejected : ()=>{
-        return new Promise((resolve,reject)=>{
+    doLeaveRejected : (id)=>{
+        return new Promise(async (resolve,reject)=>{
+            let data = await db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).updateOne({_id:ObjectId(id)},{$set:{status:0,approvalStatus:false}})
+            let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({_id:ObjectId(empid)})
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -852,7 +858,7 @@ module.exports = {
             });
             const mailOptions = {
                 from: 'bipinalex2014@gmail.com', // sender address
-                to: 'susanthmalanada@gmail.com', // list of receivers
+                to: email.email, // list of receivers
                 subject: 'Leave Rejection Mail', // Subject line
                 html: '<h1>your leave request is rejected</h1>'// plain text body
             };
@@ -866,6 +872,24 @@ module.exports = {
             })
         }).then((data)=>{
             resolve(data)
+        })
+    },
+
+    getEmployeesLeaveApprovalDetails : ()=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({status:0,approvalStatus:true}).toArray().then((data)=>{
+                console.log("employees leave approval data",data)
+                resolve(data)
+            })
+        })
+    },
+
+    getEmployeesLeaveRejectionDetails : ()=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({status:0,approvalStatus:false}).toArray().then((data)=>{
+                console.log("employees leave rejection data",data)
+                resolve(data)
+            })
         })
     }
 }

@@ -7,6 +7,15 @@ const { ObjectId } = require('mongodb');
 const { resolve, reject } = require('promise');
 
 module.exports = {
+    setSignupData : (signupdata)=>{
+        return new Promise(async (resolve,reject)=>{
+            signupdata.user = 'admin'
+            signupdata.password = await bcrypt.hash(signupdata.password, 10);
+            db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(signupdata).then((data)=>{
+                resolve(data)
+            })
+        })
+    },
     setLoginData: (logindata) => {
 
         return new Promise(async (resolve, reject) => {
@@ -68,6 +77,7 @@ module.exports = {
             empData.dateofjoin = new Date(empData.dateofjoin);
             empData.password = await bcrypt.hash(empData.password, 10);
             empData.activestatus = true;
+            empData.user = 'employee'
             delete empData.confirmpassword;
             console.log("emp data>>>>",empData)
             db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(empData).then((result) => {
@@ -84,7 +94,8 @@ module.exports = {
                         '$match': {
                             'activestatus': {
                                 '$ne': false
-                            }
+                            },
+                            'user': 'employee'
                         }
                     }, {
                         '$lookup': {
@@ -470,7 +481,8 @@ module.exports = {
                     $match: {
                         activestatus: {
                             $ne: false
-                        }
+                        },
+                        user:"employee"
                     }
                 },
                 {

@@ -11,7 +11,8 @@ var fs = require("fs");
 const path = require('path');
 var mime = require('mime');
 var xl = require('excel4node')
-var qrcode = require('qrcode')
+var qrcode = require('qrcode');
+const e = require('express');
 
 // function verifyLogin(){
 //     if(!req.session.loggedIn){
@@ -25,7 +26,7 @@ router.get('/attendance-entry', async (req, res) => {
         res.render('attendance/daily-attendance-entry', { admin: true, employees });
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -36,7 +37,7 @@ router.get('/leave-types', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -48,7 +49,7 @@ router.get('/leave-entry', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -66,7 +67,7 @@ router.get('/holidays', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -78,7 +79,7 @@ router.get('/get-holiday-data/:hId', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -121,7 +122,7 @@ router.get('/todays-attendance', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -133,15 +134,21 @@ router.get('/get-employee-details/:id', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
 router.post('/attendance-data', (req, res) => {
-    let data = req.body
-    attendanceHelper.setEmployeeAttendance(data).then((data) => {
-        res.redirect('/attendance/todays-attendance')
-    })
+    if (req.session.loggedIn) {
+        let data = req.body
+        attendanceHelper.setEmployeeAttendance(data).then((data) => {
+            res.redirect('/attendance/todays-attendance')
+        })
+    }
+    else {
+        res.redirect('/')
+    }
+
 })
 router.get('/add-overtime', (req, res) => {
     if (req.session.loggedIn) {
@@ -151,7 +158,7 @@ router.get('/add-overtime', (req, res) => {
 
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -167,17 +174,23 @@ router.get('/duty-shift', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 
 })
 
 router.post('/duty-shift-data', (req, res) => {
-    let data = req.body
-    attendanceHelper.setDutyShift(data).then((data) => {
-        res.redirect('/attendance/duty-shift')
-    })
+    if (req.session.loggedIn) {
+        let data = req.body
+        attendanceHelper.setDutyShift(data).then((data) => {
+            res.redirect('/attendance/duty-shift')
+        })
+    }
+    else {
+        res.redirect('/')
+    }
+
 })
 router.get('/delete-shift/:id', (req, res) => {
     if (req.session.loggedIn) {
@@ -187,7 +200,7 @@ router.get('/delete-shift/:id', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 
@@ -202,27 +215,33 @@ router.get('/mark-employees-attendance', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
 router.post('/mark-employees-attendance/:id/:date', (req, res) => {
-    let data = req.body
-    let id = req.params.id
-    let date = req.params.date
-    attendanceHelper.setTodayAttendance(data, id, date).then((data) => {
-        console.log("success data", data)
-        if (data.acknowledged) {
-            res.render('attendance/mark-attendance', { admin: true, data })
-        }
-        else {
-            data.forEach((element) => {
-                element.todayDate = new Date()
-            })
-            res.render('attendance/mark-attendance', { admin: true, data })
-        }
+    if (req.session.loggedIn) {
+        let data = req.body
+        let id = req.params.id
+        let date = req.params.date
+        attendanceHelper.setTodayAttendance(data, id, date).then((data) => {
+            console.log("success data", data)
+            if (data.acknowledged) {
+                res.render('attendance/mark-attendance', { admin: true, data })
+            }
+            else {
+                data.forEach((element) => {
+                    element.todayDate = new Date()
+                })
+                res.render('attendance/mark-attendance', { admin: true, data })
+            }
 
-    })
+        })
+    }
+    else {
+        res.redirect('/')
+    }
+
 })
 router.get('/view-attendance', (req, res) => {
     if (req.session.loggedIn) {
@@ -231,7 +250,7 @@ router.get('/view-attendance', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -243,7 +262,7 @@ router.get('/view-employee-attendance-details/:id', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -260,7 +279,7 @@ router.get('/getMonthwiseAttendance/', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -274,7 +293,7 @@ router.get('/view-todays-attendance', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -323,7 +342,7 @@ router.get('/employee-salary', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -335,16 +354,22 @@ router.get('/edit-today-attendance/:id', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        
     }
 
 })
 router.post('/update-attendance/:id', (req, res) => {
-    let data = req.body
-    let id = req.params.id
-    attendanceHelper.updateEmployeeAttendance(data, id).then((data) => {
-        res.redirect('/attendance/view-todays-attendance')
-    })
+    if (req.session.loggedIn) {
+        let data = req.body
+        let id = req.params.id
+        attendanceHelper.updateEmployeeAttendance(data, id).then((data) => {
+            res.redirect('/attendance/view-todays-attendance')
+        })
+    }
+    else{
+        res.redirect('/')
+    }
+
 })
 router.get('/pdf-creator', (req, res) => {
 
@@ -430,7 +455,7 @@ router.get('/pdf-creator', (req, res) => {
 
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 })
@@ -511,7 +536,7 @@ router.get('/excel-creator', (req, res) => {
         })
     }
     else {
-        res.redirect('/employee/login')
+        res.redirect('/')
     }
 
 
@@ -535,39 +560,89 @@ router.post('/scan', (req, res) => {
 })
 
 router.get('/leave-report', (req, res) => {
-    if(req.session.loggedIn){
+    if (req.session.loggedIn) {
         attendanceHelper.getLeaveReport().then((data) => {
-            data.forEach((element,index)=>{
+            data.forEach((element, index) => {
+                element.index = index
                 element.from = dateFormat(element.from, "dd, mm, yyyy")
                 element.to = dateFormat(element.to, "dd, mm, yyyy")
             })
-            res.render('attendance/leave-report',{admin:true,data})
+            res.render('attendance/leave-report', { admin: true, data })
         })
     }
-    else{
-        res.redirect('/employee/login')
+    else {
+        res.redirect('/')
     }
-    
+
 })
 
-router.get('/leave-date-approved/:id/:empid',(req,res)=>{
-    console.log("id>>>>>",req.params.id)
-    console.log("empid>>>",req.params.empid)
-    attendanceHelper.doLeaveApproval().then((data)=>{
-        console.log("success")
-        res.redirect('/attendance/leave-report')
-    })
+router.get('/leave-date-approved/:id/:empid', (req, res) => {
+    if (req.session.loggedIn) {
+        let id = req.params.id
+        let empid = req.params.empid
+        console.log("id>>>>>", req.params.id)
+        console.log("empid>>>", req.params.empid)
+        attendanceHelper.doLeaveApproval(id, empid).then((data) => {
+            console.log("success")
+            res.redirect('/attendance/leave-report')
+        })
+    }
+    else {
+        res.redirect('/')
+    }
+
 })
 
-router.get('/leave-date-rejected/:id/:empid',(req,res)=>{
-    console.log("id>>>>>",req.params.id)
-    console.log("empid>>>",req.params.empid)
-    attendanceHelper.doLeaveRejected().then((data)=>{
-        console.log("success")
-        res.redirect('/attendance/leave-report')
-    })
+router.get('/leave-date-rejected/:id/:empid', (req, res) => {
+    if (req.session.loggedIn) {
+        let id = req.params.id
+        let empid = req.params.empid
+        console.log("id>>>>>", req.params.id)
+        console.log("empid>>>", req.params.empid)
+        attendanceHelper.doLeaveRejected(id).then((data) => {
+            console.log("success")
+            res.redirect('/attendance/leave-report')
+        })
+    }
+    else {
+        res.redirect('/')
+    }
+
 })
 
+router.get('/leave-approval-details', (req, res) => {
+    if (req.session.loggedIn) {
+        attendanceHelper.getEmployeesLeaveApprovalDetails().then((data) => {
+            data.forEach((element, index) => {
+                element.index = index
+                element.from = dateFormat(element.from, "dd, mm, yyyy")
+                element.to = dateFormat(element.to, "dd, mm, yyyy")
+            })
+            res.render('attendance/leave-approval-details', { admin: true, data })
+        })
+    }
+    else {
+        res.redirect('/')
+    }
+
+})
+
+router.get('/leave-rejection-details', (req, res) => {
+    if (req.session.loggedIn) {
+        attendanceHelper.getEmployeesLeaveRejectionDetails().then((data) => {
+            data.forEach((element, index) => {
+                element.index = index
+                element.from = dateFormat(element.from, "dd, mm, yyyy")
+                element.to = dateFormat(element.to, "dd, mm, yyyy")
+            })
+            res.render('attendance/leave-rejection-details', { admin: true, data })
+        })
+    }
+    else {
+        res.redirect('/')
+    }
+
+})
 module.exports = router;
 
 

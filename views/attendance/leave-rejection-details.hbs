@@ -13,7 +13,6 @@
                         <li class="breadcrumb-item active" aria-current="page">Admin</li>
                     </ol>
                 </nav>
-                
             </div>
         </div>
     </div>
@@ -22,13 +21,9 @@
 
 
 <section class="container">
-    <div class="row mb-3" style="display:flex;flex-direction: row-reverse">        
-        <a href="/attendance/leave-rejection-details" class="btn btn-success" style="width: 150px;">Rejected details</a>
-        <a href="/attendance/leave-approval-details" class="btn btn-success mx-2" style="width: 150px;">Approval details</a>
-    </div>
     <div class="card">
         <div class="card-header">
-            <h3>Leave Requests</h3>
+            <h3>Leave Rejection Details</h3>
         </div>
         <div class="card-body" id="cardBox">
             <div class="row">
@@ -52,8 +47,9 @@
                             <td>{{this.leavetype}}</td>
                             <td>{{this.from}}</td>
                             <td>{{this.to}}</td>
-                            <td><a href="/attendance/leave-date-approved/{{this._id}}/{{this.empid}}">Approved</td>
-                            <td><a href="/attendance/leave-date-rejected/{{this._id}}/{{this.empid}}">Rejected</td>
+                            <td><a href="" class="btn btn-danger">Rejected</a> </td>
+                            {{!-- <td><a href="/attendance/leave-date-approved/{{this._id}}/{{this.empid}}">Approved</td>
+                            <td><a href="/attendance/leave-date-rejected/{{this._id}}/{{this.empid}}">Rejected</td> --}}
                             
                         </tr>
                         {{/each}}

@@ -28,12 +28,15 @@ router.get('/logout', function (req, res, next) {
     if (req.session.loggedIn) {
         req.session.destroy()
         // console.log('session>>>>',req.session)
-        res.redirect('/public/login')
+        res.redirect('/')
         // res.clearCookie('name', { path: '/doctor' });
         // res.redirect(req.get('referer'));
         // window.location.reload()
         // res.redirect('back')
         // res.redirect('/doctor')
+    }
+    else{
+        res.redirect('/')
     }
 });
 
@@ -42,19 +45,22 @@ router.get('/home', (req, res) => {
         res.render('public/home', { public: true })
     }
     else {
-        res.redirect('/public/login')
+        // res.redirect('/public/login')
+        res.redirect('/')
     }
 
 })
 router.get('/employee-leave', (req, res) => {
     if (req.session.loggedIn) {
         let empid = req.session.empid
+        console.log("employee session",req.session)
         publicHelper.getEmploye(empid).then((data) => {
             res.render('public/employee-leave', { public: true, data })
         })
     }
     else {
-        res.redirect('/public/login')
+        // res.redirect('/public/login')
+        res.redirect('/')
     }
 
 
@@ -77,7 +83,8 @@ router.post('/employee-leave-form', (req, res) => {
         })
     }
     else {
-        res.redirect('/public/login')
+        // res.redirect('/public/login')
+        res.redirect('/')
     }
 
 })
