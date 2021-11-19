@@ -4,6 +4,7 @@ var publicHelper = require('../helpers/public-helper')
 
 
 router.get('/login', (req, res) => {
+    
     res.render('public/login')
 })
 router.post('/login', (req, res) => {

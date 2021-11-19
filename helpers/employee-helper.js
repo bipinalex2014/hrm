@@ -386,7 +386,8 @@ module.exports = {
                 $set: {
                     socialmedia: socialmedia
                 }
-            }).then(() => {
+            }).then((data) => {
+                console.log("updated>>>>",data)
                 resolve();
             })
         })
@@ -584,10 +585,10 @@ module.exports = {
         data.transportAllowance = parseFloat(data.transportAllowance)
         data.superAnnuationAllowance = parseFloat(data.superAnnuationAllowance)
         data.lunchAllowance = parseFloat(data.lunchAllowance)
-        data.totalEarnings = parseFloat(data.totalEarnings)
+        data.projectAllowance = parseFloat(data.projectAllowance)
         data.providentFund = parseFloat(data.providentFund)
-        data.totalDeduction = parseFloat(data.totalDeduction)
-        data.loanDeduction = parseFloat(data.loanDeduction)
+        data.overtimeAllowance = parseFloat(data.overtimeAllowance)
+        data.entertainmentAllowance = parseFloat(data.entertainmentAllowance)
         return new Promise(async (resolve, reject) => {
             let date = new Date()
             let month = date.getMonth() + 1

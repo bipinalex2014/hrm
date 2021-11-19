@@ -92,6 +92,7 @@ router.get('/employee-details', (req, res) => {
           element.serial = index + 1;
         });
       }
+      console.log("result>>>",result)
       res.render('employees/employees-list', { admin: true, employees: result });
     })
   }
@@ -106,7 +107,7 @@ router.get('/employee-details/:id/home', (req, res) => {
   if (req.session.loggedIn) {
     let id = req.params.id;
     employeeHelper.getEmployeeDetails(id).then((result) => {
-      console.log(result)
+      console.log("employee data",result)
       res.render('employees/employee-home', { admin: true, empData: result });
     })
   }
@@ -181,7 +182,7 @@ router.get('/employee-details/:id/bank-accounts/', (req, res) => {
 
 })
 //EMPLOYEE EMERGENCY CONTACT DETAILS
-router.get('/employee-details/:empid/emargency-contacts/', (req, res) => {
+router.get('/employee-details/:empid/emergency-contacts/', (req, res) => {
   if (req.session.loggedIn) {
     let empId = req.params.empid;
     employeeHelper.getEmergencyContacts(empId).then((result) => {
@@ -239,6 +240,7 @@ router.get('/employee-details/:id/imigration', (req, res) => {
   if (req.session.loggedIn) {
     let empId = req.params.id;
     employeeHelper.getImigrations(empId).then((result) => {
+      console.log("immigration>>>>",result)
       if (result) {
         result.forEach((element, index) => {
           element.serial = index + 1;
@@ -364,7 +366,7 @@ router.post('/employee-details/:id/create-qualification', (req, res) => {
           console.log(err);
         }
         else {
-          res.redirect('/employee-details/' + employee + '/qualifications');
+          res.redirect('/employee/employee-details/' + employee + '/qualifications');
         }
       });
     })
@@ -420,7 +422,7 @@ router.post('/employee-details/:id/create-emergency-contact', (req, res) => {
     let employee = req.params.id;
     let contact = req.body;
     employeeHelper.newEmergancyContact(employee, contact).then(() => {
-      res.redirect('/employee/employee-details/' + employee + '/emargency-contacts/')
+      res.redirect('/employee/employee-details/' + employee + '/emergency-contacts/')
     })
   }
   else {
@@ -452,7 +454,7 @@ router.post('/employee-details/:id/create-imigration', (req, res) => {
     let fileName = employee + imigration.doctype + imigration.docname + document.name + '';
     imigration.filename = fileName;
     employeeHelper.newImigration(employee, imigration).then(() => {
-      document.mv('./public/documents/imigration/' + fileName, (err) => {
+      document.mv('./public/documents/immigration/' + fileName, (err) => {
         if (err) {
           console.log(err);
         }
@@ -473,10 +475,12 @@ router.post('/employee-details/:id/upload-avatar', function (req, res) {
     let employee = req.params.id;
     let data = req.body;
     let avatar = req.files.avatar;
+    console.log("photos>>>",avatar)
     let imagepath = employee + 'avatar_image' + avatar.name + '';
     console.log(imagepath);
     employeeHelper.updateAvatar(employee, imagepath).then(() => {
-      avatar.mv('./public/documents/profile-avatar/' + imagepath, (err) => {
+      // avatar.mv('./public/documents/profile-avatar/' + imagepath
+      avatar.mv('./public/documents/profile/' + imagepath, (err) => {
         if (err) {
           console.log(err);
         }
@@ -498,6 +502,7 @@ router.post('/employee-details/:id/add-socialmedia', (req, res) => {
   if (req.session.loggedIn) {
     let employee = req.params.id;
     let socialmedia = req.body;
+    console.log("socialmedia data>>>",socialmedia)
     employeeHelper.updateSocialMedia(employee, socialmedia).then(() => {
       res.redirect('/employee/employee-details/' + employee + '/home');
     })
@@ -673,7 +678,7 @@ router.get('/view-salary-slip/:id', (req, res) => {
 
       data.dateOfJoining = dateFormat(data.dateOfJoining, "dd-mm-yyyy")
       data.yearAndMonth = dateFormat(new Date(), "mmmm , yyyy")
-      netAmount = salary + data.convayanceAllowance + data.leaveTravelAllowance + data.houseRentAllowance + data.additionalhra + data.medicalAllowance + data.transportAllowance + data.superAnnuationAllowance + data.lunchAllowance + data.providentFund
+      netAmount = salary + data.convayanceAllowance + data.leaveTravelAllowance + data.houseRentAllowance + data.additionalhra + data.medicalAllowance + data.transportAllowance + data.superAnnuationAllowance + data.lunchAllowance + data.projectAllowance + data.providentFund + data.overtimeAllowance + data.entertainmentAllowance
       data.netAmountWord = converter.toWords(netAmount)
       data.netAmount = netAmount
       data.totalDays = totalDays
