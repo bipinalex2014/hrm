@@ -627,17 +627,17 @@ router.post('/salary-slip-data/:id', (req, res) => {
     console.log("data>>>>", data)
     employeeHelper.setSalarySlipData(data, id).then((datas) => {
       console.log("data>>>>", datas)
-      if (datas) {
+      // if (datas) {
         // res.render('employees/create-slip/'+id)
         res.json(datas)
-        // res.redirect('/employee/create-salary-slip/'+id)
-      }
-      else {
+        res.redirect('/employee/create-salary-slip/'+id)
+      // }
+      // else {
         // res.render('employees/employee-salary-slip',{message:"successfully created"})
         // res.json(datas)
-        res.redirect('/employee/employee-salary-slip')
+        // res.redirect('/employee/employee-salary-slip')
         // res.write("<h2>Applied successfully</h2>");
-      }
+      // }
 
     })
   }

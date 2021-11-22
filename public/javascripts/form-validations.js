@@ -352,3 +352,115 @@ $.validator.addMethod("indianAccountNumber", function (value, element) {
 }, "Enter a valid account number")
 
 
+$("#dutyShiftForm").validate({
+    rules: {
+      // simple rule, converted to {required:true}
+      dutyName: {
+        required: true,
+      },
+      // compound rule
+      startTime: {
+        required: true,
+      },
+      endTime:{
+        required: true,
+      },
+      
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+  });
+
+
+  $("#salarySlipForm").validate({
+    rules: {
+      // simple rule, converted to {required:true}
+      name: {
+        required: true,
+      },
+      // compound rule
+      employeeid: {
+        required: true,
+      },
+      convayanceAllowance:{
+        required: true,
+      },
+      leaveTravelAllowance:{
+        required: true,
+      },
+      houseRentAllowance:{
+        required: true,
+      },
+      additionalhra:{
+        required: true,
+      },
+      medicalAllowance:{
+        required: true,
+      },
+      transportAllowance:{
+        required: true,
+      },
+      superAnnuationAllowance:{
+        required: true,
+      },
+      lunchAllowance:{
+        required: true,
+      },
+      projectAllowance:{
+        required: true,
+      },
+      providentFund:{
+        required: true,
+      },
+      overtimeAllowance:{
+        required: true,
+      },
+      entertainmentAllowance:{
+        required: true,
+      },
+      additionalhra:{
+        required: true,
+      },
+      
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+  });
+
+
+  $("#leaveForm").validate({
+    rules: {
+      // simple rule, converted to {required:true}
+      name: {
+        required: true,
+      },
+      // compound rule
+      employeeid: {
+        required: true,
+      },
+      designation:{
+        required: true,
+      },
+      submittedTo: {
+        required: true,
+      },
+      leavetype: {
+        required: true,
+      },
+      from: {
+        required: true,
+      },
+      to: {
+        required: true,
+      },
+      
+    },
+    errorPlacement: (error, element) => {
+        error.addClass('text-danger')
+        error.appendTo(element.parent('div'))
+    },
+  });

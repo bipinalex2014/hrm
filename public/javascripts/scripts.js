@@ -1,3 +1,4 @@
+const { response } = require("express");
 
 // Simple Datatable
 let table1 = document.querySelector('#tableEmployees');
@@ -96,6 +97,7 @@ function getDepartmentValues(id) {
                         // $('#textModifyDate').val(new Date(response.data.holidaydate));
                         // document.getElementById('textModifyDate').value = response.data.holidaydate
                         $('#modalModifyDepartment').modal('toggle');
+                        
                 }
 
         })
@@ -103,29 +105,68 @@ function getDepartmentValues(id) {
 
 function salarySlipForm(id) {
         console.log("ggggg", id)
-        if ($('#salarySlipForm').valid()) {
-                $.ajax({
-                        url: '/employee/salary-slip-data/' + id,
-                        method: 'POST',
-                        data: $('#salarySlipForm').serialize(),
-                        success: (response) => {
-                                console.log("response>>>>",response)
-                                if (response==true) {
-                                        alert('This salary slip is already entered')
-                                }
-                                else {
-                                        alert('successfully created')
-                                }
+        $("#salarySlipForm").on("submit",function(e){
 
-                        }
-                })
-        }
+                e.preventDefault();
+                if ($('#salarySlipForm').valid()) {
+                        $.ajax({
+                                url: '/employee/salary-slip-data/' + id,
+                                method: 'POST',
+                                data: $('#salarySlipForm').serialize(),
+                                success: (response) => {
+                                        console.log("response>>>>",response)
+    
+                                                $("#modalform").modal('show')
+                                       
+                                                $("#message").html(response);
+                                                $('#modalSlipClose').on('click',()=>{
+                                                      window.location.replace('/employee/employee-salary-slip');
+                                                })
+                                                
+                                }
+                        })
+                }
+
+        })
+        
 
 }
 
-var myModal = document.getElementById('myModal')
-var myInput = document.getElementById('myInput')
 
-myModal.addEventListener('shown.bs.modal', function () {
-  myInput.focus()
-})
+function employeeLeaveForm(){
+        $("#leaveForm").on("submit",function(e){
+
+                e.preventDefault(); // will cancel the submit even if errors below
+                if($('#leaveForm').valid()){
+                        $.ajax({
+                                url : '/public/employee-leave-form',
+                                method : 'POST',
+                                data : $('#leaveForm').serialize(),
+                                success : (response) => {
+                                        // alert('your leave request is entered')
+                                      
+                                        $('#basicModal').modal('show');
+                                        $("#leaveMessage").html(response.message);
+                                        let close = document.getElementById('modalClose')
+                                        close.addEventListener('click',()=>{
+                                                window.location.replace('/public/employee-leave');
+                                        })
+                                        // $('#modalClose').on('click',()=>{
+                                        //      window.location.replace('/public/employee-leave');
+                                        // })
+                                                
+                                }
+                        })
+                }
+                // rest of code
+            
+              });
+        
+}
+
+// var myModal = document.getElementById('myModal')
+// var myInput = document.getElementById('myInput')
+
+// myModal.addEventListener('shown.bs.modal', function () {
+//   myInput.focus()
+// })

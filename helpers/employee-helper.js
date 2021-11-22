@@ -604,12 +604,13 @@ module.exports = {
                     }
                 })
             if (datas) {
-                resolve(datas = true)
+
+                resolve(datas = "data is already entered")
             }
             else {
                 console.log("employee id", datas)
                 db.get().collection(collections.SALARY_SLIP_COLLECTION).insertOne(data).then((data) => {
-                    resolve(data = false)
+                    resolve(data = "created successfully")
                 })
             }
 

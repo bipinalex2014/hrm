@@ -1,5 +1,13 @@
 a {
   color: #00B7FF;
+  /* #00B7FF */
+}
+.font-weight-bold{
+  font-weight: bold;
+}
+a {
+  color: #00B7FF;
+  /* #00B7FF */
 }
 .font-weight-bold{
   font-weight: bold;

@@ -76,8 +76,9 @@ router.post('/employee-leave-form', (req, res) => {
             // }
             // else{
             console.log("message>>>", data)
-            res.render('public/employee-leave', { public: true, data })
+            // res.render('public/employee-leave', { public: true, data })
             // }
+            res.json(data)
 
         })
     }
