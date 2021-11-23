@@ -185,7 +185,7 @@ module.exports = {
     getDutyShiftData: () => {
         return new Promise(async (resolve, reject) => {
             let data = await db.get().collection(collections.DUTY_SHIFT_COLLECTION).find().toArray()
-            console.log("xdasd", data)
+            // console.log("xdasd", data)
             resolve(data)
         })
 
@@ -193,7 +193,7 @@ module.exports = {
     deleteSift: (dataId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.DUTY_SHIFT_COLLECTION).deleteOne({ _id: ObjectId(dataId) }).then((data) => {
-                console.log(data)
+                // console.log(data)
                 resolve(data)
             })
         })
@@ -202,7 +202,7 @@ module.exports = {
         console.log("next success")
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:"employee"}).toArray().then((data) => {
-                console.log('data', data)
+                // console.log('data', data)
                 resolve(data)
             })
         })
@@ -260,16 +260,16 @@ module.exports = {
 
                 },
             ]).toArray()
-            console.log("already existed data", datas)
-            console.log("length of data", datas.length)
+            // console.log("already existed data", datas)
+            // console.log("length of data", datas.length)
             // console.log("data updated id>>>>>>", datas)
             if (datas.length !== 0) {
-                console.log("existed>>>>>")
+                // console.log("existed>>>>>")
                 employeeData.datas = datas
                 resolve(employeeData)
             }
             else {
-                console.log("not existed>>>>")
+                // console.log("not existed>>>>")
                 data.active = true
                 db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).insertOne(data).then((data) => {
                     employeeData.datas = datas
@@ -314,12 +314,12 @@ module.exports = {
     //     })
     // },
     viewEmployeeAttendanceDetails: (id) => {
-        console.log("id>>>>", id)
+        // console.log("id>>>>", id)
         let date = new Date()
         let thisYear = date.getFullYear()
         thisMonth = date.getMonth() + 1
-        console.log("year>>>>>>", thisYear)
-        console.log("month>>>>>>", thisMonth)
+        // console.log("year>>>>>>", thisYear)
+        // console.log("month>>>>>>", thisMonth)
         return new Promise(async (resolve, reject) => {
             let employee = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: ObjectId(id) })
 
@@ -353,7 +353,7 @@ module.exports = {
                     $count: "attendance"
                 }
             ]).toArray()
-            console.log("new date data>>>>", data)
+            // console.log("new date data>>>>", data)
             let employeeData = {
                 employeeId: employee._id,
                 employeeFirstName: employee.firstname,
@@ -361,17 +361,17 @@ module.exports = {
                 email: employee.email,
                 attendance: data
             }
-            console.log("dddd", employeeData)
+            // console.log("dddd", employeeData)
             resolve(employeeData)
         })
     },
     getMonthwiseAttendanceDetails: (id, targetmonth) => {
-        console.log("new id", id)
+        // console.log("new id", id)
         let newmonth = parseInt(targetmonth)
         let thisYear = new Date()
         let nowYear = thisYear.getFullYear()
-        console.log("this year>>>>", nowYear)
-        console.log("this month", targetmonth)
+        // console.log("this year>>>>", nowYear)
+        // console.log("this month", targetmonth)
         return new Promise(async (resolve, reject) => {
             let employee = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: ObjectId(id) })
             let data = await db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
@@ -498,7 +498,7 @@ module.exports = {
                 },
 
             ]).toArray()
-            console.log("neeeeeeew", attendanceData)
+            // console.log("neeeeeeew", attendanceData)
             let employeeData = {
                 employeeId: employee._id,
                 employeeFirstName: employee.firstname,
@@ -509,17 +509,17 @@ module.exports = {
                 monthAttendance: monthData,
                 attendanceData: attendanceData
             }
-            console.log("fffffff", employeeData)
+            // console.log("fffffff", employeeData)
             resolve(employeeData)
         })
     },
     getTodayAttendance: () => {
-        console.log("net success")
+        // console.log("net success")
         var start = new Date();
         let end = new Date(start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate());
 
-        console.log("start date", start)
-        console.log("end date", end)
+        // console.log("start date", start)
+        // console.log("end date", end)
 
         // var start = new Date();
         // start.setHours(0, 0, 0, 0);
@@ -542,7 +542,7 @@ module.exports = {
                         }
                     }
                 ]).toArray().then((data) => {
-                    console.log("data>>>>", data)
+                    // console.log("data>>>>", data)
                     resolve(data)
                 })
         })
@@ -552,8 +552,8 @@ module.exports = {
             let date = new Date()
             let thisYear = date.getFullYear()
             let thisMonth = date.getMonth() + 1
-            console.log("year>>>", thisYear)
-            console.log("month>>>>", thisMonth)
+            // console.log("year>>>", thisYear)
+            // console.log("month>>>>", thisMonth)
             db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
 
                 // {
@@ -641,7 +641,7 @@ module.exports = {
 
 
             ]).toArray().then((data) => {
-                console.log("data>>>>", data)
+                // console.log("data>>>>", data)
                 resolve(data)
             })
         })
@@ -654,7 +654,7 @@ module.exports = {
         })
     },
     updateEmployeeAttendance: (data, id) => {
-        console.log("data successfully endered")
+        // console.log("data successfully endered")
 
         return new Promise((resolve, reject) => {
             data.date = new Date(data.date)
@@ -677,8 +677,8 @@ module.exports = {
             let date = new Date()
             let thisYear = date.getFullYear()
             let thisMonth = date.getMonth() + 1
-            console.log("year>>>", thisYear)
-            console.log("month>>>>", thisMonth)
+            // console.log("year>>>", thisYear)
+            // console.log("month>>>>", thisMonth)
             db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
 
 
@@ -732,7 +732,7 @@ module.exports = {
 
 
             ]).toArray().then((data) => {
-                console.log("data>>>>", data)
+                // console.log("data>>>>", data)
                 resolve(data)
             })
         })
@@ -743,8 +743,8 @@ module.exports = {
             let date = new Date()
             let thisYear = date.getFullYear()
             let thisMonth = date.getMonth() + 1
-            console.log("year>>>", thisYear)
-            console.log("month>>>>", thisMonth)
+            // console.log("year>>>", thisYear)
+            // console.log("month>>>>", thisMonth)
             db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
 
 
@@ -798,7 +798,7 @@ module.exports = {
 
 
             ]).toArray().then((data) => {
-                console.log("data>>>>", data)
+                // console.log("data>>>>", data)
                 resolve(data)
             })
         })
@@ -807,7 +807,7 @@ module.exports = {
     getLeaveReport : ()=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({status:1}).toArray().then((data)=>{
-                console.log("leave reports>>>>",data)
+                // console.log("leave reports>>>>",data)
                 resolve(data)
             })
         })
@@ -818,7 +818,7 @@ module.exports = {
             let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({_id:ObjectId(empid)})
             
             let data = await db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).updateOne({_id:ObjectId(id)},{$set:{status:0,approvalStatus:true}})
-            console.log("updated data>>>>",data)
+            // console.log("updated data>>>>",data)
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -878,7 +878,7 @@ module.exports = {
     getEmployeesLeaveApprovalDetails : ()=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({status:0,approvalStatus:true}).toArray().then((data)=>{
-                console.log("employees leave approval data",data)
+                // console.log("employees leave approval data",data)
                 resolve(data)
             })
         })
@@ -887,7 +887,7 @@ module.exports = {
     getEmployeesLeaveRejectionDetails : ()=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({status:0,approvalStatus:false}).toArray().then((data)=>{
-                console.log("employees leave rejection data",data)
+                // console.log("employees leave rejection data",data)
                 resolve(data)
             })
         })

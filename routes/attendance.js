@@ -52,7 +52,7 @@ router.get('/leave-entry', (req, res) => {
 router.get('/holidays', (req, res) => {
     if (req.session.loggedIn) {
         attendanceHelper.getAllHolidays().then((result) => {
-            console.log(result)
+            // console.log(result)
             if (result) {
                 result.forEach((element, index) => {
                     element.serial = index + 1;
@@ -83,7 +83,7 @@ router.get('/get-holiday-data/:hId', (req, res) => {
 
 router.post('/create-leave-type', (req, res) => {
     let values = req.body;
-    console.log(values);
+    // console.log(values);
     attendanceHelper.createLeaveType(values).then(() => {
         res.redirect('/attendance/leave-types')
     })
@@ -165,6 +165,9 @@ router.get('/add-overtime', (req, res) => {
 router.get('/duty-shift', (req, res) => {
     if (req.session.loggedIn) {
         attendanceHelper.getDutyShiftData().then((data) => {
+            data.forEach((element,index)=>{
+                element.index = index+1
+            })
             res.render('attendance/duty-shift', { admin: true, data })
 
         })
@@ -221,7 +224,7 @@ router.post('/mark-employees-attendance/:id/:date', (req, res) => {
         let id = req.params.id
         let date = req.params.date
         attendanceHelper.setTodayAttendance(data, id, date).then((data) => {
-            console.log("success data", data)
+            // console.log("success data", data)
             if (data.acknowledged) {
                 res.render('attendance/mark-attendance', { admin: true, data })
             }
@@ -268,8 +271,9 @@ router.get('/getMonthwiseAttendance/', (req, res) => {
         let month = req.query.month
 
         attendanceHelper.getMonthwiseAttendanceDetails(id, month).then((data) => {
-            data.attendanceData.forEach((element) => {
-                element.date = dateFormat(element.date, "dddd, mmmm dS, yyyy")
+            data.attendanceData.forEach((element,index) => {
+                element.index = index+1
+                element.date = dateFormat(element.date, "dd-mm-yyyy")
             })
             res.render('attendance/view-attendance-details', { admin: true, data })
         })
@@ -282,7 +286,8 @@ router.get('/getMonthwiseAttendance/', (req, res) => {
 router.get('/view-todays-attendance', (req, res) => {
     if (req.session.loggedIn) {
         attendanceHelper.getTodayAttendance().then((data) => {
-            data.forEach((element) => {
+            data.forEach((element,index) => {
+                element.index = index+1
                 element.date = dateFormat(element.date, "dddd, mmmm dS, yyyy")
             })
             res.render('attendance/view-todays-attendance', { admin: true, data })
@@ -321,7 +326,8 @@ router.get('/employee-salary', (req, res) => {
                 totalDays++; // increase total
                 if (t.getDate() <= currentDay) done++; // increase past days
             }
-            data.forEach((element) => {
+            data.forEach((element,index) => {
+                element.index = index+1
                 element.day = element.basicSalary / totalDays
                 element.perDay = Math.round(element.day)
                 element.totalDays = totalDays
@@ -559,7 +565,7 @@ router.get('/leave-report', (req, res) => {
     if (req.session.loggedIn) {
         attendanceHelper.getLeaveReport().then((data) => {
             data.forEach((element, index) => {
-                element.index = index
+                element.index = index+1
                 element.from = dateFormat(element.from, "dd, mm, yyyy")
                 element.to = dateFormat(element.to, "dd, mm, yyyy")
             })
@@ -576,10 +582,10 @@ router.get('/leave-date-approved/:id/:empid', (req, res) => {
     if (req.session.loggedIn) {
         let id = req.params.id
         let empid = req.params.empid
-        console.log("id>>>>>", req.params.id)
-        console.log("empid>>>", req.params.empid)
+        // console.log("id>>>>>", req.params.id)
+        // console.log("empid>>>", req.params.empid)
         attendanceHelper.doLeaveApproval(id, empid).then((data) => {
-            console.log("success")
+            // console.log("success")
             res.redirect('/attendance/leave-report')
         })
     }
@@ -593,10 +599,10 @@ router.get('/leave-date-rejected/:id/:empid', (req, res) => {
     if (req.session.loggedIn) {
         let id = req.params.id
         let empid = req.params.empid
-        console.log("id>>>>>", req.params.id)
-        console.log("empid>>>", req.params.empid)
+        // console.log("id>>>>>", req.params.id)
+        // console.log("empid>>>", req.params.empid)
         attendanceHelper.doLeaveRejected(id).then((data) => {
-            console.log("success")
+            // console.log("success")
             res.redirect('/attendance/leave-report')
         })
     }

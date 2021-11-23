@@ -18,22 +18,7 @@
                             </div>
                         </div>
                     </div>
-                    {{!-- <div class="row">
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">PF No.</span> <small class="ms-3">101523065714</small> </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">NOD</span> <small class="ms-3">28</small> </div>
-                        </div>
-                    </div> --}}
-                    {{!-- <div class="row">
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">ESI No.</span> <small class="ms-3"></small> </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">Mode of Pay</span> <small class="ms-3">SBI</small> </div>
-                        </div>
-                    </div> --}}
+                    
                     <div class="row">
                         <div class="col-md-6">
                             <div> <span class="fw-bolder">Designation</span> <small class="ms-3">{{data.grade}}</small>
@@ -44,7 +29,8 @@
                         </div>
                     </div>
                 </div>
-                <table class="mt-4 table table-bordered">
+                <div class="card"  style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                    <table class="mt-4 table table-bordered">
                     <thead class="bg-dark text-white">
                         <tr>
                             <th scope="col">Earnings</th>
@@ -175,10 +161,11 @@
                     
                     </tbody>
                 </table>
+                </div>
             </div>
             {{!-- {{/each}} --}}
             <div class="row">
-                <div class="col-md-4"> <br> <span class="fw-bold">Net Pay : {{data.netAmount}}</span> </div>
+                <div class="col-md-4"> <br> <span class="fw-bold">Net Pay : {{data.netAmount}}</span> </div>    
                 <div class="border col-md-8">
                     <div class="d-flex flex-column"> <span>In Words</span> <span>{{data.netAmountWord}}</span> </div>
                 </div>

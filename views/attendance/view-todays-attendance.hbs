@@ -4,13 +4,13 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Today Attendance</h3>
+                <h4>Today Attendance</h4>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Employees</li>
+                        <li class="breadcrumb-item active" aria-current="page">Admin</li>
                     </ol>
                 </nav>
             </div>
@@ -20,22 +20,25 @@
 </div>
 
 <section class="container">
-    <div class="row">
+    <div class="card p-2" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
         <table class="table">
             <thead>
                 <tr>
                     {{!-- <th scope="col">#</th> --}}
+                    <th scope="col">Index</th>
                     <th scope="col">Name</th>
                     <th scope="col">Date</th>
                     <th scope="col">Attendance Status</th>
                     <th scope="col">Start Time</th>
                     <th scope="col">End Time</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {{#each data}}
                 <tr>
                     {{!-- <th scope="row">1</th> --}}
+                    <td>{{this.index}}</td>
                     <td>{{this.name}}</td>
                     <td>{{this.date}}</td>
                     <td>{{this.attendanceStatus}}</td>
@@ -47,5 +50,8 @@
             </tbody>
         </table>
     </div>
+    {{!-- <div class="row">
+        
+    </div> --}}
 
 </section>

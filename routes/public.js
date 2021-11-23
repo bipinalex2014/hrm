@@ -10,11 +10,11 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
     let logindata = req.body
     publicHelper.doLogin(logindata).then((data) => {
-        console.log("response status>>>>", data)
+        // console.log("response status>>>>", data)
         if (data.status) {
             req.session.loggedIn = true
             req.session.empid = data.id
-            console.log("gggggg", req.session)
+            // console.log("gggggg", req.session)
             res.redirect('/public/home')
         }
         else {
@@ -52,7 +52,7 @@ router.get('/home', (req, res) => {
 router.get('/employee-leave', (req, res) => {
     if (req.session.loggedIn) {
         let empid = req.session.empid
-        console.log("employee session",req.session)
+        // console.log("employee session",req.session)
         publicHelper.getEmploye(empid).then((data) => {
             res.render('public/employee-leave', { public: true, data })
         })
@@ -69,13 +69,13 @@ router.post('/employee-leave-form', (req, res) => {
         let leavedata = req.body
         leavedata.empid = req.session.empid
         let empid = req.session.empid
-        console.log("leave data>>>>>", leavedata)
+        // console.log("leave data>>>>>", leavedata)
         publicHelper.setEmployeeLeaveData(leavedata, empid).then((data) => {
             // if(data.status){
             //     res.render('public/employee-leave', { public:true,data })
             // }
             // else{
-            console.log("message>>>", data)
+            // console.log("message>>>", data)
             // res.render('public/employee-leave', { public: true, data })
             // }
             res.json(data)

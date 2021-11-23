@@ -28,7 +28,7 @@
         <p>{{leaveMessage}}</p>
     </div>
     {{/if}} --}}
-    <div class="card">
+    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
         <div class="card-body">
             {{!-- <form action="/public/employee-leave-form" id="leaveForm" method="POST"> --}}
                 <form id="leaveForm">
@@ -71,10 +71,12 @@
                                     <option value="">choose leave type</option>
                                     <option value="marriage leave">marriage leave</option>
                                     <option value="sick leave">sick leave</option>
+                                    <option value="hospital case">hospital case</option>
                                     <option value="maternity leave">maternity leave</option>
                                     <option value="paternity leave">paternity leave</option>
                                     <option value="Bereavement Leave">Bereavement Leave</option>
                                     <option value="Privilege Leave ">Privilege Leave</option>
+                                    <option value="others ">others</option>
 
 
                                     {{!-- {{#each leaves}}
@@ -120,7 +122,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modify Department</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Message</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

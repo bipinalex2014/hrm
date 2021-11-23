@@ -11,7 +11,7 @@ module.exports = {
             response={}
             
             let databaseEmail= await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({email:logindata.email})
-            console.log("database email>>>", databaseEmail)
+            // console.log("database email>>>", databaseEmail)
             // console.log("login password",logindata.password)
             // console.log("login data",databaseEmail.fname)
             if(databaseEmail){
@@ -21,7 +21,7 @@ module.exports = {
                         response.status=true
                         response.id = databaseEmail._id
 
-                        console.log("latest response>>>>",response)
+                        // console.log("latest response>>>>",response)
                         resolve(response)
                     }
                     else{
@@ -30,7 +30,7 @@ module.exports = {
                 })
             }
             else {
-                console.log("login failed")
+                // console.log("login failed")
                 resolve(response.status = false)
 
             }
@@ -73,7 +73,7 @@ module.exports = {
         })
     },
     createDesignation: (desi) => {
-        console.log(desi)
+        // console.log(desi)
         desi.active = true;
         return new Promise((resolve, reject) => {
             db.get().collection(collections.DESIGNATION_COLLECTION).findOne({

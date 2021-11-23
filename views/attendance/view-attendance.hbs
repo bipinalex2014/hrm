@@ -3,15 +3,15 @@
   <div class="row">
     <h4>Employees Attendance Details</h4>
   </div>
-  <div class="row">
+  <div class="row my-3">
     
     {{#each data}}
     <div class="col-sm-6">
-      <div class="card">
+      <div class="card" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
         <div class="card-body">
           <h5 class="card-title">{{firstname}} {{lastname}}</h5>
           <p class="card-text">
-            With supporting text below as a natural lead-in to additional content.
+            To view the attendance details of employee named {{this.firstname}} {{this.lastname}} click button below
           </p>
           <a href="/attendance/view-employee-attendance-details/{{_id}}" class="btn btn-primary">View Details</a>
         </div>

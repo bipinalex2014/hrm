@@ -17,7 +17,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let response = {}
             let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ email: logindata.email })
-            console.log("datas>>>", email)
+            // console.log("datas>>>", email)
             if (email) {
                 bcrypt.compare(logindata.password, email.password).then((status_value) => {
                     if (status_value) {
@@ -28,7 +28,7 @@ module.exports = {
                         // response.data=logindata
 
                         resolve(response)
-                        console.log("response>>>>", response)
+                        // console.log("response>>>>", response)
                     }
                     else {
                         resolve(response.status = false)
@@ -37,7 +37,7 @@ module.exports = {
                 })
             }
             else {
-                console.log("login failed")
+                // console.log("login failed")
                 resolve(response.status = false)
 
             }
@@ -46,24 +46,24 @@ module.exports = {
     },
 
     getEmploye: (empid) => {
-        console.log("employee id>>>>", empid)
+        // console.log("employee id>>>>", empid)
         return new Promise(async (resolve, reject) => {
             let admin = await db.get().collection(collections.ADMIN_COLLECTIONS).find().toArray()
-            console.log("admin>>>>", admin)
+            // console.log("admin>>>>", admin)
             db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ _id: objectId(empid) }).then(async (data) => {
                 let designation = await db.get().collection(collections.DESIGNATION_COLLECTION).findOne({ _id: data.designation })
 
-                console.log("designation>>>>", designation)
+                // console.log("designation>>>>", designation)
                 data.name = data.firstname +" "+ data.lastname
                 delete data.firstname
                 delete data.lastname
                 data.designation = designation.designation
                 admin.forEach((element) => {
-                    console.log("data element>>>", element)
+                    // console.log("data element>>>", element)
                     data.submittedTo = element.fullname
                 })
 
-                console.log("employee data>>>>", data)
+                // console.log("employee data>>>>", data)
                 resolve(data)
             })
         })
@@ -76,11 +76,11 @@ module.exports = {
             year = date.getFullYear()
             month = date.getMonth() + 1
             day = date.getDate()
-            console.log("date>>>>", date)
-            console.log("date>>>>", year)
-            console.log("date>>>>", month)
-            console.log("date>>>>", day)
-            console.log("modified leave date>>>>>", leavedata)
+            // console.log("date>>>>", date)
+            // console.log("date>>>>", year)
+            // console.log("date>>>>", month)
+            // console.log("date>>>>", day)
+            // console.log("modified leave date>>>>>", leavedata)
             let response = {}
             let leaveDate = await db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({
                 empid: empid,
@@ -94,13 +94,13 @@ module.exports = {
                 }
 
             }).toArray()
-            console.log("leave date >>>", leaveDate.length)
+            // console.log("leave date >>>", leaveDate.length)
             if (leaveDate.length !== 0) {
                 response.name = leavedata.name
                 response.employeeid = leavedata.employeeid
                 response.designation = leavedata.designation
                 response.submittedTo = leavedata.submittedTo
-                response.message = "This leave entry is already entered"
+                response.message = "Your leave report is already entered"
                 response.status = true
                 resolve(response)
             }

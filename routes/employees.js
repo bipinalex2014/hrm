@@ -24,7 +24,7 @@ router.get('/login', (req, res) => {
 
 router.post('/login', (req, res) => {
   let data = req.body
-  console.log("data>>>>", data)
+  // console.log("data>>>>", data)
   employeeHelper.setLoginData(data).then((data) => {
     if (data.status) {
       req.session.loggedIn = true
@@ -84,7 +84,7 @@ router.get('/create-employee-profile', async (req, res) => {
 router.get('/employee-details', (req, res) => {
   //GET DETAILS OF ALL EMPLOYEES
   if (req.session.loggedIn) {
-    console.log("session", req.session)
+    // console.log("session", req.session)
     employeeHelper.getAllEmployees().then((result) => {
       // console.log(result)
       if (result) {
@@ -92,7 +92,7 @@ router.get('/employee-details', (req, res) => {
           element.serial = index + 1;
         });
       }
-      console.log("result>>>",result)
+      // console.log("result>>>",result)
       res.render('employees/employees-list', { admin: true, employees: result });
     })
   }
@@ -107,7 +107,7 @@ router.get('/employee-details/:id/home', (req, res) => {
   if (req.session.loggedIn) {
     let id = req.params.id;
     employeeHelper.getEmployeeDetails(id).then((result) => {
-      console.log("employee data",result)
+      // console.log("employee data",result)
       res.render('employees/employee-home', { admin: true, empData: result });
     })
   }
@@ -226,7 +226,7 @@ router.get('/employee-details/:id/contracts/', async (req, res) => {
       });
 
     }
-    console.log(contracts);
+    // console.log(contracts);
     res.render('employees/employee-contracts', { admin: true, desi: designations, empId, contracts });
   }
   else {
@@ -240,7 +240,7 @@ router.get('/employee-details/:id/imigration', (req, res) => {
   if (req.session.loggedIn) {
     let empId = req.params.id;
     employeeHelper.getImigrations(empId).then((result) => {
-      console.log("immigration>>>>",result)
+      // console.log("immigration>>>>",result)
       if (result) {
         result.forEach((element, index) => {
           element.serial = index + 1;
@@ -342,7 +342,7 @@ router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => 
 router.post('/create-employee-profile', (req, res) => {
   if (req.session.loggedIn) {
     let values = req.body;
-    console.log("data>>>", values)
+    // console.log("data>>>", values)
     employeeHelper.createEmployee(values).then((result) => {
       res.redirect('/employee/employee-details');
     })
@@ -475,9 +475,9 @@ router.post('/employee-details/:id/upload-avatar', function (req, res) {
     let employee = req.params.id;
     let data = req.body;
     let avatar = req.files.avatar;
-    console.log("photos>>>",avatar)
+    // console.log("photos>>>",avatar)
     let imagepath = employee + 'avatar_image' + avatar.name + '';
-    console.log(imagepath);
+    // console.log(imagepath);
     employeeHelper.updateAvatar(employee, imagepath).then(() => {
       // avatar.mv('./public/documents/profile-avatar/' + imagepath
       avatar.mv('./public/documents/profile/' + imagepath, (err) => {
@@ -502,11 +502,11 @@ router.post('/employee-details/:id/add-socialmedia', (req, res) => {
   if (req.session.loggedIn) {
     let employee = req.params.id;
     let socialmedia = req.body;
-    console.log("socialmedia data>>>",socialmedia)
+    // console.log("socialmedia data>>>",socialmedia)
     employeeHelper.updateSocialMedia(employee, socialmedia).then(() => {
       res.redirect('/employee/employee-details/' + employee + '/home');
     })
-    console.log(socialmedia)
+    // console.log(socialmedia)
   }
   else {
     res.redirect('/')
@@ -517,7 +517,7 @@ router.post('/employee-details/:id/add-socialmedia', (req, res) => {
 router.get('/payroll-details', (req, res) => {
   if (req.session.loggedIn) {
     employeeHelper.getEmployee().then((employees) => {
-      console.log(employees)
+      // console.log(employees)
       res.render('employees/employee-payroll-details', { admin: true, employees })
     })
   }
@@ -546,7 +546,7 @@ router.get('/get-shift-details/:id', (req, res) => {
     employeeHelper.getShiftDetails().then((data) => {
       let employeeId = req.params.id
 
-      console.log("new data", employeeId)
+      // console.log("new data", employeeId)
       res.render('employees/employee-shift-data', { admin: true, data, employeeId })
     })
   }
@@ -559,11 +559,11 @@ router.get('/get-shift-details/:id', (req, res) => {
 
 router.post('/get-shift-time/:id', (req, res) => {
   if (req.session.loggedIn) {
-    console.log("success")
+    // console.log("success")
     const id = req.params.id;
-    console.log("id>>>>", id)
+    // console.log("id>>>>", id)
     employeeHelper.getShiftTime(id).then((data) => {
-      console.log("kkkkkk", data)
+      // console.log("kkkkkk", data)
       res.json(data)
       // data.employeeId = id
       // console.log("ggggggg",data)
@@ -580,10 +580,10 @@ router.post('/duty-shift-time/:empid', (req, res) => {
     let id = req.params.empid
     // let id = req.params.id
     // console.log("id data",id)
-    console.log('data>>>>', req.body)
-    console.log('data>>>>', id)
+    // console.log('data>>>>', req.body)
+    // console.log('data>>>>', id)
     employeeHelper.setShiftTime(data).then((data) => {
-      console.log("data>>>>", data)
+      // console.log("data>>>>", data)
       res.redirect('/employee/get-shift-details/' + id)
     })
   }
@@ -595,6 +595,9 @@ router.post('/duty-shift-time/:empid', (req, res) => {
 router.get('/employee-salary-slip', (req, res) => {
   if (req.session.loggedIn) {
     employeeHelper.getEmployeeDetailsForSalarySlip().then((data) => {
+    data.forEach((element,index)=>{
+      element.index = index+1
+    })
       res.render('employees/employee-salary-slip', { admin: true, data })
     })
   }
@@ -608,7 +611,7 @@ router.get('/employee-salary-slip', (req, res) => {
 router.get('/create-salary-slip/:id', (req, res) => {
   if (req.session.loggedIn) {
     let id = req.params.id
-    console.log("id>>>", id)
+    // console.log("id>>>", id)
     employeeHelper.getEmployeeDetailsForSalarySlipForm(id).then((data) => {
       res.render('employees/create-slip', { admin: true, data })
     })
@@ -624,20 +627,11 @@ router.post('/salary-slip-data/:id', (req, res) => {
   if (req.session.loggedIn) {
     let data = req.body
     let id = req.params.id
-    console.log("data>>>>", data)
+    // console.log("data>>>>", data)
     employeeHelper.setSalarySlipData(data, id).then((datas) => {
-      console.log("data>>>>", datas)
-      // if (datas) {
-        // res.render('employees/create-slip/'+id)
+      // console.log("data>>>>", datas)
         res.json(datas)
         res.redirect('/employee/create-salary-slip/'+id)
-      // }
-      // else {
-        // res.render('employees/employee-salary-slip',{message:"successfully created"})
-        // res.json(datas)
-        // res.redirect('/employee/employee-salary-slip')
-        // res.write("<h2>Applied successfully</h2>");
-      // }
 
     })
   }
@@ -650,42 +644,48 @@ router.get('/view-salary-slip/:id', (req, res) => {
   if (req.session.loggedIn) {
     let id = req.params.id
     employeeHelper.getSalarySlipDetails(id).then((data) => {
-      const holidays = [
-        [7, 4], // 4th of July
-        [10, 31], // Halloween
-      ];
-      var d = new Date();
-      var currentDay = d.getDate();
-      var year = d.getYear() + 1900;
-      var month = d.getMonth();
-      var totalDays = 0;
-      var done = 0;
-      for (var day = 1; day <= 31; day++) {
-        var t = new Date(year, month, day);
-        if (t.getMonth() > month) break; // month has less than 31 days
-        if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
-        if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
-        totalDays++; // increase total
-        if (t.getDate() <= currentDay) done++; // increase past days
+      if(data==="empty"){
+        res.render('employees/view-salary-slip', { admin: true})
       }
-      console.log("total days>>>", totalDays)
-      day = data.basicSalary / totalDays
-      perDay = Math.round(day)
-      let salary = perDay * data.attendance
-      console.log("perDay>>>", perDay)
-      console.log("salary>>>", salary)
-
-
-      data.dateOfJoining = dateFormat(data.dateOfJoining, "dd-mm-yyyy")
-      data.yearAndMonth = dateFormat(new Date(), "mmmm , yyyy")
-      netAmount = salary + data.convayanceAllowance + data.leaveTravelAllowance + data.houseRentAllowance + data.additionalhra + data.medicalAllowance + data.transportAllowance + data.superAnnuationAllowance + data.lunchAllowance + data.projectAllowance + data.providentFund + data.overtimeAllowance + data.entertainmentAllowance
-      data.netAmountWord = converter.toWords(netAmount)
-      data.netAmount = netAmount
-      data.totalDays = totalDays
-      data.perDay = perDay
-      data.salary = salary
-      console.log("new data>>>>", data)
-      res.render('employees/view-salary-slip', { admin: true, data })
+      else{
+        const holidays = [
+          [7, 4], // 4th of July
+          [10, 31], // Halloween
+        ];
+        var d = new Date();
+        var currentDay = d.getDate();
+        var year = d.getYear() + 1900;
+        var month = d.getMonth();
+        var totalDays = 0;
+        var done = 0;
+        for (var day = 1; day <= 31; day++) {
+          var t = new Date(year, month, day);
+          if (t.getMonth() > month) break; // month has less than 31 days
+          if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
+          if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
+          totalDays++; // increase total
+          if (t.getDate() <= currentDay) done++; // increase past days
+        }
+        // console.log("total days>>>", totalDays)
+        day = data.basicSalary / totalDays
+        perDay = Math.round(day)
+        let salary = perDay * data.attendance
+        // console.log("perDay>>>", perDay)
+        // console.log("salary>>>", salary)
+  
+  
+        data.dateOfJoining = dateFormat(data.dateOfJoining, "dd-mm-yyyy")
+        data.yearAndMonth = dateFormat(new Date(), "mmmm , yyyy")
+        netAmount = salary + data.convayanceAllowance + data.leaveTravelAllowance + data.houseRentAllowance + data.additionalhra + data.medicalAllowance + data.transportAllowance + data.superAnnuationAllowance + data.lunchAllowance + data.projectAllowance + data.providentFund + data.overtimeAllowance + data.entertainmentAllowance
+        data.netAmountWord = converter.toWords(netAmount)
+        data.netAmount = netAmount
+        data.totalDays = totalDays
+        data.perDay = perDay
+        data.salary = salary
+        // console.log("new data>>>>", data)
+        res.render('employees/view-salary-slip', { admin: true, data })
+      }
+  
     })
 
   }

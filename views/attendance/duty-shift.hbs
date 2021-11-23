@@ -1,9 +1,12 @@
 <div class="container">
-
-    <div class="card">
-        <div class="card-header">
-            <h3>Duty Shift</h3>
-        </div>
+    <div class="row">
+        <h4>Duty Shift</h4>
+    </div>
+    <div class="card my-3"
+        style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+        {{!-- <div class="card-header">
+            <h4>Duty Shift</h4>
+        </div> --}}
         <div class="card-body">
             <form action="/attendance/duty-shift-data" id="dutyShiftForm" method="POST">
                 <div class="row">
@@ -37,27 +40,30 @@
             </form>
         </div>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Duty Name</th>
-                {{!-- <th scope="col">date</th> --}}
-                <th scope="col">Start Time</th>
-                <th scope="col">End Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each data}}
-            <tr>
-                <th scope="row">1</th>
-                <td>{{this.dutyName}}</td>
-                {{!-- <td>{{this.date}}</td> --}}
-                <td>{{this.startTime}}</td>
-                <td>{{this.endTime}}</td>
-                <td><a class="btn btn-danger" href="/attendance/delete-shift/{{_id}}">Delete</a></td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <div class="card p-3" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Index</th>
+                    <th scope="col">Duty Name</th>
+                    {{!-- <th scope="col">date</th> --}}
+                    <th scope="col">Start Time</th>
+                    <th scope="col">End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <th scope="row">{{this.index}}</th>
+                    <td>{{this.dutyName}}</td>
+                    {{!-- <td>{{this.date}}</td> --}}
+                    <td>{{this.startTime}}</td>
+                    <td>{{this.endTime}}</td>
+                    <td><a class="btn btn-danger" href="/attendance/delete-shift/{{_id}}">Delete</a></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
 </div>

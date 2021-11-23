@@ -21,14 +21,14 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let response = {}
             let email = await db.get().collection(collections.ADMIN_COLLECTIONS).findOne({ email: logindata.email })
-            console.log("datas>>>", email)
+            // console.log("datas>>>", email)
             if (email) {
                 bcrypt.compare(logindata.password, email.password).then((status_value) => {
                     if (status_value) {
                         // response.admin=db_data
                         response.status = true
                         resolve(response)
-                        console.log("response>>>>", response)
+                        // console.log("response>>>>", response)
                     }
                     else {
                         resolve(response.status = false)
@@ -37,7 +37,7 @@ module.exports = {
                 })
             }
             else {
-                console.log("login failed")
+                // console.log("login failed")
                 resolve(response.status = false)
 
             }
@@ -79,7 +79,7 @@ module.exports = {
             empData.activestatus = true;
             empData.user = 'employee'
             delete empData.confirmpassword;
-            console.log("emp data>>>>",empData)
+            // console.log("emp data>>>>",empData)
             db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(empData).then((result) => {
                 resolve(result);
             })
@@ -387,7 +387,7 @@ module.exports = {
                     socialmedia: socialmedia
                 }
             }).then((data) => {
-                console.log("updated>>>>",data)
+                // console.log("updated>>>>",data)
                 resolve();
             })
         })
@@ -437,7 +437,7 @@ module.exports = {
     getEmployee: () => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data) => {
-                console.log(data)
+                // console.log(data)
                 resolve(data)
             })
         })
@@ -447,7 +447,7 @@ module.exports = {
             // let data = await db.get().collection(collections.ATTENDANCE_COLLECTION).find({id:employeeId}).toArray()
             // resolve(data)
             db.get().collection(collections.DUTY_SHIFT_COLLECTION).find().toArray().then((data) => {
-                console.log("kkkkkkkk", data)
+                // console.log("kkkkkkkk", data)
 
                 resolve(data)
             })
@@ -456,7 +456,7 @@ module.exports = {
     getShiftTime: (id) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.DUTY_SHIFT_COLLECTION).findOne({ _id: objectId(id) }).then((data) => {
-                console.log("data>>>>>", data)
+                // console.log("data>>>>>", data)
                 resolve(data)
             })
         })
@@ -520,7 +520,7 @@ module.exports = {
                 },
 
             ]).toArray().then((data) => {
-                console.log(data)
+                // console.log(data)
                 resolve(data)
             })
             // db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray().then((data)=>{
@@ -568,7 +568,7 @@ module.exports = {
                     }
                 }
             ]).toArray().then((data) => {
-                console.log(data)
+                // console.log(data)
                 resolve(data)
             })
         })
@@ -605,23 +605,23 @@ module.exports = {
                 })
             if (datas) {
 
-                resolve(datas = "data is already entered")
+                resolve(datas = "Salary slip of this month is already entered")
             }
             else {
-                console.log("employee id", datas)
+                // console.log("employee id", datas)
                 db.get().collection(collections.SALARY_SLIP_COLLECTION).insertOne(data).then((data) => {
-                    resolve(data = "created successfully")
+                    resolve(data = "Salary slip of this month is created successfully")
                 })
             }
 
         })
     },
     getSalarySlipDetails: (id) => {
-        console.log("id", id)
+        // console.log("id", id)
         let date = new Date()
         let month = date.getMonth() + 1
         let year = date.getFullYear()
-        console.log("month>>>>", month)
+        // console.log("month>>>>", month)
         return new Promise(async (resolve, reject) => {
             let attendance = await db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).find(
                 {
@@ -634,7 +634,7 @@ module.exports = {
                     }
                 }).count()
 
-            console.log("attendance>>>>", attendance)
+            // console.log("attendance>>>>", attendance)
             let data = await db.get().collection(collections.SALARY_SLIP_COLLECTION).findOne(
                 {
                     empid: id,
@@ -647,9 +647,16 @@ module.exports = {
                 }
 
             )
-            data.attendance = attendance
-            console.log("data>>>>>>", data)
-            resolve(data)
+            if(data===undefined){
+                resolve(data="empty")
+            }
+            else{
+                // console.log("data1>>>>>>", data)
+                data.attendance = attendance
+                // console.log("data2>>>>>>", data)
+                resolve(data)
+            }
+            
         })
     }
 }

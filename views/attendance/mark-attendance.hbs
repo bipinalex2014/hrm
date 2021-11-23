@@ -4,13 +4,13 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Employees</h3>
+                <h4>Today's Attendance</h4>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Employees</li>
+                        <li class="breadcrumb-item active" aria-current="page">Admin</li>
                     </ol>
                 </nav>
             </div>
@@ -20,14 +20,14 @@
 </div>
 
 <section class="container">
-    <div class="card">
+    {{!-- <div class="card" style=""> --}}
 
 
 
-        <div class="card">
-            <div class="card-header">
+        <div class="card" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+            {{!-- <div class="card-header">
                 <h3>Today's Attendance</h3>
-            </div>
+            </div> --}}
             <div class="card-body" id="cardBox">
                 {{#if data.datas}}
                 {{#each data.datas}}
@@ -38,8 +38,8 @@
                 {{#each data}}
                 <form action="/attendance/mark-employees-attendance/{{_id}}/{{this.todayDate}}" method="POST">
                     {{!-- <form id="attendanceData" method="POST"> --}}
-                        <div class="row"
-                            style="border: 2px solid rgb(211, 210, 210);border-radius: 10px;margin:10px;padding:10px">
+                        <div class="row m-3"
+                            style="border-radius:5px;box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
 
                             {{!-- <div class="col-sm-3 my-2" hidden>
 
@@ -99,10 +99,6 @@
 
                         </div>
 
-                        {{!-- <div class="row">
-
-
-                        </div> --}}
                     </form>
                 {{/each}}
 
@@ -143,5 +139,5 @@
 
 
         </div> --}}
-    </div>
+    {{!-- </div> --}}
 </section>

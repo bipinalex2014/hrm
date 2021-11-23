@@ -36,15 +36,15 @@ router.post('/', (req, res) => {
         req.session.employee = "employee"
         req.session.loggedIn = true
         req.session.empid = response.id
-        console.log("session", req.session)
+        // console.log("session", req.session)
         res.redirect('/public/home')
-        console.log("success")
+        // console.log("success")
       }
       else if (response.signupUserData.user == 'admin') {
         req.session.admin = "admin"
         req.session.loggedIn = true
         req.session.empid = response.id
-        console.log("response", req.session)
+        // console.log("response", req.session)
         res.redirect('/employee/employee-details')
         // console.log("successrrrr")
       }
@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
       // res.redirect('/')
       res.render('login/login', { message: "incorrect username or password" })
     }
-    console.log("success")
+    // console.log("success")
   })
 })
 router.get('/crop', (req, res) => {
