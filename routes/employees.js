@@ -15,7 +15,8 @@ router.get('/signup', (req, res) => {
 router.post('/signup', (req, res) => {
   let signupdata = req.body
   employeeHelper.setSignupData(signupdata).then((data) => {
-    res.redirect('/employee/signup')
+    res.render('admin/signup',{data})
+    // res.redirect('/employee/signup')
   })
 })
 router.get('/login', (req, res) => {
@@ -339,12 +340,16 @@ router.get('/employee-details/:id/view-profile/export-pdf', async (req, res) => 
 //POST METHODS
 
 // TO CREATE AN EMPLOYEE PROFILE
-router.post('/create-employee-profile', (req, res) => {
+router.post('/create-employee-profile',async (req, res) => {
   if (req.session.loggedIn) {
     let values = req.body;
     // console.log("data>>>", values)
-    employeeHelper.createEmployee(values).then((result) => {
-      res.redirect('/employee/employee-details');
+    let departments = await employeeHelper.getActiveDepartments();
+    //TO GET THE LIST OF DESIGNATIONS WITH STATUS ACTIVE
+    let designations = await employeeHelper.getActiveDesignations();
+    employeeHelper.createEmployee(values).then((data) => {
+      res.render('employees/create-employee',{admin:true,data,departments,designations})
+      // res.redirect('/employee/employee-details');
     })
   }
   else {

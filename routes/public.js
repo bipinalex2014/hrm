@@ -18,7 +18,7 @@ router.post('/login', (req, res) => {
             res.redirect('/public/home')
         }
         else {
-            res.render('public/login', { data, message: "incorrect username or password" })
+            res.render('public/login', { data, message: "Incorrect username or password" })
         }
     })
 })

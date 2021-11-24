@@ -7,13 +7,21 @@ const { ObjectId } = require('mongodb');
 const { resolve, reject } = require('promise');
 
 module.exports = {
-    setSignupData : (signupdata)=>{
-        return new Promise(async (resolve,reject)=>{
-            signupdata.user = 'admin'
-            signupdata.password = await bcrypt.hash(signupdata.password, 10);
-            db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(signupdata).then((data)=>{
-                resolve(data)
-            })
+    setSignupData: (signupdata) => {
+        return new Promise(async (resolve, reject) => {
+            // console.log("signup data>>>", signupdata)
+            let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ email: signupdata.email, user: "admin" })
+            if (email) {
+                resolve(data = 'This email is already existed try another email')
+            }
+            else {
+                signupdata.user = 'admin'
+                signupdata.password = await bcrypt.hash(signupdata.password, 10);
+                db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(signupdata).then((data) => {
+                    resolve(data = "successfully created")
+                })
+            }
+
         })
     },
     setLoginData: (logindata) => {
@@ -68,21 +76,29 @@ module.exports = {
     createEmployee: (empData) => {
 
         return new Promise(async (resolve, reject) => {
-            empData.department = objectId(empData.department);
-            empData.designation = objectId(empData.designation);
-            empData.headdesignation = objectId(empData.headdesignation);
-            empData.basicsalary = parseFloat(empData.basicsalary);
-            empData.otrate = parseFloat(empData.otrate);
-            empData.dateofbirth = new Date(empData.dateofbirth);
-            empData.dateofjoin = new Date(empData.dateofjoin);
-            empData.password = await bcrypt.hash(empData.password, 10);
-            empData.activestatus = true;
-            empData.user = 'employee'
-            delete empData.confirmpassword;
-            // console.log("emp data>>>>",empData)
-            db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(empData).then((result) => {
-                resolve(result);
-            })
+
+            let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({ email: empData.email, user: "employee" })
+            if (email) {
+                resolve(data = 'This email is already existed try another email')
+            }
+            else {
+                empData.department = objectId(empData.department);
+                empData.designation = objectId(empData.designation);
+                empData.headdesignation = objectId(empData.headdesignation);
+                empData.basicsalary = parseFloat(empData.basicsalary);
+                empData.otrate = parseFloat(empData.otrate);
+                empData.dateofbirth = new Date(empData.dateofbirth);
+                empData.dateofjoin = new Date(empData.dateofjoin);
+                empData.password = await bcrypt.hash(empData.password, 10);
+                empData.activestatus = true;
+                empData.user = 'employee'
+                delete empData.confirmpassword;
+                // console.log("emp data>>>>",empData)
+                db.get().collection(collections.EMPLOYEE_COLLECTION).insertOne(empData).then((data) => {
+                    resolve(data =  "Successfully created");
+                })
+            }
+
         })
     },
     getAllEmployees: () => {
@@ -483,7 +499,7 @@ module.exports = {
                         activestatus: {
                             $ne: false
                         },
-                        user:"employee"
+                        user: "employee"
                     }
                 },
                 {
@@ -647,16 +663,16 @@ module.exports = {
                 }
 
             )
-            if(data===undefined){
-                resolve(data="empty")
+            if (data === undefined) {
+                resolve(data = "empty")
             }
-            else{
+            else {
                 // console.log("data1>>>>>>", data)
                 data.attendance = attendance
                 // console.log("data2>>>>>>", data)
                 resolve(data)
             }
-            
+
         })
     }
 }

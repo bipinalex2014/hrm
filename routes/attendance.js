@@ -207,9 +207,11 @@ router.get('/delete-shift/:id', (req, res) => {
 router.get('/mark-employees-attendance', (req, res) => {
     if (req.session.loggedIn) {
         attendanceHelper.getAllEmployeesData().then((data) => {
+            
             data.forEach((element) => {
                 element.todayDate = new Date()
             })
+            // console.log("before data>>>>",data)
             res.render('attendance/mark-attendance', { admin: true, data })
         })
     }
@@ -224,7 +226,8 @@ router.post('/mark-employees-attendance/:id/:date', (req, res) => {
         let id = req.params.id
         let date = req.params.date
         attendanceHelper.setTodayAttendance(data, id, date).then((data) => {
-            // console.log("success data", data)
+            console.log("after data",data)
+           
             if (data.acknowledged) {
                 res.render('attendance/mark-attendance', { admin: true, data })
             }

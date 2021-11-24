@@ -207,25 +207,20 @@ module.exports = {
             })
         })
     },
-    setTodayAttendance: (data, id, date) => {
+    setTodayAttendance: (datain, id, date) => {
+        console.log("datain>>>>>",datain)
         return new Promise(async (resolve, reject) => {
             let date = new Date()
             let thisYear = date.getFullYear()
             let thisMonth = date.getMonth() + 1
             let thisDay = date.getDate()
 
-            console.log("year>>>>>>", thisYear)
-            console.log("month>>>>>>", thisMonth)
-            console.log("day>>>>", thisDay)
-            data.employeeId = ObjectId(id)
-            data.date = new Date(data.date)
-            // time = data.startTime
-            // time.replace(/^"(.*)"$/, '$1')
-            // data.newtime = time
+            datain.employeeId = ObjectId(id)
+            datain.date = new Date(datain.date)
+            
             let response = {}
-            // data.startTime = parseInt(data.startTime)
-            // data.endTime = parseInt(data.endTime)
-            let employeeData = await db.get().collection(collections.EMPLOYEE_COLLECTION).find().toArray()
+            
+            let employeeData = await db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:"employee"}).toArray()
             let datas = await db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
                 {
                     $project: {
@@ -253,26 +248,36 @@ module.exports = {
                         employeeId: 1,
                         name: 1,
                         date: 1,
-                        // year : {$year:"$date"},
-                        // month: {$month:"$date"},
-                        // day: {$dayOfMonth:"$date"}
+                        
                     }
 
                 },
             ]).toArray()
-            // console.log("already existed data", datas)
-            // console.log("length of data", datas.length)
+           
             // console.log("data updated id>>>>>>", datas)
             if (datas.length !== 0) {
                 // console.log("existed>>>>>")
                 employeeData.datas = datas
+                array = employeeData.datas
+                array.forEach((element)=>{
+                    element.message = "already entered"
+                })
+                console.log("employee data>>>>", employeeData)
                 resolve(employeeData)
             }
             else {
                 // console.log("not existed>>>>")
-                data.active = true
-                db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).insertOne(data).then((data) => {
+                // data.active = true
+                db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).insertOne(datain).then((data) => {
                     employeeData.datas = datas
+                    array = employeeData.datas
+                    // array.forEach((element)=>{
+                    //     element.message = "successfully entered"
+                    // })
+                     console.log("data entered",data)
+                    array.push({name:datain.name,message:"successfully entered"})
+                    // employeeData.datas = {message:"successfully entered"}
+                    // console.log("employee data>>>>", employeeData)
                     // console.log("data entered")
                     resolve(employeeData)
                 })
