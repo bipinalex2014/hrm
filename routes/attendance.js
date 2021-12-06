@@ -210,9 +210,13 @@ router.get('/mark-employees-attendance', (req, res) => {
             
             data.forEach((element) => {
                 element.todayDate = new Date()
+                
+                // element.todayDate = dateFormat(new Date(),"dd-mm-yyyy")
             })
             // console.log("before data>>>>",data)
+            
             res.render('attendance/mark-attendance', { admin: true, data })
+            // res.json(data)
         })
     }
     else {
@@ -604,7 +608,7 @@ router.get('/leave-date-rejected/:id/:empid', (req, res) => {
         let empid = req.params.empid
         // console.log("id>>>>>", req.params.id)
         // console.log("empid>>>", req.params.empid)
-        attendanceHelper.doLeaveRejected(id).then((data) => {
+        attendanceHelper.doLeaveRejected(id,empid).then((data) => {
             // console.log("success")
             res.redirect('/attendance/leave-report')
         })

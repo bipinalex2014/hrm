@@ -201,16 +201,17 @@ module.exports = {
     getAllEmployeesData: () => {
         console.log("next success")
         return new Promise((resolve, reject) => {
-            db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:"employee"}).toArray().then((data) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:"employee",activestatus:true}).toArray().then((data) => {
                 // console.log('data', data)
                 resolve(data)
             })
         })
     },
-    setTodayAttendance: (datain, id, date) => {
+    setTodayAttendance: (datain, id, datein) => {
         console.log("datain>>>>>",datain)
         return new Promise(async (resolve, reject) => {
-            let date = new Date()
+            // let date = new Date()
+            let date = new Date(datain.date)
             let thisYear = date.getFullYear()
             let thisMonth = date.getMonth() + 1
             let thisDay = date.getDate()
@@ -220,7 +221,7 @@ module.exports = {
             
             let response = {}
             
-            let employeeData = await db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:"employee"}).toArray()
+            let employeeData = await db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:"employee",activestatus:true}).toArray()
             let datas = await db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
                 {
                     $project: {
@@ -289,7 +290,7 @@ module.exports = {
     viewEmployeeAttendance: () => {
         return new Promise(async (resolve, reject) => {
             // let data = []
-            db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:'employee'}).toArray().then((data) => {
+            db.get().collection(collections.EMPLOYEE_COLLECTION).find({user:'employee',activestatus:true}).toArray().then((data) => {
                 resolve(data)
             })
             // db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).aggregate([
@@ -850,7 +851,7 @@ module.exports = {
         })
     },
 
-    doLeaveRejected : (id)=>{
+    doLeaveRejected : (id,empid)=>{
         return new Promise(async (resolve,reject)=>{
             let data = await db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).updateOne({_id:ObjectId(id)},{$set:{status:0,approvalStatus:false}})
             let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({_id:ObjectId(empid)})

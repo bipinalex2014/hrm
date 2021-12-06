@@ -28,7 +28,9 @@ function change(){
 }
 
 // let date = new Date()
-document.getElementById('date').valueAsDate = new Date()
+// document.getElementById('date').valueAsDate = new Date()
+
+
 
 // function changeShift(){
 //     let shift = document.querySelector('')
@@ -57,7 +59,7 @@ function attendance(event){
     let data = document.querySelector('#attendanceStatus').value
     let card = document.querySelector('#cardBox')
     console.log("data",data)
-    // for(let i=0;i<=card.length;i++){
+    for(let i=0;i<=data.length;i++){
         if(data == "leave"){
             document.getElementById('start').style.display = "none"
             document.getElementById('end').style.display = "none"
@@ -67,7 +69,7 @@ function attendance(event){
             document.getElementById('start').style.display = 'block'
             document.getElementById('end').style.display = 'block'
         }
-    // }
+    }
     
 }
 

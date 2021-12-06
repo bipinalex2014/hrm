@@ -464,3 +464,20 @@ $("#dutyShiftForm").validate({
         error.appendTo(element.parent('div'))
     },
   });
+
+//   $('#attendanceForm').validate({
+//     rules: {
+//         date: {
+//             required: true,
+//         }
+//     },
+//     messages: {
+//         date: {
+//             required: "Please enter date"
+//         }
+//     },
+//     errorPlacement: (error, element) => {
+//         error.addClass('text-danger')
+//         error.appendTo(element.parent('div'))
+//     },
+// })

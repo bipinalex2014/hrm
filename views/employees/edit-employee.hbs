@@ -1,0 +1,240 @@
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h4>Create Employee Profile</h4>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Create employee</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section">
+    {{!-- <div class="error">
+        {{#if this}}
+        <div class="row">
+            <p style="width:300px;background-color: red;color:white;border-radius:5px">{{data}}</p>
+        </div>
+        {{/if}}
+    </div> --}}
+    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+        <div class="card-header">
+            <h4 class="card-title">Personal details</h4>
+        </div>
+        
+        <div class="card-body">
+            {{!-- {{#each data}} --}}
+            <form id="updateEmployeeData">
+            {{!-- {{/each}} --}}
+                <div class="row">
+                    {{#each data}}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textFirstName">First name</label>
+                            <input type="text" name="firstname" value="{{this.firstname}}" id="textFirstName" placeholder="First name"
+                                class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textFirstName">Last name</label>
+                            <input type="text" name="lastname" value="{{this.lastname}}" id="textLastName" placeholder="Last name"
+                                class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textEmployeId">Employee Id</label>
+                            <input type="text" name="employeeid" value="{{this.employeeid}}" id="textEmployeeId" placeholder="Employee id"
+                                class="form-control" required>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="selectGender">Gender</label>
+                            <select name="gender" id="selectGender" class="form-select">
+                                <option value="{{this.gender}}">{{this.gender}}</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    {{/each}}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="selectDepartment">Department</label>
+                            <select class="form-select" name="department" id="selectDepartment">
+                                {{#each data}}
+                                <option value="{{this.departmentId}}">{{this.department}}</option>
+                                {{/each}}
+                                {{#each data.departmentData}}
+                                <option value="{{this._id}}">{{this.department}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="selectDesignation">Designation</label>
+                            <select name="designation" id="selectDesignation" class="form-select">
+                                {{#each data}}
+                                <option value="{{this.designationId}}">{{this.designation}}</option>
+                                {{/each}}
+                                {{#each data.designationData}}
+                                <option value="{{this._id}}">{{this.designation}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    {{#each data}}
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textBasicSalary">Basic salary</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="basicsalary" value="{{this.basicsalary}}" id="textBasicSalary" class="form-control"
+                                placeholder="Basic salary">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textOtRate">OT Rate</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="otrate" value="{{this.otrate}}" id="textOtRate" class="form-control"
+                                placeholder="Overtime rate (Per hour)">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textAddress">Address</label>
+                            <input type="text" name="address" value="{{this.address}}" id="textAddress" class="form-control"
+                                placeholder="Addrss">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textPlace">Place</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="place" value="{{this.place}}" id="textplace" class="form-control" placeholder="Place">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textCity">City</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="city" value="{{this.city}}" id="textCity" class="form-control" placeholder="City">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textState">State</label>
+                            <input type="text" name="state" value="{{this.state}}" id="textState" class="form-control" placeholder="State">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textProvince">Province</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="province" value="{{this.province}}" id="textProvince" class="form-control"
+                                placeholder="Province">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textCountry">Country</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="country" value="{{this.country}}" id="textCountry" class="form-control"
+                                placeholder="Country">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textPhone">Phone</label>
+                            <input type="text" name="phone" value="{{this.phone}}" id="textPhone" class="form-control"
+                                placeholder="Mobile number">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textEmail">Email ID</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="email" value="{{this.email}}" id="textEmail" class="form-control"
+                                placeholder="Email Address">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="textBloodGroup">Blood group</label>
+                            {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
+                            <input type="text" name="bloodgroup" value="{{this.bloodgroup}}" id="textBloodGroup" class="form-control"
+                                placeholder="Blood group">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="selectMaritialStatus">Maritial Status</label>
+                            <select name="maritialstatus" id="selectMaritialStatus" class="form-select">
+                                <option value="{{this.maritialstatus}}">{{this.maritialstatus}}</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Widowed">Widowed</option>
+                            </select>
+                        </div>
+                    </div>
+                   
+                    {{/each}}
+                </div>
+                <div class="row">
+                     <div class="col-lg-2">
+                         {{!-- <button class="btn btn-primary" type="submit"> Submit</button> --}}
+                        {{#each data}}
+                        <button type="" class="btn btn-primary" onclick="updateEmployee(`{{this._id}}`)"> Submit</button>
+                        {{/each}}
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        
+        </form>
+    </div>
+</section>
+
+<section>
+    <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="message">
+                    <p>{{response}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
+                    {{!-- <button type="button" onclick="modifyDepartment()" class="btn btn-primary">Save changes</button> --}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

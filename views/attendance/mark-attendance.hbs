@@ -36,7 +36,7 @@
                 {{/each}}
                 {{/if}}
                 {{#each data}}
-                <form action="/attendance/mark-employees-attendance/{{_id}}/{{this.todayDate}}" method="POST">
+                <form action="/attendance/mark-employees-attendance/{{_id}}/{{this.todayDate}}" method="POST" id="attendanceForm">
                     {{!-- <form id="attendanceData" method="POST"> --}}
                         <div class="row m-3"
                             style="border-radius:5px;box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
@@ -52,8 +52,8 @@
                             </div>
                             <div class="col-sm-3 my-2">
                                 <label for="">Date</label>
-                                <input type="text" name="date" class="form-control" id="date"
-                                    value="{{this.todayDate}}">
+                                <input type="date" name="date" class="form-control" id="datein"
+                                  required  >
                             </div>
                             <div class="col-sm-3 my-2">
                                 <label for="">Status</label>

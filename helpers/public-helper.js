@@ -120,5 +120,14 @@ module.exports = {
             }
 
         })
+    },
+    getEmployeeLeaveStatus : (empid)=>{
+        console.log("sssssss")
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_LEAVE_COLLECTIONS).find({empid:empid}).toArray().then((data)=>{
+                console.log(data)
+                resolve(data)
+            })
+        })
     }
 }

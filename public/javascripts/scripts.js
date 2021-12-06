@@ -170,3 +170,36 @@ function employeeLeaveForm(){
 // myModal.addEventListener('shown.bs.modal', function () {
 //   myInput.focus()
 // })
+
+function updateEmployee(id){
+        console.log("success")
+         console.log("daat>>>",id)
+        $("#updateEmployeeData").on("submit",function(e){
+                // console.log("daat>>>",id)
+                e.preventDefault(); // will cancel the submit even if errors below
+                if($('#updateEmployeeData').valid()){
+                        $.ajax({
+                                url : '/employee/employee-update-form/'+id,
+                                method : 'POST',
+                                data : $('#updateEmployeeData').serialize(),
+                                success : (response) => {
+                                        // alert('your leave request is entered')
+                                       console.log(response)
+                                        $('#basicModal').modal('show');
+                                        $("#message").html(response);
+                                        let close = document.getElementById('modalClose')
+                                        close.addEventListener('click',()=>{
+                                                window.location.replace('/employee/employee-status');
+                                        })
+                                        // $('#modalClose').on('click',()=>{
+                                        //      window.location.replace('/public/employee-leave');
+                                        // })
+                                                
+                                }
+                        })
+                }
+                // rest of code
+            
+              });
+
+}

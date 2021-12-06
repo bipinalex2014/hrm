@@ -674,5 +674,223 @@ module.exports = {
             }
 
         })
+    },
+    getAllEmployee : ()=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate([
+                {
+                    $match : {
+                        user : "employee"
+                    }
+                },
+                {
+                    $project : {
+                        firstname : 1,
+                        lastname : 1,
+                        employeeid : 1,
+                        department : 1,
+                        designation : 1,
+                        email : 1,
+                        activestatus : 1
+                    }
+                },
+                {
+                    $lookup : {
+                        from : 'designations',
+                        localField : 'designation',
+                        foreignField : '_id',
+                        as : 'desig'
+                    }
+                },
+                {
+                    $unwind : '$desig'        
+                },
+                {
+                    $project : {
+                        firstname : 1,
+                        lastname : 1,
+                        employeeid : 1,
+                        // department : 1,
+                        designation : '$desig.designation',
+                        email : 1,
+                        activestatus : 1
+                    }
+                },
+                    
+                
+            ]).toArray().then((data)=>{
+               
+                resolve(data)
+            })
+            
+            
+            
+            
+            // find({user:"employee"}).toArray().then((data)=>{
+            //     resolve(data)
+            // })
+        })
+    },
+    setEmployeeState : (empid)=>{
+        return new Promise(async (resolve,reject)=>{
+            let empData = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({_id:objectId(empid)})
+            // if(empData){
+                
+                if(empData.activestatus){
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({_id:objectId(empid)},{$set:{activestatus:false}}).then((data)=>{
+                        
+                        let status = "Disable"
+                        resolve(status)
+                    })
+                }
+                else{
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({_id:objectId(empid)},{$set:{activestatus:true}}).then((data)=>{
+                        console.log("update>>>>",data)
+                        let status = "Enable"
+                        resolve(status)
+                    })
+                }
+            // }
+        })
+    },
+    deleteEmployee : (empid)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.EMPLOYEE_COLLECTION).deleteOne({_id:objectId(empid)}).then((data)=>{
+                resolve(data)
+            })
+        })
+    },
+    editEmployee : (empid)=>{
+        return new Promise(async (resolve,reject)=>{
+            let designationData = await db.get().collection(collections.DESIGNATION_COLLECTION).find().toArray()
+            let departmentData = await db.get().collection(collections.DEPARTMENT_COLLECTION).find().toArray()
+            // console.log("department>>>>",departmentData)
+            // console.log("designation>>>>",designationData)
+            let data = await db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate([
+                {
+                    $match : {
+                        _id : objectId(empid),
+                        user : "employee"
+                    }
+                },
+                {
+                    $lookup : {
+                        from : "departments",
+                        localField : "department",
+                        foreignField : "_id",
+                        as : "dept"
+                    }
+                },
+                {
+                    $unwind : "$dept"
+                },
+                {
+                    $project : {
+                        firstname : 1,
+                        lastname : 1,
+                        employeeid : 1,
+                        dateofjoin :1,
+                        gender : 1,
+                        dateofbirth : 1,
+                        department : "$dept.department",
+                        departmentId : "$dept._id",
+                        designation : 1,
+                        basicsalary : 1,
+                        otrate : 1,
+                        address : 1,
+                        place : 1,
+                        city : 1,
+                        state : 1,
+                        province : 1,
+                        country : 1,
+                        phone : 1,
+                        email : 1,
+                        bloodgroup: 1,
+                        maritialstatus : 1,
+                        activestatus : 1
+                    }
+                },
+                {
+                    $lookup : {
+                        from : "designations",
+                        localField : "designation",
+                        foreignField : "_id",
+                        as : "desig"
+                    }
+                },
+                {
+                    $unwind : "$desig"
+                },
+                {
+                    $project : {
+                        firstname : 1,
+                        lastname : 1,
+                        employeeid : 1,
+                        dateofjoin :1,
+                        gender : 1,
+                        dateofbirth : 1,
+                        department : 1,
+                        departmentId : 1,
+                        designation : "$desig.designation",
+                        designationId : "$desig._id",
+                        basicsalary : 1,
+                        otrate : 1,
+                        address : 1,
+                        place : 1,
+                        city : 1,
+                        state : 1,
+                        province : 1,
+                        country : 1,
+                        phone : 1,
+                        email : 1,
+                        bloodgroup: 1,
+                        maritialstatus : 1,
+                        activestatus : 1
+                    }
+                },
+
+            ]).toArray().then((data)=>{
+                console.log("aggregate data",data)
+                data.departmentData = departmentData
+                data.designationData = designationData
+                resolve(data)
+            })
+            // console.log("data>>>>",data)
+        })
+    },
+    updateEmployee : (data,id)=>{
+        return new Promise((resolve,reject)=>{
+            
+            db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({_id:objectId(id)},
+            {$set:
+                {
+                    firstname : data.firstname,
+                    lastname : data.lastname,
+                    employeeid : data.employeeid,
+                    // dateofjoin : new Date(data.dateofjoin),
+                    gender : data.gender,
+                    // dateofbirth : new Date(data.dateofbirth),
+                    department : objectId(data.department),
+                    designation : objectId(data.designation),
+                    basicsalary : parseFloat(data.basicsalary),
+                    otrate : parseFloat(data.otrate),
+                    address : data.address,
+                    place : data.place,
+                    city : data.city,
+                    state : data.state,
+                    province : data.province,
+                    country : data.country,
+                    phone : data.phone,
+                    email  : data.email,
+                    bloodgroup : data.bloodgroup,
+                    maritialstatus : data.maritialstatus
+
+                }}).then((data)=>{
+                    resolve(data)
+                    console.log("updated data>>>",data)
+                })
+        })
     }
+
 }
+
