@@ -65,10 +65,15 @@ router.get('/misc/departments', async (req, res) => {
   //TO GET DEPARTMENTS PRESENTLY IN 
   if (req.session.loggedIn) {
     let dept = await userHelper.getDepartments();
-    dept.forEach((element, index) => {
-      element.sl = index + 1;
-      res.render('misc/departments', { admin:true,dept });
-    });
+    console.log("data",dept)
+    if(dept){
+      dept.forEach((element, index) => {
+        element.sl = index + 1;
+        
+      });
+    }
+    res.render('misc/departments', { admin:true,dept });
+   
   }
   else {
     res.redirect('/')
