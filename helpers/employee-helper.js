@@ -141,10 +141,13 @@ module.exports = {
                             'activestatus': 1,
                         }
                     }
+
                 ]
             ).toArray().then((result) => {
+                console.log("employee data>>>",result)
                 resolve(result)
             })
+            
         })
     },
     getEmployeeDetails: (id) => {
@@ -766,7 +769,7 @@ module.exports = {
             let departmentData = await db.get().collection(collections.DEPARTMENT_COLLECTION).find().toArray()
             // console.log("department>>>>",departmentData)
             // console.log("designation>>>>",designationData)
-            let data = await db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate([
+            db.get().collection(collections.EMPLOYEE_COLLECTION).aggregate([
                 {
                     $match : {
                         _id : objectId(empid),

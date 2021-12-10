@@ -544,11 +544,15 @@ module.exports = {
                             'date': {
                                 '$gte': new Date(end),
                                 '$lt': new Date(start)
-                            }
+                            },
+                            // 'activestatus' :{
+                            //     $ne : false
+                            // }
+                            
                         }
                     }
                 ]).toArray().then((data) => {
-                    // console.log("data>>>>", data)
+                    console.log("data>>>>", data)
                     resolve(data)
                 })
         })

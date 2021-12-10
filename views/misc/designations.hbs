@@ -29,7 +29,7 @@
                                 placeholder="Name of designation">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-3">
                         <button type="submit" class="btn btn-primary btn-sm">Create</button>
                     </div>
                 </div>
@@ -38,22 +38,22 @@
             
         </div>
     </div>
-    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+    <div class="card p-4" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
         <div class="table-responsive mt-3">
-                <table class="table" id="tableDepartments">
-                    <thead>
+                <table class="table table-hover" id="tableDepartments">
+                    <thead class="table-light" >
                         <tr>
-                            <th>Sl.No</th>
-                            <th>Name</th>
-                            <th>Status</th>
+                            <th style="padding: 15px">Sl.No</th>
+                            <th style="padding: 15px">Name</th>
+                            {{!-- <th style="padding: 15px">Status</th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         {{#each desi}}
                         <tr>
-                            <td>{{this.sl}}</td>
-                            <td>{{this.designation}}</td>
-                            <td></td>
+                            <td style="padding: 20px">{{this.sl}}</td>
+                            <td style="padding: 20px">{{this.designation}}</td>
+                            
                         </tr>
                         {{/each}}
                     </tbody>

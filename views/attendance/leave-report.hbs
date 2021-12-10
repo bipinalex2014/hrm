@@ -24,7 +24,7 @@
 <section class="container">
     <div class="row mb-3" style="display:flex;flex-direction: row-reverse">        
         <a href="/attendance/leave-rejection-details" class="btn btn-success" style="width: 150px;">Rejected details</a>
-        <a href="/attendance/leave-approval-details" class="btn btn-success mx-2" style="width: 150px;">Approval details</a>
+        <a href="/attendance/leave-approval-details" class="btn btn-success mx-2" style="width: 150px;">Approved details</a>
     </div>
     <div class="card" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
         {{!-- <div class="card-header">
@@ -33,10 +33,10 @@
         <div class="card-body" id="cardBox">
             <div class="row">
                 <div class="table-responsive mt-3">
-                    <table class="table">
-                    <thead>
+                    <table class="table table-hover">
+                    <thead class="table-light">
                         <tr>
-                            <th scope="col">Index</th>
+                            <th style="padding: 15px;" scope="col">Index</th>
                             <th scope="col">Name</th>
                             <th scope="col">Designation</th>
                             <th scope="col">Leave Type</th>
@@ -49,8 +49,8 @@
                     <tbody>
                         {{#each data}}
                         <tr>
-                            <td>{{this.index}}</td>
-                            <td>{{this.name}}</td>
+                            <td style="padding: 20px;">{{this.index}}</td>
+                            <td style="padding: 20px;">{{this.name}}</td>
                             <td>{{this.designation}}</td>
                             <td>{{this.leavetype}}</td>
                             <td>{{this.from}}</td>

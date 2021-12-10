@@ -573,8 +573,8 @@ router.get('/leave-report', (req, res) => {
         attendanceHelper.getLeaveReport().then((data) => {
             data.forEach((element, index) => {
                 element.index = index+1
-                element.from = dateFormat(element.from, "dd, mm, yyyy")
-                element.to = dateFormat(element.to, "dd, mm, yyyy")
+                element.from = dateFormat(element.from, "dd-mm-yyyy")
+                element.to = dateFormat(element.to, "dd-mm-yyyy")
             })
             res.render('attendance/leave-report', { admin: true, data })
         })
@@ -623,9 +623,9 @@ router.get('/leave-approval-details', (req, res) => {
     if (req.session.loggedIn) {
         attendanceHelper.getEmployeesLeaveApprovalDetails().then((data) => {
             data.forEach((element, index) => {
-                element.index = index
-                element.from = dateFormat(element.from, "dd, mm, yyyy")
-                element.to = dateFormat(element.to, "dd, mm, yyyy")
+                element.index = index+1
+                element.from = dateFormat(element.from, "dd-mm-yyyy")
+                element.to = dateFormat(element.to, "dd-mm-yyyy")
             })
             res.render('attendance/leave-approval-details', { admin: true, data })
         })
@@ -640,9 +640,9 @@ router.get('/leave-rejection-details', (req, res) => {
     if (req.session.loggedIn) {
         attendanceHelper.getEmployeesLeaveRejectionDetails().then((data) => {
             data.forEach((element, index) => {
-                element.index = index
-                element.from = dateFormat(element.from, "dd, mm, yyyy")
-                element.to = dateFormat(element.to, "dd, mm, yyyy")
+                element.index = index+1
+                element.from = dateFormat(element.from, "dd-mm-yyyy")
+                element.to = dateFormat(element.to, "dd-mm-yyyy")
             })
             res.render('attendance/leave-rejection-details', { admin: true, data })
         })

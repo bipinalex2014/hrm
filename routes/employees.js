@@ -721,6 +721,7 @@ router.get("/employee-status", (req, res) => {
       data.forEach((element, index) => {
         element.index = index + 1;
       });
+      console.log("employee status>>>>",data)
       res.render("employees/employee-status", { admin: true, data });
     });
   } else {
@@ -751,6 +752,7 @@ router.get("/edit-employee/:id", (req, res) => {
         element.dateofjoin = dateFormat(element.dateofjoin, "dd-mm-yyyy");
         element.dateofbirth = dateFormat(element.dateofbirth, "dd-mm-yyyy");
       });
+      console.log("edit data>>>>",data)
       console.log("data>>>>>", data);
       res.render("employees/edit-employee", { admin: true, data });
     });

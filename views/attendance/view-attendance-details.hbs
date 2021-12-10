@@ -6,7 +6,7 @@
                 <h4>Employee Name   :   {{data.employeeFirstName}} {{data.employeeLastName}}</h4>
                 <h5>Email   :   {{data.email}}</h5>
                 {{#each data.attendance}}
-                <h5>Total duty on this month   :   {{this.attendance}}</h5>
+                <h5>Total duties on current month   :   {{this.attendance}}</h5>
                 {{/each}}
             </div>
 
@@ -50,27 +50,27 @@
                 {{/each }}
             </div>
 
-    <div class="card p-2" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;"    >
-        <table class="table">
-                <thead>
+    <div class="card p-4" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;"    >
+        <table class="table table-hover">
+                <thead class="table-light">
                     <tr>
                         {{!-- <th scope="col">#</th> --}}
-                        <th scope="col">Index</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Attendance Status</th>
-                        <th scope="col">Start Time</th>
-                        <th scope="col">End Time</th>
+                        <th style="padding:20px" scope="col">Index</th>
+                        <th style="padding:20px" scope="col">Date</th>
+                        <th style="padding:20px" scope="col">Attendance Status</th>
+                        <th style="padding:20px" scope="col">Start Time</th>
+                        <th style="padding:20px" scope="col">End Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each data.attendanceData}}
                     <tr>
                         {{!-- <th scope="row">1</th> --}}
-                        <td>{{this.index}}</td>
-                        <td>{{this.date}}</td>
-                        <td>{{this.attendanceStatus}}</td>
-                        <td>{{this.startTime}}</td>
-                        <td>{{this.endTime}}</td>
+                        <td style="padding:20px">{{this.index}}</td>
+                        <td style="padding:20px">{{this.date}}</td>
+                        <td style="padding:20px">{{this.attendanceStatus}}</td>
+                        <td style="padding:20px">{{this.startTime}}</td>
+                        <td style="padding:20px">{{this.endTime}}</td>
                     </tr>
                     {{/each}}
                 </tbody>

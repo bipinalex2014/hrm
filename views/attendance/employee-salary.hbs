@@ -4,7 +4,7 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h4>Employees salary details of this month</h4>
+                <h4>Employees salary details of current month</h4>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -25,16 +25,16 @@
         <a href="/attendance/excel-creator" class="btn btn-success" style="width: 150px;">Download Excel</a>
     </div>
     
-    <div class="card p-2" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
-        <table class="table">
-            <thead>
+    <div class="card p-4" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+        <table class="table table-hover">
+            <thead class="table-light">
                 <tr>
                     {{!-- <th scope="col">#</th> --}}
-                    <th scope="col">Index</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Basic Salary</th>
-                    <th scope="col">Total Working Days</th>
-                    <th scope="col">Total Attendance</th>
+                    <th style="padding: 15px;" scope="col">Index</th>
+                    <th style="padding: 20px;" scope="col">Name</th>
+                    <th style="padding: 20px;" scope="col">Basic Salary</th>
+                    <th style="padding: 20px;" scope="col">Total Working Days</th>
+                    <th style="padding: 20px;" scope="col">Total Attendance</th>
                     
                     <th scope="col">Salary/day</th>
                     <th scope="col">Total Salary</th>
@@ -45,14 +45,14 @@
                 {{#each data}}
                 <tr>
                     {{!-- <th scope="row">1</th> --}}
-                    <td>{{this.index}}</td>
-                    <td>{{this.name}}</td>
-                    <td>{{this.basicSalary}}</td>
-                    <td>{{this.totalDays}}</td>
-                    <td>{{this.total}}</td>
+                    <td style="padding: 20px;">{{this.index}}</td>
+                    <td style="padding: 20px;">{{this.name}}</td>
+                    <td style="padding: 20px;">{{this.basicSalary}}</td>
+                    <td style="padding: 20px;">{{this.totalDays}}</td>
+                    <td style="padding: 20px;">{{this.total}}</td>
                     
-                    <td>{{this.perDay}}</td>
-                    <td>{{this.salary}}</td>
+                    <td style="padding: 20px;">{{this.perDay}}</td>
+                    <td style="padding: 20px;">{{this.salary}}</td>
                     {{!-- <td>{{this.startTime}}</td>
                     <td>{{this.endTime}}</td> --}}
                 </tr>

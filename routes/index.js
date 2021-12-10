@@ -86,9 +86,13 @@ router.get('/misc/designations', async (req, res) => {
   //TO GE DESIGNATIONS PRESENTLY IN DATABASE
   if (req.session.loggedIn) {
     let desi = await userHelper.getDesignations();
-    desi.forEach((element, index) => {
-      element.sl = index + 1;
-    });
+    console.log("desig",desi)
+    if(desi){
+      desi.forEach((element, index) => {
+        element.sl = index + 1;
+      });
+    }
+    console.log("designation",desi)
     res.render('misc/designations', { admin:true,desi });
   }
   else {
