@@ -15,7 +15,11 @@
         </div>
     </div>
 </div>
-
+<div class="row mb-3">
+        <div class="col d-flex justify-content-end">
+            <a class="btb btn-success p-2" href="/employee/password-change" style="border-radius: 5px;">Reset Password</a>
+        </div>
+    </div>
 <section class="section">
     <div class="error">
         {{#if data}}
@@ -224,6 +228,10 @@
                             <input type="password" name="password" id="textPassword" class="form-control"
                                 placeholder="Password">
                         </div>
+                        <div class="mb-3">
+                            <input type="checkbox" id="showpassword" onclick="myFunction()">
+                            <label class="mx-2" for="showpassword">Show Password</label>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
@@ -231,6 +239,7 @@
                             {{!-- <p class="form-control-static" id="staticInput">email@mazer.com</p> --}}
                             <input type="password" name="confirmpassword" id="textConfirmPassword" class="form-control"
                                 placeholder="Confirm password">
+                                
                         </div>
                     </div>
                    

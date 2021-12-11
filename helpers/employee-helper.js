@@ -24,8 +24,40 @@ module.exports = {
 
         })
     },
-    setLoginData: (logindata) => {
 
+    setChangedPassword: (data)=>{
+        return new Promise(async (resolve,reject)=>{
+            let email = await db.get().collection(collections.EMPLOYEE_COLLECTION).findOne({user:"employee",email:data.email})
+            console.log("email>>>",email)
+            if(email){
+                let oldPassword = await bcrypt.compare(data.oldpassword,email.password)
+                console.log("old>>>",oldPassword)
+                if(oldPassword){
+                    data.newpassword = await bcrypt.hash(data.newpassword,10)
+                    db.get().collection(collections.EMPLOYEE_COLLECTION).updateOne({email:email.email},
+                        {
+                            $set : {
+                                password : data.newpassword
+                            }
+                        }    
+                    ).then((data)=>{
+                        let message = "New password is successfully updated"
+                        resolve(message)
+                    })
+                }
+                else{
+                    let message = "old password is not matching"
+                    resolve(message)
+                }
+            }
+            else{
+                let message = "Entered email is not matching"
+                resolve(message)
+            }
+        })
+    },
+    setLoginData: (logindata) => {
+    
         return new Promise(async (resolve, reject) => {
             let response = {}
             let email = await db.get().collection(collections.ADMIN_COLLECTIONS).findOne({ email: logindata.email })

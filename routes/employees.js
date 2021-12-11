@@ -6,6 +6,8 @@ const pdfCreator = require("../helpers/create-pdf");
 const collections = require("../configurations/collections");
 const commonHelper = require("../helpers/common-helper");
 var converter = require("number-to-words");
+const fs = require("fs");
+const path = require("path");
 
 router.get("/signup", (req, res) => {
   res.render("admin/signup");
@@ -77,6 +79,26 @@ router.get("/create-employee-profile", async (req, res) => {
     // res.redirect('/employee/login')
   }
   //TO GET THE LIST OF DEPARTMENTS WITH STATUS ACTIVE
+});
+
+router.get("/password-change", (req, res) => {
+  if (req.session.loggedIn) {
+    res.render("employees/password-change",{admin:true});
+  } else {
+    res.redirect("/");
+  }
+});
+router.post("/password-change", (req, res) => {
+  if (req.session.loggedIn) {
+    let data = req.body;
+    console.log("changing data>>>", data);
+    employeeHelper.setChangedPassword(data).then((data) => {
+      res.render("employees/password-change", { admin:true,data });
+    });
+  }
+  else{
+    res.redirect("/");
+  }
 });
 
 router.get("/employee-details", (req, res) => {
@@ -392,6 +414,9 @@ router.post("/employee-details/:id/create-qualification", (req, res) => {
     let fileName = employee + qualification.educationlevel + document.name + "";
     qualification.filename = fileName;
     employeeHelper.newQualification(employee, qualification).then(() => {
+      fs.mkdir("./public/documents/education", { recursive: true }, (err) => {
+        if (err) throw err;
+      });
       document.mv("./public/documents/education/" + fileName, (err) => {
         if (err) {
           console.log(err);
@@ -416,6 +441,9 @@ router.post("/employee-details/:id/create-experience", (req, res) => {
       employee + experience.post + experience.expcompany + document.name + "";
     experience.filename = fileName;
     employeeHelper.newExperience(employee, experience).then((result) => {
+      fs.mkdir("./public/documents/experience", { recursive: true }, (err) => {
+        if (err) throw err;
+      });
       document.mv("./public/documents/experience/" + fileName, (err) => {
         if (err) {
           console.log(err);
@@ -483,6 +511,13 @@ router.post("/employee-details/:id/create-imigration", (req, res) => {
       employee + imigration.doctype + imigration.docname + document.name + "";
     imigration.filename = fileName;
     employeeHelper.newImigration(employee, imigration).then(() => {
+      fs.mkdir(
+        "./public/documents/immigration/",
+        { recursive: true },
+        (err) => {
+          if (err) throw err;
+        }
+      );
       document.mv("./public/documents/immigration/" + fileName, (err) => {
         if (err) {
           console.log(err);
@@ -504,8 +539,12 @@ router.post("/employee-details/:id/upload-avatar", function (req, res) {
     let data = req.body;
     let avatar = req.files.avatar;
     // console.log("photos>>>",avatar)
+
     let imagepath = employee + "avatar_image" + avatar.name + "";
     // console.log(imagepath);
+    fs.mkdir("./public/documents/profile", { recursive: true }, (err) => {
+      if (err) throw err;
+    });
     employeeHelper.updateAvatar(employee, imagepath).then(() => {
       // avatar.mv('./public/documents/profile-avatar/' + imagepath
       avatar.mv("./public/documents/profile/" + imagepath, (err) => {
@@ -721,7 +760,7 @@ router.get("/employee-status", (req, res) => {
       data.forEach((element, index) => {
         element.index = index + 1;
       });
-      console.log("employee status>>>>",data)
+      console.log("employee status>>>>", data);
       res.render("employees/employee-status", { admin: true, data });
     });
   } else {
@@ -752,43 +791,38 @@ router.get("/edit-employee/:id", (req, res) => {
         element.dateofjoin = dateFormat(element.dateofjoin, "dd-mm-yyyy");
         element.dateofbirth = dateFormat(element.dateofbirth, "dd-mm-yyyy");
       });
-      console.log("edit data>>>>",data)
+      console.log("edit data>>>>", data);
       console.log("data>>>>>", data);
       res.render("employees/edit-employee", { admin: true, data });
     });
-  }
-  else{
+  } else {
     res.redirect("/");
   }
 });
 
 router.get("/delete-employee/:id", (req, res) => {
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     let id = req.params.id;
-  employeeHelper.deleteEmployee(id).then((data) => {
-    res.redirect("/employee/employee-status");
-  });
-  }
-  else{
+    employeeHelper.deleteEmployee(id).then((data) => {
+      res.redirect("/employee/employee-status");
+    });
+  } else {
     res.redirect("/");
   }
-  
 });
 
 router.post("/employee-update-form/:id", (req, res) => {
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     console.log(req.body);
-  console.log(req.params.id);
-  let id = req.params.id;
-  let data = req.body;
-  employeeHelper.updateEmployee(data, id).then((data) => {
-    console.log("data>>>>", data);
-    res.json((message = "successfully updated"));
-  });
-  }
-  else{
+    console.log(req.params.id);
+    let id = req.params.id;
+    let data = req.body;
+    employeeHelper.updateEmployee(data, id).then((data) => {
+      console.log("data>>>>", data);
+      res.json((message = "successfully updated"));
+    });
+  } else {
     res.redirect("/");
   }
-  
 });
 module.exports = router;
