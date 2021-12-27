@@ -282,6 +282,7 @@ router.get('/getMonthwiseAttendance/', (req, res) => {
                 element.index = index+1
                 element.date = dateFormat(element.date, "dd-mm-yyyy")
             })
+            console.log("new data >>>>",data)
             res.render('attendance/view-attendance-details', { admin: true, data })
         })
     }
@@ -320,6 +321,7 @@ router.get('/employee-salary', (req, res) => {
             ];
 
             var d = new Date();
+            console.log("d.getmonth>>>",d.getMonth())
             var currentDay = d.getDate();
             var year = d.getYear() + 1900;
             var month = d.getMonth();
@@ -327,6 +329,8 @@ router.get('/employee-salary', (req, res) => {
             var done = 0;
             for (var day = 1; day <= 31; day++) {
                 var t = new Date(year, month, day);
+                console.log("t.full>>>",t)
+                console.log("t.getmonth>>>",t.getMonth())
                 if (t.getMonth() > month) break; // month has less than 31 days
                 if (t.getDay() == 0 || t.getDay() == 6) continue; // no weekday
                 if (holidays.some(h => h[0] - 1 === month && h[1] === day)) continue; // holiday
@@ -346,7 +350,7 @@ router.get('/employee-salary', (req, res) => {
                 add += data[i].salary
             }
             data.totalSalary = add
-
+            console.log("end data>>>>",data)
             res.render('attendance/employee-salary', { admin: true, data })
         })
     }
