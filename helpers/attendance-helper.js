@@ -326,8 +326,7 @@ module.exports = {
         });
         console.log("employee data>>>>", employeeData);
         resolve(employeeData);
-      }
-      else {
+      } else {
         console.log("inserted attendance>>>>", datain);
         let stime = datain.startTime;
         let etime = datain.endTime;
@@ -336,52 +335,68 @@ module.exports = {
         let splitStart = stime.split(":");
         let splitEnd = etime.split(":");
         let sarr = [];
-        let earr = []
+        let earr = [];
         splitStart.map((time) => {
           console.log(parseFloat(time));
           let partime = parseFloat(time);
           sarr.push(partime);
         });
         splitEnd.map((times) => {
-            console.log(parseFloat(times));
-            let partimes = parseFloat(times);
-            earr.push(partimes);
-          });
-        console.log("sarr>>>>",sarr);
-        console.log("earr>>>>",earr);
+          console.log(parseFloat(times));
+          let partimes = parseFloat(times);
+          earr.push(partimes);
+        });
+        console.log("sarr>>>>", sarr);
+        console.log("earr>>>>", earr);
         if (sarr[0] >= 8 && sarr[1] > 15 && earr[0] <= 17 && earr[1] < 55) {
-            datain.dutyStatus = "half-day"
-            console.log("greater than 9");
-            db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).insertOne(datain).then((data) => {
-                employeeData.datas = datas;
-                array = employeeData.datas;
-                // array.forEach((element)=>{
-                //     element.message = "successfully entered"
-                // })
-                console.log("data entered", data);
-                array.push({ name: datain.name, message: "successfully entered" });
-                // employeeData.datas = {message:"successfully entered"}
-                // console.log("employee data>>>>", employeeData)
-                // console.log("data entered")
-                resolve(employeeData);
+          datain.dutyStatus = "half-day";
+          console.log("greater than 9");
+          db.get()
+            .collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION)
+            .insertOne(datain)
+            .then((data) => {
+              employeeData.datas = datas;
+              array = employeeData.datas;
+              // array.forEach((element)=>{
+              //     element.message = "successfully entered"
+              // })
+              console.log("data entered", data);
+              array.push({
+                name: datain.name,
+                message: "successfully entered",
               });
-        }
-        else if(sarr[0] <= 8 && sarr[1] < 15 && earr[0] <= 17 && earr[1] < 55 ){
-            datain.dutyStatus = "half-day"
-            console.log("less than 9");
-            db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).insertOne(datain).then((data) => {
-                employeeData.datas = datas;
-                array = employeeData.datas;
-                // array.forEach((element)=>{
-                //     element.message = "successfully entered"
-                // })
-                console.log("data entered", data);
-                array.push({ name: datain.name, message: "successfully entered" });
-                // employeeData.datas = {message:"successfully entered"}
-                // console.log("employee data>>>>", employeeData)
-                // console.log("data entered")
-                resolve(employeeData);
-          });
+              // employeeData.datas = {message:"successfully entered"}
+              // console.log("employee data>>>>", employeeData)
+              // console.log("data entered")
+              resolve(employeeData);
+            });
+        } else if (
+          sarr[0] <= 8 &&
+          sarr[1] < 15 &&
+          earr[0] <= 17 &&
+          earr[1] < 55
+        ) {
+          datain.dutyStatus = "half-day";
+          console.log("less than 9");
+          db.get()
+            .collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION)
+            .insertOne(datain)
+            .then((data) => {
+              employeeData.datas = datas;
+              array = employeeData.datas;
+              // array.forEach((element)=>{
+              //     element.message = "successfully entered"
+              // })
+              console.log("data entered", data);
+              array.push({
+                name: datain.name,
+                message: "successfully entered",
+              });
+              // employeeData.datas = {message:"successfully entered"}
+              // console.log("employee data>>>>", employeeData)
+              // console.log("data entered")
+              resolve(employeeData);
+            });
         }
         // else if(sarr[0] <= 8 && sarr[1] < 15 && earr[0] <= 17 && earr[1] > 55 ){
         //     datain.dutyStatus = "full-day"
@@ -400,26 +415,31 @@ module.exports = {
         //         resolve(employeeData);
         //   });
         // }
-         else {
-            datain.dutyStatus = "full-day"
-            console.log("stable");
-            db.get().collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION).insertOne(datain).then((data) => {
-                employeeData.datas = datas;
-                array = employeeData.datas;
-                // array.forEach((element)=>{
-                //     element.message = "successfully entered"
-                // })
-                console.log("data entered", data);
-                array.push({ name: datain.name, message: "successfully entered" });
-                // employeeData.datas = {message:"successfully entered"}
-                // console.log("employee data>>>>", employeeData)
-                // console.log("data entered")
-                resolve(employeeData);
-          });
+        else {
+          datain.dutyStatus = "full-day";
+          console.log("stable");
+          db.get()
+            .collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION)
+            .insertOne(datain)
+            .then((data) => {
+              employeeData.datas = datas;
+              array = employeeData.datas;
+              // array.forEach((element)=>{
+              //     element.message = "successfully entered"
+              // })
+              console.log("data entered", data);
+              array.push({
+                name: datain.name,
+                message: "successfully entered",
+              });
+              // employeeData.datas = {message:"successfully entered"}
+              // console.log("employee data>>>>", employeeData)
+              // console.log("data entered")
+              resolve(employeeData);
+            });
         }
         // console.log("not existed>>>>")
         // data.active = true
-        
       }
     });
   },
@@ -539,7 +559,7 @@ module.exports = {
               employeeId: 1,
               date: 1,
               attendanceStatus: 1,
-              
+
               year: { $year: "$date" },
               month: { $month: "$date" },
             },
@@ -557,7 +577,6 @@ module.exports = {
               id: 1,
               date: 1,
               attendanceStatus: 1,
-              
             },
           },
           {
@@ -735,39 +754,6 @@ module.exports = {
       db.get()
         .collection(collections.EMPLOYEE_ATTENDANCE_COLLECTION)
         .aggregate([
-          // {
-          //     $project: {
-          //         _id: 1,
-          //         name: 1,
-          //         date: 1,
-          //         year: { $year: "$date" },
-          //         month: { $month: "$date" },
-          //         attendanceStatus: 1,
-          //         basicSalary: "$salary.basicsalary",
-          //         employeeId: 1
-
-          //     }
-          // },
-          // {
-          //     $match: {
-          //         year: thisYear,
-          //         month: thisMonth,
-          //         attendanceStatus: "duty"
-          //     }
-          // },
-
-          // {
-
-          //     $group: {
-          //         _id: "$employeeId",
-          //         name: { $first: "$name" },
-
-          //         total: { $sum: 1 },
-          //         basicSalary: { $first : "$basicSalary"}
-          //     }
-
-          // },
-
           {
             $lookup: {
               from: "employees",
@@ -874,7 +860,7 @@ module.exports = {
           //     },
           //   },
           // ]).toArray()
-          console.log("attendance data>>>>", data)
+          console.log("attendance data>>>>", data);
           // console.log("half day data>>>>", halfDay)
           resolve(data);
         });
